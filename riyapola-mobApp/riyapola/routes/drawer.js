@@ -1,6 +1,6 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import AllAdsStack from './allAdsStack';
+import PostAdStack from './postAdStack';
 import HomeStack from './homeStack';
 import React from 'react';
 
@@ -11,7 +11,7 @@ export default function NavDrawer(){
     <NavigationContainer>
         <RootDrawerNavigator.Navigator>
             <RootDrawerNavigator.Screen name="Home" component={HomeStack} />
-            <RootDrawerNavigator.Screen name="All ads" component={AllAdsStack} />
+            <RootDrawerNavigator.Screen name="Post Ad" component={PostAdStack} />
         </RootDrawerNavigator.Navigator>
     </NavigationContainer>
     )
