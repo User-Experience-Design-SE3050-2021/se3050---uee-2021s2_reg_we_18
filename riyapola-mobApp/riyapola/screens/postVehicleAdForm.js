@@ -7,7 +7,6 @@ export default function postVehicleAdForm({navigation}) {
 
     return (
         <View>
-            <Tabs pageIndex={2} navigation={navigation} />
             <View style={globalStyles.container}>
             <Text style={globalStyles.topicForm}>Post Your Vehicle Ad</Text>
             <Text>Title</Text>
