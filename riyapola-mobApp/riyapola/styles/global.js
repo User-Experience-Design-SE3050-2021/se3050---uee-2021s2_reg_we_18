@@ -2,8 +2,16 @@ import { StyleSheet } from 'react-native'
 
 export const globalStyles = StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 20
+        display: 'flex',
+        padding: 20,
+        flexDirection: 'column'
+    },
+    topicForm: {
+        fontSize: 24,
+        color: '#076AE0',
+        paddingBottom: 10,
+        textAlign: 'center',
+        fontWeight: 'bold'
     },
     titleText: {
         fontSize: 18,
@@ -16,11 +24,15 @@ export const globalStyles = StyleSheet.create({
         fontFamily: 'Roboto'
     },
     input: {
+        alignSelf: 'stretch',
+        height: 40,
+        borderColor: '#076AE0',
         borderWidth: 1,
-        borderColor: '#ddd',
-        padding: 10,
-        fontSize: 18,
-        borderRadius: 6
+        paddingLeft: 10,
+        fontSize: 16,
+        borderRadius: 8,
+        marginBottom: 20,
+        color: '#000'
     },
     errorText: {
         color: 'crimson',
