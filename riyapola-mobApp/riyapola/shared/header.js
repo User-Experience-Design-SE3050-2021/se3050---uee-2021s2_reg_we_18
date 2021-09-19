@@ -11,6 +11,7 @@ export default function header({ navigation, title }) {
     return (
         <View style={styles.headerBackground}>
             <MaterialIcons name='menu' size={28} onPress={openMenu} style={styles.icon} />
+            <MaterialIcons name='person-add' size={28} onPress={() => navigation.navigate('signup')} style={styles.signupIcon}  />
             <View style={styles.header}>
                 <Text style={styles.headerText} onPress={() => {
                     navigation.navigate('Home')
@@ -41,5 +42,10 @@ const styles = StyleSheet.create({
     },
     headerBackground: {
         backgroundColor: '#076AE0'
+    },
+    signupIcon: {
+        position: 'absolute',
+        right: 16,
+        color: 'white'
     }
 })

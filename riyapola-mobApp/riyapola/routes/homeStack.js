@@ -1,22 +1,49 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import home from '../screens/home';
+import allAds from '../screens/allAds';
+import postVehicleAdForm from '../screens/postVehicleAdForm';
 import React from 'react';
 import Header from '../shared/header';
+import postAd from '../screens/postAd';
+import signup from '../screens/signup';
 
 const Stack = createStackNavigator();
 
 export default function HomeStack() {
     return (
-            <Stack.Navigator 
+        <Stack.Navigator
             headerMode='screen'
             screenOptions={
-                    {headerTintColor: '#444'},
-                    {headerStyle: { backgroundColor: '#076AE0', height: 80}}
+                { headerTintColor: '#444' },
+                { headerStyle: { backgroundColor: '#076AE0', height: 80 } }
             }>
-                <Stack.Screen options={({navigation}) => {
-                    return {
-                        headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
-                }}} name='GameZone' component={home} />
-            </Stack.Navigator>
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='Home' component={home} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='AllAds' component={allAds} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='postAd' component={postAd} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='VehicleAdForm' component={postVehicleAdForm} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='signup' component={signup} />
+
+
+        </Stack.Navigator>
     );
 }
