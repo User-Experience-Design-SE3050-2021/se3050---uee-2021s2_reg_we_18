@@ -42,6 +42,9 @@ export const globalStyles = StyleSheet.create({
         marginTop: 6,
         textAlign: 'center'
     },
+    btn: {
+        backgroundColor: "#076AE0",
+    },
     select: {
         alignSelf: 'stretch',
         height: 40,
