@@ -40,5 +40,8 @@ export const globalStyles = StyleSheet.create({
         marginBottom: 10,
         marginTop: 6,
         textAlign: 'center'
+    },
+    btn: {
+        backgroundColor: "#076AE0",
     }
 });
