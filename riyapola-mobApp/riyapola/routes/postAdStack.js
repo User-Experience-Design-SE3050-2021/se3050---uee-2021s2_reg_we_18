@@ -1,8 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import postAd from '../screens/postAd';
 import postVehicleAdForm from '../screens/postVehicleAdForm';
-import home from '../screens/home';
-import allAds from '../screens/allAds';
 import React from 'react';
 import Header from '../shared/header';
 
