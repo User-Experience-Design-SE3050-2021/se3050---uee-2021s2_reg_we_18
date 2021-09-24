@@ -17,6 +17,10 @@ import { Input } from "react-native-elements";
 export default function addCategory() {
 
     const [selectedValue, setSelectedValue] = useState("Vehicles");
+    const [inputValues, setInputValues] = useState({
+        categoryName : '',
+        childcategoryName : ''
+    })
 
 
   return (
@@ -33,7 +37,11 @@ export default function addCategory() {
       </Picker>
 
       <Text style={style.inputText}>Category Name</Text>
-      <TextInput style={style.input} placeholder="Select a Category Name" />
+      <TextInput
+       style={style.input}
+       placeholder="Select a Category Name"
+       />
+
       <Text style={style.inputText}>Child Category Name</Text>
       <TextInput
         style={style.input}
@@ -56,7 +64,25 @@ export default function addCategory() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={style.scrollview}></ScrollView>
+      <ScrollView style={style.scrollview}>
+      <TouchableOpacity style={style.button}>
+          <Text>Items</Text>
+          <Text>Items</Text>
+          <Text>Items</Text>
+          <Text>Items</Text>
+          <Text>Items</Text>
+          <Text>Items</Text>
+          <Text>Items</Text>
+          <Text>Items</Text>
+          <Text>Items</Text>
+          <Text>Items</Text>
+          <Text>Items</Text>
+          <Text>Items</Text>
+          <Text>Items</Text>
+          <Text>Items</Text>
+          <Text>Items</Text>
+        </TouchableOpacity>
+      </ScrollView>
 
       <TouchableOpacity style={style.button}>
         <Text> Add Category</Text>
