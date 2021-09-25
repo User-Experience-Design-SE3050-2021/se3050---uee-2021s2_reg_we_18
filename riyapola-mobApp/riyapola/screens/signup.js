@@ -31,7 +31,7 @@ export default function signup({navigation}) {
     return (
         <View style={globalStyles.container}>
             <Card>
-            <Text style={globalStyles.topicForm}>My Account</Text>
+            {/* <Text style={globalStyles.topicForm}>My Account</Text> */}
             <MaterialIcons name='person' size={28} />
             <Text>Name</Text>
             <TextInput placeholder="Name" style={globalStyles.input}   
