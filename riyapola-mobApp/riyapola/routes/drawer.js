@@ -12,7 +12,7 @@ const RootDrawerNavigator = createDrawerNavigator();
 export default function NavDrawer(){
     return (
     <NavigationContainer>
-        <RootDrawerNavigator.Navigator>
+        <RootDrawerNavigator.Navigator initialRouteName="Home" >
             <RootDrawerNavigator.Screen name="Home" component={HomeStack} />
             <RootDrawerNavigator.Screen name="Post Ad" component={PostAdStack} />
             <RootDrawerNavigator.Screen name="Category" component={CategoryStack} />
