@@ -95,7 +95,7 @@ export default function postVehicleAdForm() {
                         <CheckBox title='Negotiable' />
                     </View>
                     <View>
-                        <Text>Mieage</Text>
+                        <Text>Mileage</Text>
                         <TextInput placeholder="Enter Mileage(km)" style={globalStyles.input} />
                     </View>
                 </View>
