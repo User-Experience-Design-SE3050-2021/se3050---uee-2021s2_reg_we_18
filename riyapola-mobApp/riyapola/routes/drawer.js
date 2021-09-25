@@ -4,7 +4,6 @@ import PostAdStack from './postAdStack';
 import HomeStack from './homeStack';
 import CategoryStack from './categoryStack';
 import React from 'react';
-import CategoryListStack from './categoryListStack';
 import AdminStack from './AdminStack';
 
 const RootDrawerNavigator = createDrawerNavigator();
