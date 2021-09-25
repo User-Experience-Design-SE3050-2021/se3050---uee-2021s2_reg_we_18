@@ -15,7 +15,7 @@ import { Input } from "react-native-elements";
 import CategoryTabs from "../shared/categoryTabs";
 // import Button from '../shared/button';
 
-export default function addCategory() {
+export default function updateCategory() {
 
     const [selectedValue, setSelectedValue] = useState("Vehicles");
     const [inputValues, setInputValues] = useState({
@@ -36,18 +36,18 @@ export default function addCategory() {
         <Picker.Item label="Spare Parts" value="Spare Parts" />
       </Picker>
 
-      <Text style={style.inputText}>Category Name</Text>
+      <Text style={style.inputText}>Update Category Name</Text>
       <TextInput
        style={style.input}
        placeholder="Select a Category Name"
        />
 
-      <Text style={style.inputText}>Child Category Name</Text>
+      <Text style={style.inputText}>Update Child Category Name</Text>
       <TextInput
         style={style.input}
         placeholder="Select a Child Category Name"
       />
-      <Text style={style.inputText}>Vehicle Make</Text>
+      <Text style={style.inputText}>Update Vehicle Make</Text>
       <TextInput style={style.input} placeholder="Select a Vehicle Make" />
 
       <View style={style.buttonWrapper}>
@@ -73,19 +73,12 @@ export default function addCategory() {
           <Text>Items</Text>
           <Text>Items</Text>
           <Text>Items</Text>
-          <Text>Items</Text>
-          <Text>Items</Text>
-          <Text>Items</Text>
-          <Text>Items</Text>
-          <Text>Items</Text>
-          <Text>Items</Text>
-          <Text>Items</Text>
-          <Text>Items</Text>
+          
         </TouchableOpacity>
       </ScrollView>
 
       <TouchableOpacity style={style.button}>
-        <Text> Add Category</Text>
+        <Text> Update Category</Text>
       </TouchableOpacity>
     </View>
   );
