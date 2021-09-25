@@ -16,7 +16,7 @@ export default function AdminTabs({ pageIndex, navigation }) {
                 navigation.navigate('vehicleAdActions')
                 break;
             case 1:
-                // add sparePartAds Nav path
+                navigation.navigate('sparepartsAdActions')
                 break;
             default:
                 break;
