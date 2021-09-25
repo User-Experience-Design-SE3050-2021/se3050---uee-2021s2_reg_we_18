@@ -32,6 +32,7 @@ export const globalStyles = StyleSheet.create({
         fontSize: 16,
         borderRadius: 8,
         marginBottom: 20,
+        minWidth: '48%',
         color: '#000'
     },
     errorText: {
@@ -40,5 +41,23 @@ export const globalStyles = StyleSheet.create({
         marginBottom: 10,
         marginTop: 6,
         textAlign: 'center'
+    },
+    btn: {
+        backgroundColor: "#076AE0",
+    },
+    select: {
+        alignSelf: 'stretch',
+        height: 40,
+        borderWidth: 1,
+        paddingLeft: 10,
+        fontSize: 16,
+        marginBottom: 20,
+        color: '#000',
+        minWidth: '50%'
+    },
+    cardContainer: {
+        flexDirection: 'row',
+        display: 'flex',
+        justifyContent: 'space-between'
     }
 });
