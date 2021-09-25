@@ -8,9 +8,9 @@ import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 export default function allVehicleAds() {
 
     const [vehicleAds, setVehicleAds] = useState([
-        { title: 'Axio For Sale', condition: 'Registered', location: 'Colombo', price: 'Rs. 5,000,000', seller: 'Saman', date: '2021-09-12', image: '../images/vehicles/axio.jpg' },
-        { title: 'Allion For Sale', condition: 'Unregistered', location: 'Gampaha', price: 'Rs. 6,500,000', seller: 'Rohan', date: '2021-09-12', image: '../images/spareparts/radio.jpg' },
-        { title: 'Vitz For Sale', condition: 'Registered', location: 'Kandy', price: 'Rs. 3,000,000', seller: 'Saman', date: '2021-09-12', image: '../images/spareparts/radio.jpg' }
+        { title: 'Axio For Sale', condition: 'Registered', location: 'Colombo', price: 'Rs. 5,000,000', seller: 'Saman', date: '2021-09-12', image: '../images/vehicles/axio.jpg', key:'1' },
+        { title: 'Allion For Sale', condition: 'Unregistered', location: 'Gampaha', price: 'Rs. 6,500,000', seller: 'Rohan', date: '2021-09-12', image: '../images/spareparts/radio.jpg', key: '2' },
+        { title: 'Vitz For Sale', condition: 'Registered', location: 'Kandy', price: 'Rs. 3,000,000', seller: 'Saman', date: '2021-09-12', image: '../images/spareparts/radio.jpg', key: '3' }
     ])
 
     return (
