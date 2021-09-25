@@ -4,7 +4,7 @@ import { Searchbar } from 'react-native-paper';
 import { Appbar } from 'react-native-paper';
 
 
-export default function Filter() {
+export default function Filter({title}) {
     const [searchQuery, setSearchQuery] = React.useState('');
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -18,7 +18,7 @@ export default function Filter() {
             />
             <Appbar.Header style={{height: 10, backgroundColor: "#076AE0"}}>
                 <Appbar.BackAction onPress={() => { }} style={{marginBottom: 40}} />
-                <Text style={{marginBottom: 35, color: "#fff", fontWeight: "bold"}}>Spare Parts</Text>
+                <Text style={{marginBottom: 35, color: "#fff", fontWeight: "bold"}}>{title}</Text>
             </Appbar.Header>
         </View>
     )
