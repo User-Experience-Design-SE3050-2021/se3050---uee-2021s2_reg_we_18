@@ -7,6 +7,7 @@ import { Input } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons'
 import FlatButton from '../shared/button';
 import Card from '../shared/card';
+import { Tab,TabView } from 'react-native-elements';
 // import { Button } from 'react-native-elements/dist/buttons/Button';
 // import React, { Component, Fragment } from "react";
 // import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Button, Image,} from 'react-native';
@@ -31,8 +32,11 @@ export default function signup({navigation}) {
     return (
         <View style={globalStyles.container}>
             <Card>
-            {/* <Text style={globalStyles.topicForm}>My Account</Text> */}
-            <MaterialIcons name='person' size={28} />
+                
+
+        
+
+  <MaterialIcons name='person' size={28} />
             <Text>Name</Text>
             <TextInput placeholder="Name" style={globalStyles.input}   
             // onChangeText={value => this.setState({ comment: value })}
@@ -53,7 +57,13 @@ export default function signup({navigation}) {
             // onChangeText={value => this.setState({ comment: value })} 
              />
             <FlatButton text="Create" onPress={()=>{navigation.navigate('Home')}} />
-            </Card>
+
+  {/* <TabView.Item style={{ backgroundColor: 'green', width: '100%' }}>
+    <Text h1>Cart</Text>
+  </TabView.Item> */}
+
+            {/* <Text style={globalStyles.topicForm}>My Account</Text> */}
+                        </Card>
             {/* <GoogleSigninButton
             onPress={signIn}
             size={GoogleSigninButton.Size.Wide}
