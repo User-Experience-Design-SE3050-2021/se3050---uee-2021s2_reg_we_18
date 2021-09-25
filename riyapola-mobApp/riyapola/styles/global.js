@@ -54,5 +54,10 @@ export const globalStyles = StyleSheet.create({
         marginBottom: 20,
         color: '#000',
         minWidth: '50%'
+    },
+    cardContainer: {
+        flexDirection: 'row',
+        display: 'flex',
+        justifyContent: 'space-between'
     }
 });
