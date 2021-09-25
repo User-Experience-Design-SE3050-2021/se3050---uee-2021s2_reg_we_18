@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph, Headline } from 'react-native-paper';
+import { View } from 'react-native';
+import { Card, Title, Headline } from 'react-native-paper';
 import Tabs from '../shared/Tabs';
 import { Icon } from 'react-native-elements';
 import { globalStyles } from '../styles/global';
@@ -9,10 +9,10 @@ import Filter from '../shared/Fliter';
 
 export default function home({ navigation }) {
     return (
-        <View>
-            <Tabs pageIndex={0} navigation={navigation} />
-            <Filter title="Spare Parts"/>
-            <ScrollView>
+        <View style={{flex:1}}> 
+            <Tabs pageIndex={0} navigation={navigation} style={{flex:1}} />
+            <Filter title="Spare Parts" style={{flex:1}}/>
+            <ScrollView style={{flex:1}}>
                 <Card style={{ marginTop: 20 }}>
                     <Card.Cover source={require('../images/spareparts/radio.jpg')} />
                     <Card.Content style={globalStyles.cardContainer}>
