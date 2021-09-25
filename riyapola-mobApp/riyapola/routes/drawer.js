@@ -4,6 +4,7 @@ import PostAdStack from './postAdStack';
 import HomeStack from './homeStack';
 import CategoryStack from './categoryStack';
 import React from 'react';
+import AdminStack from './adminStack';
 
 const RootDrawerNavigator = createDrawerNavigator();
 
@@ -14,6 +15,7 @@ export default function NavDrawer(){
             <RootDrawerNavigator.Screen name="Home" component={HomeStack} />
             <RootDrawerNavigator.Screen name="Post Ad" component={PostAdStack} />
             <RootDrawerNavigator.Screen name="Category" component={CategoryStack} />
+            <RootDrawerNavigator.Screen name="Ads Management" component={AdminStack} />
         </RootDrawerNavigator.Navigator>
     </NavigationContainer>
     )
