@@ -11,7 +11,7 @@ export default function home({ navigation }) {
     return (
         <View>
             <Tabs pageIndex={0} navigation={navigation} />
-            <Filter/>
+            <Filter title="Spare Parts"/>
             <ScrollView>
                 <Card style={{ marginTop: 20 }}>
                     <Card.Cover source={require('../images/spareparts/radio.jpg')} />
