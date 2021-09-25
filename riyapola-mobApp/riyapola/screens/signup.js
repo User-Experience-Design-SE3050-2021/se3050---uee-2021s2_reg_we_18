@@ -31,19 +31,27 @@ export default function signup({navigation}) {
     return (
         <View style={globalStyles.container}>
             <Card>
-            <Text style={globalStyles.topicForm}>My Account</Text>
+            {/* <Text style={globalStyles.topicForm}>My Account</Text> */}
             <MaterialIcons name='person' size={28} />
             <Text>Name</Text>
-            <TextInput placeholder="Name" style={globalStyles.input}   onChangeText={value => this.setState({ comment: value })}  />
+            <TextInput placeholder="Name" style={globalStyles.input}   
+            // onChangeText={value => this.setState({ comment: value })}
+              />
             <MaterialIcons name='email' size={28} />
             <Text>Email</Text>
-            <TextInput placeholder="Email" style={globalStyles.input}   onChangeText={value => this.setState({ comment: value })}  />
+            <TextInput placeholder="Email" style={globalStyles.input}   
+            // onChangeText={value => this.setState({ comment: value })}  
+            />
             <MaterialIcons name='lock' size={28} />
             <Text>Password</Text>
-            <TextInput placeholder="Password" style={globalStyles.input}   onChangeText={value => this.setState({ comment: value })}  />
+            <TextInput placeholder="Password" style={globalStyles.input}  
+            //  onChangeText={value => this.setState({ comment: value })} 
+              />
             <MaterialIcons name='lock' size={28} />
             <Text>Repeat Password</Text>
-            <TextInput placeholder="Repeat Password" style={globalStyles.input}   onChangeText={value => this.setState({ comment: value })}  />
+            <TextInput placeholder="Repeat Password" style={globalStyles.input}   
+            // onChangeText={value => this.setState({ comment: value })} 
+             />
             <FlatButton text="Create" onPress={()=>{navigation.navigate('Home')}} />
             </Card>
             {/* <GoogleSigninButton
