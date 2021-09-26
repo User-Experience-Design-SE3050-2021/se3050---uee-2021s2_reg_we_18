@@ -15,13 +15,13 @@ export default function postSparepartsAdForm() {
         <ScrollView>
             <View style={globalStyles.container}>
                 <Text style={globalStyles.topicForm}>Post Your Spare Part Ad</Text>
-                <Text>Condition</Text>
+                <Text style={globalStyles.label}>Condition</Text>
                 <View style={{ display: 'flex', flexDirection: 'row', right: 20 }} >
                     <CheckBox title='New' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={true} />
                     <CheckBox title='Used' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={false} />
                     <CheckBox title='Recondition' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={false} />
                 </View>
-                <Text>Spare Part Category</Text>
+                <Text style={globalStyles.label}>Spare Part Category</Text>
                 <Picker
                     selectedValue={selectedValue}
                     style={globalStyles.input}
@@ -30,9 +30,9 @@ export default function postSparepartsAdForm() {
                     <Picker.Item label="Select Spare Part Category" value="java" />
                     <Picker.Item label="Doors" value="doors" />
                 </Picker>
-                <Text>Title</Text>
+                <Text style={globalStyles.label}>Title</Text>
                 <TextInput style={globalStyles.input} placeholder="Post Title" />
-                <Text>Description</Text>
+                <Text style={globalStyles.label}>Description</Text>
                 <TextInput
                     style={styles.textarea}
                     placeholder="Type something.."
@@ -40,15 +40,15 @@ export default function postSparepartsAdForm() {
                     numberOfLines={10}
                     multiline={true}
                 />
-                <Text>Delivery Available?</Text>
+                <Text style={globalStyles.label}>Delivery Available?</Text>
                 <View style={{ display: 'flex', flexDirection: 'row', right: 20 }} >
                     <CheckBox title='Yes' style={globalStyles.input} />
                     <CheckBox title='No' style={globalStyles.input} />
                 </View>
-                <Text>Location</Text>
+                <Text style={globalStyles.label}>Location</Text>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}} >
                     <View>
-                        <Text>District</Text>
+                        <Text style={globalStyles.label}>District</Text>
                         <Picker
                             selectedValue={selectedValue}
                             style={globalStyles.select}
@@ -60,7 +60,7 @@ export default function postSparepartsAdForm() {
                         </Picker>
                     </View>
                     <View>
-                        <Text>Area</Text>
+                        <Text style={globalStyles.label}>Area</Text>
                         <Picker
                             selectedValue={selectedValue}
                             style={globalStyles.select}
@@ -74,17 +74,17 @@ export default function postSparepartsAdForm() {
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
                     <View style={{flex:1}}>
-                        <Text>Price</Text>
+                        <Text style={globalStyles.label}>Price</Text>
                         <TextInput placeholder="Rs." style={globalStyles.input} />
                     </View>
                     <View style={{flex:1}}>
                         <CheckBox title='Negotiable' style={globalStyles.input} />
                     </View>
                 </View>
-                <Text>Photo</Text>
+                <Text style={globalStyles.label}>Photo</Text>
                 <TextInput placeholder="Add Photos" style={globalStyles.input} />
-                <Text h4>Contact Details</Text>
-                <Text>Email</Text>
+                <Text style={globalStyles.label}>Contact Details</Text>
+                <Text style={globalStyles.label}>Email</Text>
                 <TextInput placeholder="sample@gmail.com" style={globalStyles.input} />
                 <Button icon="camera" style={globalStyles.btn} mode="contained" onPress={() => console.log('Pressed')}>
                     Post Your Ad
