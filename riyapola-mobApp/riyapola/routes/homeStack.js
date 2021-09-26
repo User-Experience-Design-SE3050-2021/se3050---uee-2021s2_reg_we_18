@@ -38,11 +38,6 @@ export default function HomeStack() {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
-            }} name='signup' component={signup} />
-            <Stack.Screen options={({ navigation }) => {
-                return {
-                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
-                }
             }} name='VehicleAdForm' component={postVehicleAdForm} />
             <Stack.Screen options={({ navigation }) => {
                 return {
