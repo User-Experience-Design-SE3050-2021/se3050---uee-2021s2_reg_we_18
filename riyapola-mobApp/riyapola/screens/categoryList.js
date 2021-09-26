@@ -9,28 +9,34 @@ import {
   ScrollView,
   Picker,
   Modal,
+  Alert,
+  Pressable,
 } from "react-native";
 import { globalStyles } from "../styles/global";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 import { categoryData } from "../categoryDataSet/categoryData";
 
-export default function categoryList({navigation}) {
+export default function categoryList({ navigation }) {
   const [dataSet, setCategoryData] = useState(categoryData);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const onPressNewCategory = () => {
-    navigation.navigate('Add')
-  }
+    navigation.navigate("Add");
+  };
 
   const onPressUpdateCategory = () => {
-    navigation.navigate('Update')
-  }
+    navigation.navigate("Update");
+  };
 
   return (
-    <View style={globalStyles.container}>
+    <View style={{display:'flex', padding:20,flexDirection:'column',backgroundColor:'#e8f3ff'}}>
       <View style={style.addNewOuter}>
         <Text style={style.headerTextCategory}>List Of Categories</Text>
-        <TouchableOpacity style={style.addNewBtn} onPress={() => onPressNewCategory()}>
+        <TouchableOpacity
+          style={style.addNewBtn}
+          onPress={() => onPressNewCategory()}
+        >
           <Text style={style.deleteText}>Add new category</Text>
         </TouchableOpacity>
       </View>
@@ -38,15 +44,39 @@ export default function categoryList({navigation}) {
       <Modal
         animationType="slide"
         transparent={true}
-        visible={false}
+        visible={modalVisible}
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
+          setModalVisible(false);
         }}
       >
-        <View >
-          <View >
-            <Text>Hello World!</Text>
+        <View style={style.centeredView}>
+          <View style={style.modalView}>
+            <Text style={{textAlign:"center", marginBottom:20, fontSize:20,letterSpacing:3}}>Are you sure ?</Text>
+            {/* <Pressable
+              style={[style.button, style.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={style.textStyle}>Cancel</Text>
+            </Pressable>
+            <Pressable
+              style={[style.button, style.buttonClose]}
+              // onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={style.textStyle}>Yes</Text>
+            </Pressable> */}
+
+            <View style={style.twoButtonOuter}>
+              <TouchableOpacity
+                style={style.updateBtn}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={style.updateText}>No</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={style.deleteBtn}>
+                <Text style={style.deleteText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -57,10 +87,16 @@ export default function categoryList({navigation}) {
             <View style={style.listViewCard} key={index}>
               <Text style={style.listTableText}>{value.mainName}</Text>
               <View style={style.twoButtonOuter}>
-                <TouchableOpacity style={style.updateBtn} onPress={() => onPressUpdateCategory()} >
+                <TouchableOpacity
+                  style={style.updateBtn}
+                  onPress={() => onPressUpdateCategory()}
+                >
                   <Text style={style.updateText}>Update</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={style.deleteBtn}>
+                <TouchableOpacity
+                  style={style.deleteBtn}
+                  onPress={() => setModalVisible(true)}
+                >
                   <Text style={style.deleteText}>Delete</Text>
                 </TouchableOpacity>
               </View>
@@ -106,8 +142,8 @@ const style = StyleSheet.create({
     // backgroundColor: "#bcd2e3",
     marginBottom: 20,
     padding: 5,
-    borderColor: "#95ebfc",
-    borderWidth: 1,
+    // borderColor: "#95ebfc",
+    // borderWidth: 1,
   },
   listViewCard: {
     display: "flex",
@@ -117,7 +153,15 @@ const style = StyleSheet.create({
     borderRadius: 10,
     // padding:10,
     borderColor: "#77edaa",
-    backgroundColor: "#d9d9d9",
+    backgroundColor: "white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 3
   },
   twoButtonOuter: {
     display: "flex",
@@ -126,7 +170,7 @@ const style = StyleSheet.create({
     marginBottom: 10,
   },
   listTableText: {
-    marginBottom: 10,
+    marginBottom: 20,
     marginTop: 5,
     fontSize: 25,
     marginLeft: 10,
@@ -171,5 +215,48 @@ const style = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     //   justifyContent:"space-between"
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 105,
+    borderColor:'#000',
+    borderWidth:2
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
   },
 });

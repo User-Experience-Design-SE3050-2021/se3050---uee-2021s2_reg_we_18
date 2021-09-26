@@ -46,6 +46,7 @@ export default function updateCategory() {
       <TextInput
         style={style.input}
         placeholder="Select a Child Category Name"
+        value="child category name"
       />
       <Text style={style.inputText}>Update Vehicle Make</Text>
       <TextInput style={style.input} placeholder="Select a Vehicle Make" />

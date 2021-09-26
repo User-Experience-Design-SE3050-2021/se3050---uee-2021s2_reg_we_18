@@ -9,17 +9,12 @@ const Stack = createStackNavigator();
 
 export default function CategoryStack() {
     return (
-        <Stack.Navigator 
+        <Stack.Navigator
 
-        screenOptions={
-            { headerTintColor: '#444' },
-            { headerStyle: { backgroundColor: '#076AE0', height: 80 } }
-        }>
-            <Stack.Screen options={({ navigation }) => {
-                return {
-                    headerTitle:'Add New Category' //() => <Header navigation={navigation} title={'Riyapola'} />} />
-                }
-            }} name='Add' component={addCategory} /> 
+            screenOptions={
+                { headerTintColor: '#444' },
+                { headerStyle: { backgroundColor: '#076AE0', height: 80 } }
+            }>
 
             <Stack.Screen options={({ navigation }) => {
                 return {
@@ -29,11 +24,19 @@ export default function CategoryStack() {
 
             <Stack.Screen options={({ navigation }) => {
                 return {
-                    headerTitle:'Update New Category' //() => <Header navigation={navigation} title={'Riyapola'} />} />
+                    headerTitle: 'Add New Category' //() => <Header navigation={navigation} title={'Riyapola'} />} />
                 }
-            }} name='Update' component={updateCategory} /> 
+            }} name='Add' component={addCategory} />
 
-           
+
+
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: 'Update New Category' //() => <Header navigation={navigation} title={'Riyapola'} />} />
+                }
+            }} name='Update' component={updateCategory} />
+
+
         </Stack.Navigator>
     );
 }

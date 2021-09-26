@@ -6,10 +6,10 @@ import AllVehicleAds from './allVehicleAds';
 
 export default function allAds({navigation}) {
     return (
-        <View>
-            <Tabs pageIndex={1} navigation={navigation} />
-            <Filter title="Vehicles" />
-            <AllVehicleAds />
+        <View style={{flex: 1}}>
+            <Tabs pageIndex={1} navigation={navigation} style={{flex: 1}} />
+            <Filter title="Vehicles" navigation={navigation} style={{flex: 1}}/>
+            <AllVehicleAds navigation={navigation} style={{flex: 1}}/>
         </View>
 
     )

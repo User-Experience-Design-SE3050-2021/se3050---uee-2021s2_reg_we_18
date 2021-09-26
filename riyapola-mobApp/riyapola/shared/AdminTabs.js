@@ -16,7 +16,7 @@ export default function AdminTabs({ pageIndex, navigation }) {
                 navigation.navigate('vehicleAdActions')
                 break;
             case 1:
-                // add sparePartAds Nav path
+                navigation.navigate('sparepartsAdActions')
                 break;
             default:
                 break;
@@ -24,7 +24,7 @@ export default function AdminTabs({ pageIndex, navigation }) {
     },[index])
 
     return (
-        <Tab value={index} onChange={tabSelected} style={styles.tabContainer}>
+        <Tab value={index} onChange={tabSelected} variant='primary' >
             <Tab.Item title="Vehicle Ads" />
             <Tab.Item title="Spare Parts Ads" />
         </Tab>
