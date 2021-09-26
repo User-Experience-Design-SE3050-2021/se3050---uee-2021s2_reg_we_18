@@ -72,12 +72,12 @@ export default function postSparepartsAdForm() {
                         </Picker>
                     </View>
                 </View>
-                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} >
-                    <View>
+                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
+                    <View style={{flex:1}}>
                         <Text>Price</Text>
                         <TextInput placeholder="Rs." style={globalStyles.input} />
                     </View>
-                    <View>
+                    <View style={{flex:1}}>
                         <CheckBox title='Negotiable' style={globalStyles.input} />
                     </View>
                 </View>
