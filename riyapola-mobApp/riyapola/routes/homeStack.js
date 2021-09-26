@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import home from '../screens/home';
 import allAds from '../screens/allAds';
+import postAd from '../screens/postAd';
 import React from 'react';
 import Header from '../shared/header';
 import signup from '../screens/signup';
@@ -25,6 +26,11 @@ export default function HomeStack() {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
             }} name='AllAds' component={allAds} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='postAd' component={postAd} />
             <Stack.Screen options={({ navigation }) => {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
