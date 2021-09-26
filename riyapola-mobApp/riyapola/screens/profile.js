@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text,TextInput, ScrollView } from 'react-native';
 import Tabs from '../shared/Tabs';
 import { globalStyles } from '../styles/global';
@@ -8,6 +8,10 @@ import { MaterialIcons } from '@expo/vector-icons'
 import FlatButton from '../shared/button';
 import Card from '../shared/card';
 import { Tab,TabView } from 'react-native-elements';
+import { Button } from 'react-native-elements/dist/buttons/Button';
+import ImagePicker from 'react-native-image-picker';
+
+// import { State } from 'react-native-gesture-handler';
 // import { Button } from 'react-native-elements/dist/buttons/Button';
 // import React, { Component, Fragment } from "react";
 // import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Button, Image,} from 'react-native';
@@ -29,10 +33,40 @@ export default function profile({navigation}) {
     //         console.log(error.message);
     //     }
     // }
+  
+    const [state, setstate] = useState({
+      photo:null
+    })
+    const handleChoosePhoto =()=>{
+      const options ={
+        noData:true
+      };
+      ImagePicker.launchImageLibrary(options,response=>{
+        console.log("response",response);
+        if(response.uri){
+          setstate({
+            photo:response
+          })
+        }
+      });
+    }
     return (
         <View style={globalStyles.container}>
             <Card>
+            <ScrollView>
+              {state.photo ?
+              <Image
+              source={{uri:state.photo}}
+              style={{width:50,height:50}}
+              />:(
+                <MaterialIcons name='person' size={50}  />
+              )
+            }
 
+        <Button
+        title="Chosse Photo"
+         onPress={handleChoosePhoto}
+        />
 
 
   <MaterialIcons name='person' size={28} />
@@ -79,9 +113,9 @@ export default function profile({navigation}) {
             <TextInput placeholder="Address" style={globalStyles.input}   
            
              />
-            <FlatButton text="Create" onPress={()=>{navigation.navigate('Home')}} />   
+            <FlatButton text="Create" onPress={()=>{navigation.navigate('Home')}}  />   
             <FlatButton text="Delete" onPress={()=>{navigation.navigate('Home')}} />   
-
+            </ScrollView>
             </Card>        
         </View>
      

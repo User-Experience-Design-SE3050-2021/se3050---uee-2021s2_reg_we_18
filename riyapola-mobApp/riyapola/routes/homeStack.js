@@ -7,6 +7,7 @@ import React from 'react';
 import Header from '../shared/header';
 import postAd from '../screens/postAd';
 import signup from '../screens/signup';
+import login from '../screens/login';
 
 const Stack = createStackNavigator();
 
@@ -48,6 +49,11 @@ export default function HomeStack() {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
             }} name='signup' component={signup} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='login' component={login} />
 
 
         </Stack.Navigator>
