@@ -5,7 +5,7 @@ import { Icon } from 'react-native-elements';
 import { globalStyles } from '../styles/global';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function allVehicleAds() {
+export default function allVehicleAds({navigation}) {
 
     const [vehicleAds, setVehicleAds] = useState([
         { title: 'Axio For Sale', condition: 'Registered', location: 'Colombo', price: 'Rs. 5,000,000', seller: 'Saman', date: '2021-09-12', image: '../images/vehicles/axio.jpg', key:'1' },
@@ -18,7 +18,7 @@ export default function allVehicleAds() {
             data={vehicleAds}
             style={globalStyles.card}
             renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => navigation.navigate('Review Details', item)}  >
+                <TouchableOpacity onPress={() => console.log("ad pressed")}  >
                     <Card style={globalStyles.cardContent}>
                         <Card.Cover source={require('../images/vehicles/axio.jpg')} />
                         <Card.Content style={globalStyles.cardContainer}>

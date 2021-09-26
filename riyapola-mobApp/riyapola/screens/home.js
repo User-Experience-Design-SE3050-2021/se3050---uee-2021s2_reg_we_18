@@ -6,6 +6,7 @@ import Filter from '../shared/Fliter';
 
 export default function home({ navigation }) {
     return (
+
         <View>
             <Tabs pageIndex={0} navigation={navigation} />
             <Filter title="SpareParts"/>

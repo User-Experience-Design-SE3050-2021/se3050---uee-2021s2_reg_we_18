@@ -27,7 +27,7 @@ export default function Tabs({ pageIndex, navigation }) {
     },[index])
 
     return (
-        <Tab value={index} onChange={tabSelected} style={styles.tabContainer}>
+        <Tab value={index} onChange={tabSelected} variant='primary' >
             <Tab.Item title="Home" />
             <Tab.Item title="All Ads" />
             <Tab.Item title="Post Ad" />
@@ -37,6 +37,6 @@ export default function Tabs({ pageIndex, navigation }) {
 
 const styles = StyleSheet.create({
     tabContainer: {
-        backgroundColor: '#076AE0'
+        backgroundColor: '#076AE0',
     }
 })
