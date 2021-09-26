@@ -23,6 +23,10 @@ export const globalStyles = StyleSheet.create({
         lineHeight: 20,
         fontFamily: 'Roboto'
     },
+    label: {
+        fontWeight: 'bold',
+        flex: 1
+    },
     input: {
         alignSelf: 'stretch',
         height: 40,
@@ -32,7 +36,8 @@ export const globalStyles = StyleSheet.create({
         fontSize: 16,
         borderRadius: 8,
         marginBottom: 20,
-        minWidth: '48%',
+        maxHeight: 40,
+        flex: 1,
         color: '#000'
     },
     errorText: {
@@ -46,6 +51,7 @@ export const globalStyles = StyleSheet.create({
         backgroundColor: "#076AE0",
     },
     select: {
+        flex: 1,
         alignSelf: 'stretch',
         height: 40,
         borderWidth: 1,
