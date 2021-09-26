@@ -5,6 +5,8 @@ import postAd from '../screens/postAd';
 import React from 'react';
 import Header from '../shared/header';
 import signup from '../screens/signup';
+import postVehicleAdForm from '../screens/postVehicleAdForm';
+import postSparepartsAdForm from '../screens/postSparepartsAdForm';
 
 const Stack = createStackNavigator();
 
@@ -36,8 +38,16 @@ export default function HomeStack() {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
             }} name='signup' component={signup} />
-
-
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='VehicleAdForm' component={postVehicleAdForm} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='SparepartAdForm' component={postSparepartsAdForm} />
         </Stack.Navigator>
     );
 }
