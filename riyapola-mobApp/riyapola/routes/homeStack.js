@@ -9,6 +9,9 @@ import landingPage from '../screens/landingPage';
 import login from '../screens/login';
 import postVehicleAdForm from '../screens/postVehicleAdForm';
 import postSparepartsAdForm from '../screens/postSparepartsAdForm';
+import sparepartDetail from '../screens/sparepartDetail';
+import allSparepartAds from '../screens/allSparepartAds';
+import vehicleDetail from '../screens/vehicleDetail';
 
 const Stack = createStackNavigator();
 
@@ -29,12 +32,27 @@ export default function HomeStack() {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
+            }} name='allSparepartAds' component={allSparepartAds} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='sparepartDetail' component={sparepartDetail} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
             }} name='AllAds' component={allAds} />
             <Stack.Screen options={({ navigation }) => {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
             }} name='postAd' component={postAd} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='vehicleDetail' component={vehicleDetail} />
             <Stack.Screen options={({ navigation }) => {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
@@ -55,6 +73,7 @@ export default function HomeStack() {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
             }} name='login' component={login} />
+            
         </Stack.Navigator>
     );
 }
