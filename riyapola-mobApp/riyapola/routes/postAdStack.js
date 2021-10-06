@@ -1,5 +1,4 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import postAd from '../screens/postAd';
 import postVehicleAdForm from '../screens/postVehicleAdForm';
 import React from 'react';
 import Header from '../shared/header';
@@ -13,11 +12,6 @@ export default function AboutStack() {
             { headerTintColor: '#444' },
             { headerStyle: { backgroundColor: '#076AE0', height: 80 } }
         }>
-            <Stack.Screen options={({ navigation }) => {
-                return {
-                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
-                }
-            }} name='postAd' component={postAd} />
             <Stack.Screen options={({ navigation }) => {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />

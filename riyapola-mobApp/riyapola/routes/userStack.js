@@ -1,12 +1,11 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import Header from '../shared/header';
-import vehicleAdActions from '../screens/vehicleAdsActions';
-import sparepartsAdActions from '../screens/sparepartsAdActions';
+import profile from '../screens/profile';
 
 const Stack = createStackNavigator();
 
-export default function AdminStack() {
+export default function userStack() {
     return (
         <Stack.Navigator
             headerMode='screen'
@@ -18,12 +17,7 @@ export default function AdminStack() {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
-            }} name='vehicleAdActions' component={vehicleAdActions} />
-            <Stack.Screen options={({ navigation }) => {
-                return {
-                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
-                }
-            }} name='sparepartsAdActions' component={sparepartsAdActions} />
+            }} name='profile' component={profile} />
 
         </Stack.Navigator>
     );

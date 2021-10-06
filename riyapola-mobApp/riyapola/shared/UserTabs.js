@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Tab } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
 
-export default function AdminTabs({ pageIndex, navigation }) {
+export default function UserTabs({ pageIndex, navigation }) {
 
     const [index, setIndex] = useState(pageIndex);
 
@@ -13,10 +13,10 @@ export default function AdminTabs({ pageIndex, navigation }) {
     useEffect(() => {
         switch (index) {
             case 0:
-                navigation.navigate('vehicleAdActions')
+                navigation.navigate('login')
                 break;
             case 1:
-                navigation.navigate('sparepartsAdActions')
+                navigation.navigate('signup')
                 break;
             default:
                 break;
@@ -24,9 +24,9 @@ export default function AdminTabs({ pageIndex, navigation }) {
     },[index])
 
     return (
-        <Tab value={index} onChange={tabSelected} variant='primary' >
-            <Tab.Item title="Vehicle Ads" />
-            <Tab.Item title="Spare Parts Ads" />
+        <Tab value={index} onChange={tabSelected} style={styles.tabContainer}>
+            <Tab.Item title="Login" />
+            <Tab.Item title="Create" />
         </Tab>
     )
 }
