@@ -18,7 +18,7 @@ export default function allSparepartAds() {
             data={sparepartsAds}
             style={globalStyles.card}
             renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => navigation.navigate('Review Details', item)}  >
+                <TouchableOpacity onPress={() => navigation.navigate('sparepart detail', item)}  >
                     <Card style={globalStyles.cardContent}>
                         <Card.Cover source={require('../images/spareparts/radio.jpg')} />
                         <Card.Content style={globalStyles.cardContainer}>
