@@ -8,6 +8,9 @@ import { MaterialIcons } from '@expo/vector-icons'
 import FlatButton from '../shared/button';
 import Card from '../shared/card';
 import { Tab,TabView } from 'react-native-elements';
+import UserTabs from '../shared/UserTabs';
+import { Header } from 'react-native/Libraries/NewAppScreen';
+import { SocialIcon } from 'react-native-elements'
 // import { Button } from 'react-native-elements/dist/buttons/Button';
 // import React, { Component, Fragment } from "react";
 // import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Button, Image,} from 'react-native';
@@ -32,6 +35,7 @@ export default function login({navigation}) {
     return (
         <View style={globalStyles.container}>
             <Card>
+            <UserTabs   pageIndex={0} navigation={navigation} />
             <MaterialIcons name='email' size={28} />
             <Text>Email</Text>
             <TextInput placeholder="Email" style={globalStyles.input}   
@@ -44,8 +48,13 @@ export default function login({navigation}) {
              />
              
             <FlatButton text="login" onPress={()=>{navigation.navigate('Home')}} />   
-              
-
+            <Text style={globalStyles.topicForm}>OR</Text>
+              <SocialIcon
+                title='Sign In With google'
+                button
+                type='google'
+                />
+                
             </Card>        
         </View>
      
