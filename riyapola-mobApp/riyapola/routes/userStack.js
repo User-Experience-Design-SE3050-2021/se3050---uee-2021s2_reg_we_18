@@ -4,7 +4,7 @@ import Header from '../shared/header';
 import profile from '../screens/profile';
 import vehicleMyAds from '../screens/vehicleMyAds';
 import sparepartsMyAds from '../screens/sparepartsMyAds';
-// import signup from '../screens/signup';
+import signup from '../screens/signup';
 // import login from '../screens/login';
 const Stack = createStackNavigator();
 
@@ -21,12 +21,12 @@ export default function userStack() {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
             }} name='profile' component={profile} />
-            {/* <Stack.Screen options={({ navigation }) => {
+            <Stack.Screen options={({ navigation }) => {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
             }} name='signup' component={signup} />
-            <Stack.Screen options={({ navigation }) => {
+            {/* <Stack.Screen options={({ navigation }) => {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
