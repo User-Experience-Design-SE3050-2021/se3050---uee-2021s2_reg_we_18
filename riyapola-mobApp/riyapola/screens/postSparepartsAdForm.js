@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Image, Platform, StyleSheet, Picker } from 'react-native';
 import { globalStyles } from '../styles/global';
-import { RadioButton, Button, Divider } from 'react-native-paper'
+import { RadioButton, Button, Divider,Headline } from 'react-native-paper'
 import { ScrollView } from 'react-native-gesture-handler';
+import { Icon } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function postSparepartsAdForm() {
@@ -147,7 +148,6 @@ export default function postSparepartsAdForm() {
                         </View>
                     </ScrollView>
                 </View>
-                <TextInput placeholder="Add Photos" style={globalStyles.input} />
                 <Text style={globalStyles.label}>Contact Details</Text>
                 <Text style={globalStyles.label}>Email</Text>
                 <TextInput placeholder="sample@gmail.com" style={globalStyles.input} />
