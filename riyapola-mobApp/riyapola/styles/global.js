@@ -37,6 +37,7 @@ export const globalStyles = StyleSheet.create({
         borderRadius: 8,
         marginBottom: 20,
         maxHeight: 40,
+        maxWidth: '98%',
         flex: 1,
         color: '#000'
     },

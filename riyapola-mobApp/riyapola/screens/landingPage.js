@@ -14,17 +14,19 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 import CategoryTabs from "../shared/categoryTabs";
 import { Avatar, Paragraph  } from "react-native-paper";
+import Tabs from "../shared/Tabs";
 
-export default function landingPage() {
+export default function landingPage({ navigation }) {
   return (
-    <View
+    <View>
+      <Tabs pageIndex={0} navigation={navigation} style={{flex:1}} />
+      <View 
       style={{
         display: "flex",
         flexDirection: "column",
         backgroundColor: "white",
         padding: 5,
-      }}
-    >
+      }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <Avatar.Text
           style={{ width: 200, marginTop: 20, marginLeft: "20%"}}
@@ -116,6 +118,7 @@ export default function landingPage() {
            The only way a successful business can run is by being on the prowl for new customers"
         /> */}
       </ScrollView>
+    </View>
     </View>
   );
 }
