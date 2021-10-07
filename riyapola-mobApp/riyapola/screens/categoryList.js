@@ -30,7 +30,7 @@ export default function categoryList({ navigation }) {
   };
 
   return (
-    <View style={{display:'flex', padding:20,flexDirection:'column',backgroundColor:'#e8f3ff'}}>
+    <View style={{display:'flex', padding:20,flexDirection:'column',backgroundColor:'#364F6B'}}>
       <View style={style.addNewOuter}>
         <Text style={style.headerTextCategory}>List Of Categories</Text>
         <TouchableOpacity
@@ -150,10 +150,10 @@ const style = StyleSheet.create({
     flexDirection: "column",
     marginTop: 10,
     // borderWidth:1,
-    borderRadius: 10,
+    borderRadius: 0,
     // padding:10,
     borderColor: "#77edaa",
-    backgroundColor: "white",
+    backgroundColor: "#3FC1C9",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
