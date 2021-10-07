@@ -1,20 +1,40 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 import { Button, Checkbox, DataTable, Headline } from 'react-native-paper';
 import AdminTabs from '../shared/AdminTabs';
+import axios from 'axios';
 
 const optionsPerPage = [2, 3, 4];
 
 const sparepartsAdActions = ({ navigation }) => {
     const [page, setPage] = React.useState(0);
-    const [approved, setApproved] = React.useState({
-        "0": "unchecked",
-        "1": "unchecked",
-        "2": "checked",
-        "3": "checked"
-    });
+    // const [approved, setApproved] = React.useState({
+    //     "0": "unchecked",
+    //     "1": "unchecked",
+    //     "2": "checked",
+    //     "3": "checked"
+    // });
     const [itemsPerPage, setItemsPerPage] = React.useState(optionsPerPage[0]);
+    const [spareparts, setSpareparts] = React.useState([]);
+    const [approved, setApproved] = React.useState({
+        id: ""
+    });
+
+    React.useEffect(() => {
+        axios.get('https://riyapola.herokuapp.com/spareparts/').then((res) => {
+            console.log(res.data[0])
+            setSpareparts(res.data)
+        })
+    }, [])
+
+    const singleAdApprove = (id) => {
+        axios.put(`https://riyapola.herokuapp.com/spareparts/${id}`,{status: "published"}).then((res) => {
+            console.log('status updated!')
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
     React.useEffect(() => {
         setPage(0);
@@ -23,7 +43,10 @@ const sparepartsAdActions = ({ navigation }) => {
     return (
         <View>
             <AdminTabs navigation={navigation} pageIndex={1} />
-            <Headline style={{fontSize: 16,alignSelf: 'center',fontWeight: 'bold',padding: 20}}>Approve/Reject Spareparts Advertisements</Headline>
+            <Headline style={{ fontSize: 16, alignSelf: 'center', fontWeight: 'bold', padding: 20 }}>Approve/Reject Spareparts Advertisements</Headline>
+            
+            {spareparts.length != 0 ? 
+            <ScrollView horizontal>
             <DataTable>
                 <DataTable.Header>
                     <DataTable.Title>Approved</DataTable.Title>
@@ -32,33 +55,16 @@ const sparepartsAdActions = ({ navigation }) => {
                     <DataTable.Title>Actions</DataTable.Title>
                 </DataTable.Header>
 
-                <DataTable.Row>
-                    <DataTable.Cell><Checkbox status={approved[0]} color='#076AE0' key={0} onPress={(e) => setApproved({ ...approved, "0": approved[0] == "checked" ? "unchecked" : "checked" })} /></DataTable.Cell>
-                    <DataTable.Cell>Engine For Sale</DataTable.Cell>
-                    <DataTable.Cell>13/09/2021</DataTable.Cell>
-                    <DataTable.Cell><Icon name='check-circle' color='#076AE0' size={30} /><Icon name='remove-circle' color='red' size={30} /><Icon name='info' size={30} /></DataTable.Cell>
-                </DataTable.Row>
-
-                <DataTable.Row>
-                    <DataTable.Cell><Checkbox status={approved[1]} color='#076AE0' key={1} onPress={(e) => setApproved({ ...approved, "1": approved[1] == "checked" ? "unchecked" : "checked" })} /></DataTable.Cell>
-                    <DataTable.Cell>JBL Radio</DataTable.Cell>
-                    <DataTable.Cell>12/09/2021</DataTable.Cell>
-                    <DataTable.Cell><Icon name='check-circle' color='#076AE0' size={30} /><Icon name='remove-circle' color='red' size={30} /><Icon name='info' size={30} /></DataTable.Cell>
-                </DataTable.Row>
-
-                <DataTable.Row>
-                    <DataTable.Cell><Checkbox status={approved[2]} color='#076AE0' key={2} onPress={(e) => setApproved({ ...approved, "2": approved[2] == "checked" ? "unchecked" : "checked" })} /></DataTable.Cell>
-                    <DataTable.Cell>Used Alto Door</DataTable.Cell>
-                    <DataTable.Cell>13/09/2021</DataTable.Cell>
-                    <DataTable.Cell><Icon name='check-circle' color='#076AE0' size={30} /><Icon name='remove-circle' color='red' size={30} /><Icon name='info' size={30} /></DataTable.Cell>
-                </DataTable.Row>
-
-                <DataTable.Row>
-                    <DataTable.Cell><Checkbox status={approved[3]} color='#076AE0' key={3} onPress={(e) => setApproved({ ...approved, "3": approved[3] == "checked" ? "unchecked" : "checked" })} /></DataTable.Cell>
-                    <DataTable.Cell>Ball Joint</DataTable.Cell>
-                    <DataTable.Cell>25/08/2021</DataTable.Cell>
-                    <DataTable.Cell><Icon name='check-circle' color='#076AE0' size={30} /><Icon name='remove-circle' color='red' size={30} /><Icon name='info' size={30} /></DataTable.Cell>
-                </DataTable.Row>
+                {spareparts.length > 0 ? spareparts.filter(status => status.status !== "published").map((ad) => {
+                    return (
+                        <DataTable.Row key={ad._id}>
+                            <DataTable.Cell style={{marginRight: 7}}><Checkbox status={approved[0]} color='#076AE0' key={ad._id} /></DataTable.Cell>
+                            <DataTable.Cell style={{marginRight: 7}}>{ad.title}</DataTable.Cell>
+                            <DataTable.Cell style={{marginRight: 7}}>{ad.updatedAt.split('T')[0]}</DataTable.Cell>
+                            <DataTable.Cell style={{marginRight: 7}}><Icon name='check-circle' color='#076AE0' size={30} value={ad._id} onPress={() => {setSpareparts({...spareparts, status: "published"}), singleAdApprove(ad._id)}} /><Icon name='remove-circle' color='red' size={30} /><Icon name='info' size={30} /></DataTable.Cell>
+                        </DataTable.Row>
+                    )
+                }) : (null)}
 
                 <DataTable.Pagination
                     page={page}
@@ -71,8 +77,10 @@ const sparepartsAdActions = ({ navigation }) => {
                     showFastPagination
                     optionsLabel={'Rows per page'}
                 />
-            </DataTable>
-            <Button color='#076AE0' mode="contained" style={{maxWidth: 200, alignSelf: 'flex-end', marginEnd: 10}} >Bulk Approve</Button>
+            </DataTable> 
+            </ScrollView> : (null) }
+            <Button color='#076AE0' mode="contained" style={{ maxWidth: 200, alignSelf: 'flex-end', marginEnd: 10 }} >Bulk Approve</Button> 
+            
         </View>
     );
 }
