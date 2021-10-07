@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import home from '../screens/home';
+import sparePartsList from '../screens/sparePartsList';
 import allAds from '../screens/allAds';
 import postAd from '../screens/postAd';
 import React from 'react';
@@ -12,7 +12,6 @@ import postSparepartsAdForm from '../screens/postSparepartsAdForm';
 // import vehicleMyAds from '../screens/vehicleMyAds';
 // import sparepartsMyAds from '../screens/sparepartsMyAds';
 import sparepartDetail from '../screens/sparepartDetail';
-import allSparepartAds from '../screens/allSparepartAds';
 import vehicleDetail from '../screens/vehicleDetail';
 
 const Stack = createStackNavigator();
@@ -34,7 +33,7 @@ export default function HomeStack() {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
-            }} name='allSparepartAds' component={allSparepartAds} />
+            }} name='allSparepartAds' component={sparePartsList} />
             <Stack.Screen options={({ navigation }) => {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />

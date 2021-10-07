@@ -1,11 +1,56 @@
-import React from 'react';
-import { View, TextInput, Text, Picker } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, TextInput, Text, Picker, Image, Platform } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler'
 import { globalStyles } from '../styles/global';
-import { RadioButton } from 'react-native-paper';
-import Button from '../shared/button'
+import { Divider, Headline, RadioButton } from 'react-native-paper';
+import { Icon } from 'react-native-elements';
+import CustButton from '../shared/button';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function postVehicleAdForm() {
+
+    useEffect(() => {
+        (async () => {
+          if (Platform.OS !== 'web') {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+              alert('Sorry, we need camera roll permissions to make this work!');
+            }
+          }
+        })();
+      }, []);
+
+      const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      base64: true,
+      allowsMultipleSelection: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+        setImages([...images,result.uri]);
+    }
+  };
+
+  const removeIcon = (image) => {
+
+      setImages(images.filter(item => item !== image.uri));
+  }
 
     return (
         <ScrollView>
@@ -104,8 +149,27 @@ export default function postVehicleAdForm() {
                         <TextInput placeholder="Enter Mileage(km)" style={globalStyles.input} />
                     </View>
                 </View>
+                <View >
+                    <Divider style={{height: 3}} />
+                    <Headline style={{fontSize: 18, fontWeight: 'bold'}}>Photos</Headline>
+                <ScrollView horizontal>
+                    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                    {images.length > 0 && images.map(image => 
+                    <View style={{display: 'flex', alignItems: 'flex-end', marginEnd: 10}} >
+                    <Icon name='clear' color='red' onPress={removeIcon.bind(this,{ uri: image })} size={36} />
+                    <Image source={{ uri: image }} style={{ width: 200, height: 200, padding: 5 }} />
+                    </View>)}
+                    <Icon
+                        name='plus-circle'
+                        type='font-awesome'
+                        color='#076AE0'
+                        size={36}
+                        onPress={pickImage} />
+                    </View>
+                </ScrollView>
+                </View>
             </View>
-            <Button text='Post Ad' />
+            <CustButton text='Post Ad' />
         </ScrollView>
     )
 }

@@ -1,6 +1,6 @@
 import React, { useState ,useEffect} from 'react';
 import { View, Text,TextInput, ScrollView, StyleSheet, Modal,
-  Alert,TouchableOpacity } from 'react-native';
+  Alert,TouchableOpacity, Picker, Image } from 'react-native';
 import Tabs from '../shared/Tabs';
 import { globalStyles } from '../styles/global';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,9 +10,9 @@ import FlatButton from '../shared/button';
 import Card from '../shared/card';
 import { Tab,TabView } from 'react-native-elements';
 import { Button } from 'react-native-elements/dist/buttons/Button';
-import ImagePicker from 'react-native-image-picker';
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as ImagePicker from 'expo-image-picker';
 // import { State } from 'react-native-gesture-handler';
 // import { Button } from 'react-native-elements/dist/buttons/Button';
 // import React, { Component, Fragment } from "react";
@@ -55,6 +55,14 @@ export default function profile({navigation}) {
       //     userId:user._id
       // })
            });
+           (async () => {
+            if (Platform.OS !== 'web') {
+              const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+              if (status !== 'granted') {
+                alert('Sorry, we need camera roll permissions to make this work!');
+              }
+            }
+          })();
           //  AsyncStorage.removeItem("tempUser");
   }, [])
   
@@ -132,36 +140,50 @@ export default function profile({navigation}) {
       })
  
   }
-    const handleChoosePhoto =()=>{
-      const options ={
-        noData:true
-      };
-      ImagePicker.launchImageLibrary(options,response=>{
-        console.log("response",response);
-        if(response.uri){
-          setstate({
-            photo:response
-          })
-        }
-      });
-    }
+    
+
+    // useEffect(() => {
+    //   (async () => {
+    //     if (Platform.OS !== 'web') {
+    //       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    //       if (status !== 'granted') {
+    //         alert('Sorry, we need camera roll permissions to make this work!');
+    //       }
+    //     }
+    //   })();
+    // }, []);
+
+const handleChoosePhoto = async () => {
+  let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 1,
+  });
+
+  if (!result.cancelled) {
+    setstate({...state,photo: result.uri});
+  }
+};
+
     return (
         <View style={globalStyles.container}>
             <Card>
             <ScrollView>
+            <View style={{display: 'flex', alignItems: 'center'}}>
               {state.photo ?
               <Image
-              source={{uri:state.photo}}
+              source={{ uri: state.photo }}
               style={{width:50,height:50}}
               />:(
                 <MaterialIcons name='person' size={50}  />
               )
             }
-
-        <Button
-        title="Chosse Photo"
+        <Icon
+        name="camera"
          onPress={handleChoosePhoto}
         />
+        </View>
 
 
       <MaterialIcons name='person' size={28} />

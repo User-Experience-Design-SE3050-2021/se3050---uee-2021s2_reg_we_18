@@ -25,11 +25,25 @@ export default function updateCategory() {
 
 
   return (
-    <View style={globalStyles.container}>
+    <View style={globalStyles.categoryAddContainer}>
+    {/* <View style={{ flex: 1 }}> */}
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      nestedScrollEnabled={true}
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+    >
       <Text style={style.inputText}>Select Type</Text>
       <Picker
         selectedValue={selectedValue}
-        style={{ height: 50, width: 150,borderWidth:1,borderColor:'#777',width:200,height:30}}
+        style={{
+          height: 50,
+          width: 150,
+          width: 200,
+          height: 30,
+          marginLeft: "20%",
+          color: "black",
+        }}
         onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
       >
         <Picker.Item label="Vehicles" value="Vehicles" />
@@ -37,85 +51,158 @@ export default function updateCategory() {
       </Picker>
 
       <Text style={style.inputText}>Update Category Name</Text>
-      <TextInput
-       style={style.input}
-       placeholder="Select a Category Name"
-       />
+      <TextInput style={style.input} placeholder="Update Category Name" />
 
       <Text style={style.inputText}>Update Child Category Name</Text>
       <TextInput
         style={style.input}
-        placeholder="Select a Child Category Name"
-        value="child category name"
+        placeholder="Update Child Category Name"
       />
       <Text style={style.inputText}>Update Vehicle Make</Text>
-      <TextInput style={style.input} placeholder="Select a Vehicle Make" />
+      <TextInput style={style.input} placeholder="Update Vehicle Make" />
 
       <View style={style.buttonWrapper}>
-        <TouchableOpacity style={style.button}>
-          <Text>Add Make</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={style.button}>
-          <Text>Select All</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={style.button}>
-          <Text>Remove All</Text>
-        </TouchableOpacity>
+        <View style={style.button}>
+          <Button title="Add Make" color="#841584" />
+        </View>
+        <View style={style.button}>
+          <Button title="Select All" color="#841584" />
+        </View>
+        <View style={style.button}>
+          <Button title="Remove All" color="#841584" />
+        </View>
       </View>
 
-      <ScrollView style={style.scrollview}>
-      <TouchableOpacity style={style.button}>
-          <Text>Items</Text>
-          <Text>Items</Text>
-          <Text>Items</Text>
-          <Text>Items</Text>
-          <Text>Items</Text>
-          <Text>Items</Text>
-          <Text>Items</Text>
-          
-        </TouchableOpacity>
+      <ScrollView
+        style={style.scrollview}
+        nestedScrollEnabled={true}
+        showsVerticalScrollIndicator={false}
+      >
+        <View
+          style={{
+            marginLeft: 30,
+            marginTop: 15,
+            marginRight: 10,
+            width: 230,
+          }}
+        >
+          <Button title="Add Category" color="blue" />
+        </View>
+
+        <View
+          style={{
+            marginLeft: 30,
+            marginTop: 15,
+            marginRight: 10,
+            width: 230,
+          }}
+        >
+          <Button title="Add Category" color="blue" />
+        </View>
+
+        <View
+          style={{
+            marginLeft: 30,
+            marginTop: 15,
+            marginRight: 10,
+            width: 230,
+          }}
+        >
+          <Button title="Add Category" color="blue" />
+        </View>
+
+        <View
+          style={{
+            marginLeft: 30,
+            marginTop: 15,
+            marginRight: 10,
+            width: 230,
+          }}
+        >
+          <Button title="Add Category" color="blue" />
+        </View>
+
+        <View
+          style={{
+            marginLeft: 30,
+            marginTop: 15,
+            marginRight: 10,
+            width: 230,
+          }}
+        >
+          <Button title="Add Category" color="blue" />
+        </View>
+
+        <View
+          style={{
+            marginLeft: 30,
+            marginTop: 15,
+            marginRight: 10,
+            width: 230,
+          }}
+        >
+          <Button title="Add Category" color="blue" />
+        </View>
+
+        <View
+          style={{
+            marginLeft: 30,
+            marginTop: 15,
+            marginRight: 10,
+            width: 230,
+          }}
+        >
+          <Button title="Add Category" color="blue" />
+        </View>
       </ScrollView>
 
-      <TouchableOpacity style={style.button}>
-        <Text> Update Category</Text>
-      </TouchableOpacity>
-    </View>
-  );
+      <View style={style.button}>
+        <Button title="Update Category" color="orange" />
+      </View>
+    </ScrollView>
+  </View>
+);
 }
 
 const style = StyleSheet.create({
-  input: {
-    borderWidth: 1,
-    borderColor: "#777",
-    padding: 8,
-    marginTop: 5,
-    width: 200,
-    height: 30,
-    borderRadius: 5,
-  },
-  inputText: {
-    marginTop: 15,
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#4d98d1",
-    padding: 10,
-    borderRadius: 5,
-    marginRight: 20,
-  },
-  buttonWrapper: {
-    display: "flex",
-    flexDirection: "row",
-    marginTop: 10,
-    // backgroundColor:black
-  },
-  scrollview: {
-    marginTop: 20,
-    maxHeight: 200,
-    width: 200,
-    backgroundColor: "#bcd2e3",
-    marginBottom: 20,
-  },
+input: {
+  borderWidth: 1,
+  borderColor: "#777",
+  padding: 8,
+  marginTop: 5,
+  width: 290,
+  height: 30,
+  borderRadius: 5,
+  textAlign: "center",
+},
+inputText: {
+  marginTop: 15,
+  textAlign: "center",
+  fontSize: 16,
+},
+button: {
+  // alignItems: "center",
+  // backgroundColor: "#4d98d1",
+  // padding: 10,
+  // borderRadius: 5,
+  marginBottom: 10,
+  width: 290,
+},
+buttonWrapper: {
+  display: "flex",
+  flexDirection: "column",
+  marginTop: 10,
+  // backgroundColor:black
+},
+scrollview: {
+  marginTop: 20,
+  maxHeight: 200,
+  minHeight: 200,
+  width: 295,
+  // backgroundColor: "#bcd2e3",
+  marginBottom: 20,
+  borderColor: "green",
+  borderWidth: 1,
+},
 });
+

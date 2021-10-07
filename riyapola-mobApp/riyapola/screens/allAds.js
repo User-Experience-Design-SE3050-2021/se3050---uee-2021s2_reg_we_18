@@ -8,6 +8,7 @@ export default function allAds({navigation}) {
     return (
         <View style={{flex: 1}}>
             <Tabs pageIndex={1} navigation={navigation} style={{flex: 1}} />
+            {/* child tabs */}
             <Filter title="Vehicles" navigation={navigation} style={{flex: 1}}/>
             <AllVehicleAds navigation={navigation} style={{flex: 1}}/>
         </View>
