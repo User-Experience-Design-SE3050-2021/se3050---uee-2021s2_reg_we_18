@@ -9,6 +9,8 @@ import landingPage from '../screens/landingPage';
 import login from '../screens/login';
 import postVehicleAdForm from '../screens/postVehicleAdForm';
 import postSparepartsAdForm from '../screens/postSparepartsAdForm';
+// import vehicleMyAds from '../screens/vehicleMyAds';
+// import sparepartsMyAds from '../screens/sparepartsMyAds';
 import sparepartDetail from '../screens/sparepartDetail';
 import allSparepartAds from '../screens/allSparepartAds';
 import vehicleDetail from '../screens/vehicleDetail';
@@ -73,6 +75,16 @@ export default function HomeStack() {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
             }} name='login' component={login} />
+             {/* <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='vehicleMyAds' component={vehicleMyAds} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='sparePartsMyAds' component={sparepartsMyAds} /> */}
             
         </Stack.Navigator>
     );

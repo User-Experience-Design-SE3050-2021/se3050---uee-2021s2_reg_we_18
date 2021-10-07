@@ -35,6 +35,7 @@ export default function login({navigation}) {
     return (
         <View style={globalStyles.container}>
             <Card>
+                <ScrollView>
             <UserTabs   pageIndex={0} navigation={navigation} />
             <MaterialIcons name='email' size={28} />
             <Text>Email</Text>
@@ -54,7 +55,7 @@ export default function login({navigation}) {
                 button
                 type='google'
                 />
-                
+                </ScrollView>
             </Card>        
         </View>
      
