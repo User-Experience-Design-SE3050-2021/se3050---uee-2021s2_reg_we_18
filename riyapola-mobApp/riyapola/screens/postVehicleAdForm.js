@@ -2,8 +2,10 @@ import React from 'react';
 import { View, TextInput, Text, Picker } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler'
 import { globalStyles } from '../styles/global';
-import { RadioButton } from 'react-native-paper';
-import Button from '../shared/button'
+import { Divider, Headline, RadioButton } from 'react-native-paper';
+import { Icon } from 'react-native-elements';
+import CustButton from '../shared/button';
+import ImageCropPicker from 'react-native-image-crop-picker';
 
 export default function postVehicleAdForm() {
 
@@ -104,8 +106,29 @@ export default function postVehicleAdForm() {
                         <TextInput placeholder="Enter Mileage(km)" style={globalStyles.input} />
                     </View>
                 </View>
+                <View >
+                    <Divider style={{height: 3}} />
+                    <Headline style={{fontSize: 18, fontWeight: 'bold'}}>Add Images</Headline>
+                <ScrollView horizontal style={{display: 'flex', flexDirection: 'row'}}>
+                    <Icon
+                        name='plus-circle'
+                        type='font-awesome'
+                        color='#076AE0'
+                        onPress={() => ImageCropPicker.openPicker({
+                            mediaType: 'photo',
+                            multiple: true,
+                            width: 300,
+                            height: 400,
+                            cropping: true,
+                            includeBase64: true
+                          }).then(images => {
+                            console.log(images);
+                          })
+                        } />
+                </ScrollView>
+                </View>
             </View>
-            <Button text='Post Ad' />
+            <CustButton text='Post Ad' />
         </ScrollView>
     )
 }

@@ -16,10 +16,13 @@ export default function postSparepartsAdForm() {
             <View style={globalStyles.container}>
                 <Text style={globalStyles.topicForm}>Post Your Spare Part Ad</Text>
                 <Text style={globalStyles.label}>Condition</Text>
-                <View style={{ display: 'flex', flexDirection: 'row', right: 20 }} >
-                    <CheckBox title='New' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={true} />
-                    <CheckBox title='Used' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={false} />
-                    <CheckBox title='Recondition' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={false} />
+                <View style={{ display: 'flex', flexDirection: 'row', flex: 1, alignItems: 'center' }} >
+                    <RadioButton color='#076AE0' status='checked'  style={{flex:1}} value='New' />
+                    <Text>New</Text>
+                    <RadioButton color='#076AE0' status='unchecked'  style={{flex:1}} value='Used' />
+                    <Text>Used</Text>
+                    <RadioButton color='#076AE0' status='unchecked'  style={{flex:1}} value='Recondition' />
+                    <Text>Recondition</Text>
                 </View>
                 <Text style={globalStyles.label}>Spare Part Category</Text>
                 <Picker
@@ -41,9 +44,11 @@ export default function postSparepartsAdForm() {
                     multiline={true}
                 />
                 <Text style={globalStyles.label}>Delivery Available?</Text>
-                <View style={{ display: 'flex', flexDirection: 'row', right: 20 }} >
-                    <CheckBox title='Yes' style={globalStyles.input} />
-                    <CheckBox title='No' style={globalStyles.input} />
+                <View style={{ display: 'flex', flexDirection: 'row', flex: 1, alignItems: 'center' }}  >
+                    <RadioButton value='Yes' status='checked' style={{flex:1}} color='#076AE0' />
+                    <Text>Yes</Text>
+                    <RadioButton value='No' status='unchecked' style={{flex:1}} color='#076AE0' />
+                    <Text>No</Text>
                 </View>
                 <Text style={globalStyles.label}>Location</Text>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}} >
@@ -77,8 +82,9 @@ export default function postSparepartsAdForm() {
                         <Text style={globalStyles.label}>Price</Text>
                         <TextInput placeholder="Rs." style={globalStyles.input} />
                     </View>
-                    <View style={{flex:1}}>
-                        <CheckBox title='Negotiable' style={globalStyles.input} />
+                    <View style={{display:'flex',flexDirection:'row',alignItems: 'center',flex: 1}}>
+                        <RadioButton value='Negotiable' color='#076AE0' status='checked' />
+                        <Text>Negotiable</Text>
                     </View>
                 </View>
                 <Text style={globalStyles.label}>Photo</Text>
