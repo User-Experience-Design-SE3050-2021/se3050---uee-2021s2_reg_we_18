@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text,TextInput, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, TextInput, Text, Picker, Image, ScrollView } from 'react-native';
 import Tabs from '../shared/Tabs';
 import { globalStyles } from '../styles/global';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -9,8 +9,7 @@ import FlatButton from '../shared/button';
 import Card from '../shared/card';
 import { Tab,TabView } from 'react-native-elements';
 import { Button } from 'react-native-elements/dist/buttons/Button';
-import ImagePicker from 'react-native-image-picker';
-
+import * as ImagePicker from 'expo-image-picker';
 // import { State } from 'react-native-gesture-handler';
 // import { Button } from 'react-native-elements/dist/buttons/Button';
 // import React, { Component, Fragment } from "react";
@@ -37,34 +36,60 @@ export default function profile({navigation}) {
     const [state, setstate] = useState({
       photo:null
     })
-    const handleChoosePhoto =()=>{
-      ImagePicker.launchImageLibrary({
-        mediaType: 'photo',
-        selectionLimit: 0,
-        includeBase64: true
-      },(response) => {
-        setstate({
-          photo:response
-        })      
-      });
+
+    useEffect(() => {
+      (async () => {
+        if (Platform.OS !== 'web') {
+          const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
+        }
+      })();
+    }, []);
+
+useEffect(() => {
+  (async () => {
+    if (Platform.OS !== 'web') {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
     }
+  })();
+}, []);
+
+const handleChoosePhoto = async () => {
+  let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 1,
+  });
+
+  if (!result.cancelled) {
+    setstate({...state,photo: result.uri});
+  }
+};
+
     return (
         <View style={globalStyles.container}>
             <Card>
             <ScrollView>
+            <View style={{display: 'flex', alignItems: 'center'}}>
               {state.photo ?
               <Image
-              source={{uri:state.photo}}
+              source={{ uri: state.photo }}
               style={{width:50,height:50}}
               />:(
                 <MaterialIcons name='person' size={50}  />
               )
             }
-
-        <Button
-        title="Chosse Photo"
+        <Icon
+        name="camera"
          onPress={handleChoosePhoto}
         />
+        </View>
 
 
   <MaterialIcons name='person' size={28} />
