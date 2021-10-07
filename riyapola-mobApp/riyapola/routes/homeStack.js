@@ -8,6 +8,8 @@ import signup from '../screens/signup';
 import login from '../screens/login';
 import postVehicleAdForm from '../screens/postVehicleAdForm';
 import postSparepartsAdForm from '../screens/postSparepartsAdForm';
+// import vehicleMyAds from '../screens/vehicleMyAds';
+// import sparepartsMyAds from '../screens/sparepartsMyAds';
 
 const Stack = createStackNavigator();
 
@@ -54,6 +56,17 @@ export default function HomeStack() {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
             }} name='login' component={login} />
+             {/* <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='vehicleMyAds' component={vehicleMyAds} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='sparePartsMyAds' component={sparepartsMyAds} /> */}
+            
         </Stack.Navigator>
     );
 }

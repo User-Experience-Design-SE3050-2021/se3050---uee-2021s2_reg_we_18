@@ -10,6 +10,7 @@ import Card from '../shared/card';
 import { Tab,TabView } from 'react-native-elements';
 import UserTabs from '../shared/UserTabs';
 import { SocialIcon } from 'react-native-elements/dist/social/SocialIcon';
+
 // import { Button } from 'react-native-elements/dist/buttons/Button';
 // import React, { Component, Fragment } from "react";
 // import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Button, Image,} from 'react-native';
@@ -34,7 +35,7 @@ export default function signup({navigation}) {
     return (
         <View style={globalStyles.container}>
             <Card>
-                
+                <ScrollView>
 <UserTabs   pageIndex={1} navigation={navigation} />
         
 
@@ -71,6 +72,7 @@ export default function signup({navigation}) {
   </TabView.Item> */}
 
             {/* <Text style={globalStyles.topicForm}>My Account</Text> */}
+            </ScrollView>
                         </Card>
             {/* <GoogleSigninButton
             onPress={signIn}
