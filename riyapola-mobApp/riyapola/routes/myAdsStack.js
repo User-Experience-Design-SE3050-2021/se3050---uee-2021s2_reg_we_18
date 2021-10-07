@@ -1,14 +1,21 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import home from '../screens/home';
+// import allAds from '../screens/allAds';
+// import postAd from '../screens/postAd';
 import React from 'react';
 import Header from '../shared/header';
-import profile from '../screens/profile';
-import vehicleMyAds from '../screens/vehicleMyAds';
 import sparepartsMyAds from '../screens/sparepartsMyAds';
+import vehicleMyAds from '../screens/vehicleMyAds';
 // import signup from '../screens/signup';
 // import login from '../screens/login';
+// import postVehicleAdForm from '../screens/postVehicleAdForm';
+// import postSparepartsAdForm from '../screens/postSparepartsAdForm';
+// import vehicleMyAds from '../screens/vehicleMyAds';
+// import sparepartsMyAds from '../screens/sparepartsMyAds';
+
 const Stack = createStackNavigator();
 
-export default function userStack() {
+export default function myAdsStack() {
     return (
         <Stack.Navigator
             headerMode='screen'
@@ -16,21 +23,6 @@ export default function userStack() {
                 { headerTintColor: '#444' },
                 { headerStyle: { backgroundColor: '#076AE0', height: 80 } }
             }>
-            <Stack.Screen options={({ navigation }) => {
-                return {
-                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
-                }
-            }} name='profile' component={profile} />
-            {/* <Stack.Screen options={({ navigation }) => {
-                return {
-                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
-                }
-            }} name='signup' component={signup} />
-            <Stack.Screen options={({ navigation }) => {
-                return {
-                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
-                }
-            }} name='login' component={login} /> */}
              <Stack.Screen options={({ navigation }) => {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
@@ -41,7 +33,7 @@ export default function userStack() {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
             }} name='sparePartsMyAds' component={sparepartsMyAds} />
-
+            
         </Stack.Navigator>
     );
 }
