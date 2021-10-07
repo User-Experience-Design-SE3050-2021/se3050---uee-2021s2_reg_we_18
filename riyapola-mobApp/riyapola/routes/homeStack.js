@@ -5,11 +5,15 @@ import postAd from '../screens/postAd';
 import React from 'react';
 import Header from '../shared/header';
 import signup from '../screens/signup';
+import landingPage from '../screens/landingPage';
 import login from '../screens/login';
 import postVehicleAdForm from '../screens/postVehicleAdForm';
 import postSparepartsAdForm from '../screens/postSparepartsAdForm';
 // import vehicleMyAds from '../screens/vehicleMyAds';
 // import sparepartsMyAds from '../screens/sparepartsMyAds';
+import sparepartDetail from '../screens/sparepartDetail';
+import allSparepartAds from '../screens/allSparepartAds';
+import vehicleDetail from '../screens/vehicleDetail';
 
 const Stack = createStackNavigator();
 
@@ -25,7 +29,17 @@ export default function HomeStack() {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
-            }} name='Home' component={home} />
+            }} name='Home' component={landingPage} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='allSparepartAds' component={allSparepartAds} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='sparepartDetail' component={sparepartDetail} />
             <Stack.Screen options={({ navigation }) => {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
@@ -36,6 +50,11 @@ export default function HomeStack() {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
             }} name='postAd' component={postAd} />
+            <Stack.Screen options={({ navigation }) => {
+                return {
+                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
+                }
+            }} name='vehicleDetail' component={vehicleDetail} />
             <Stack.Screen options={({ navigation }) => {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />

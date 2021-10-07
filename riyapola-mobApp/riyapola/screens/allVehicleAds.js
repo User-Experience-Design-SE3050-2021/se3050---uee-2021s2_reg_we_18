@@ -18,7 +18,7 @@ export default function allVehicleAds({navigation}) {
             data={vehicleAds}
             style={globalStyles.card}
             renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => console.log("ad pressed")}  >
+                <TouchableOpacity onPress={() => navigation.navigate('vehicleDetail')}  >
                     <Card style={globalStyles.cardContent}>
                         <Card.Cover source={require('../images/vehicles/axio.jpg')} />
                         <Card.Content style={globalStyles.cardContainer}>

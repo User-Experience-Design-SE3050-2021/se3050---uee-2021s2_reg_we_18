@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import { Headline, Caption, Title, Card, Paragraph, Divider } from 'react-native-paper';
 import { Icon, Button } from 'react-native-elements'
 import { SliderBox } from 'react-native-image-slider-box';
@@ -27,37 +27,46 @@ export default function sparepartDetail() {
                 />
                 <View style={globalStyles.container}>
                     <View style={{ display: 'flex', flexDirection: 'row' }}>
-                        <Headline style={{ fontWeight: 'bold', fontSize: 30, color: '#076AE0' }}>Rs. 2,500/=</Headline>
+                        <Headline style={{ fontWeight: 'bold', fontSize: 30, color: '#076AE0' }}>Rs. 3,560,000/=</Headline>
                         <Caption style={{ fontSize: 15, paddingTop: 7, left: 6 }}>Negotiable</Caption>
                     </View>
 
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Title style={{ fontSize: 17 }}><Icon name='place' color='#076AE0' style={{ fontSize: 10 }} />Colombo | Rohan</Title>
-                        <Caption style={{ fontSize: 13, paddingTop: 9 }}>Posted On: 2021-09-12</Caption>
+                        <Title style={{ fontSize: 17 }}><Icon name='place' color='#076AE0' style={{ fontSize: 10 }} />Kandy | Naveen</Title>
+                        <Caption style={{ fontSize: 13, paddingTop: 9 }}>Posted On: 2021-09-13</Caption>
                     </View>
 
-                    <Card>
-                        <Card.Content>
-                            <Title>Specifications</Title>
-                            <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                <Paragraph>Category</Paragraph>
-                                <Paragraph style={{ left: 150 }}>Audio</Paragraph>
-                            </View>
-                            <Divider />
-                            <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                <Paragraph>Condition</Paragraph>
-                                <Paragraph style={{ left: 150 }}>Used</Paragraph>
-                            </View>
-                        </Card.Content>
-                    </Card>
-
-                    <Card style={{ top: 10 }}>
-                        <Card.Content>
-                            <Title>More Details</Title>
-                            <Paragraph style={{ textAlign: 'justify' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    <View style={{ display: 'flex', flexDirection: 'row' }}>
+                        <Card>
+                            <Card.Content>
+                                <Title>Specifications</Title>
+                                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                                    <Paragraph>Make -</Paragraph>
+                                    <Paragraph style={{ left: 10 }}>Suzuki</Paragraph>
+                                </View>
+                                <Divider />
+                                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                                    <Paragraph>Model -</Paragraph>
+                                    <Paragraph style={{ left: 10 }}>Alto 800</Paragraph>
+                                </View>
+                                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                                    <Paragraph>Body Type -</Paragraph>
+                                    <Paragraph style={{ left: 10 }}>Hatchback</Paragraph>
+                                </View>
+                                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                                    <Paragraph>Condition -</Paragraph>
+                                    <Paragraph style={{ left: 10 }}>Registerd</Paragraph>
+                                </View>
+                            </Card.Content>
+                        </Card>
+                        <Card style={{ left: 3, width: 200 }}>
+                            <Card.Content>
+                                <Title>More Details</Title>
+                                <Paragraph style={{ textAlign: 'justify' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex</Paragraph>
-                        </Card.Content>
-                    </Card>
+                            </Card.Content>
+                        </Card>
+                    </View>
                     <View style={{ display: 'flex', flexDirection: 'row', top: 20 }}>
                         <View>
                             <Button
@@ -72,7 +81,7 @@ export default function sparepartDetail() {
                                 raised
                             />
                         </View>
-                        <View style={{left: 20}}>
+                        <View style={{ left: 20 }}>
                             <Button
                                 icon={
                                     <Icon
