@@ -81,5 +81,20 @@ export const globalStyles = StyleSheet.create({
     cardContent: {
         marginHorizontal: 18,
         marginVertical: 10
-    }
+    },
+    categoryAddContainer: {
+        display: 'flex',
+        // padding: 20,
+        paddingTop:0,
+        paddingLeft:20,
+        paddingRight:20,
+        flexDirection: 'column',
+        marginLeft:10,
+        marginRight:10,
+        borderWidth:1,
+        marginTop:20,
+        marginBottom:20,
+        borderRadius:10,
+        borderColor:"green"
+    },
 });
