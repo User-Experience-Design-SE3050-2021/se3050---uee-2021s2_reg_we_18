@@ -1,22 +1,29 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 import { Button, Checkbox, DataTable, Headline } from 'react-native-paper';
 import AdminTabs from '../shared/AdminTabs';
+import axios from 'axios';
 
 const optionsPerPage = [2, 3, 4];
 
 const vehicleAdActions = ({ navigation }) => {
-    const [page, setPage] = React.useState(0);
-    const [approved, setApproved] = React.useState({
+    const [page, setPage] = useState(0);
+    const [approved, setApproved] = useState({
         "0": "unchecked",
         "1": "unchecked",
         "2": "checked",
         "3": "checked"
     });
-    const [itemsPerPage, setItemsPerPage] = React.useState(optionsPerPage[0]);
+    const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
 
-    React.useEffect(() => {
+    const [vehicle, setVehicle] = useState({});
+
+    // useEffect(() => {
+    //     axios.get()
+    // },[])
+
+    useEffect(() => {
         setPage(0);
     }, [itemsPerPage]);
 
