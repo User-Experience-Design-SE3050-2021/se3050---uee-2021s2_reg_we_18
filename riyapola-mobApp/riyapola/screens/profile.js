@@ -9,7 +9,7 @@ import FlatButton from '../shared/button';
 import Card from '../shared/card';
 import { Tab,TabView } from 'react-native-elements';
 import { Button } from 'react-native-elements/dist/buttons/Button';
-import ImageCropPicker from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-picker';
 
 // import { State } from 'react-native-gesture-handler';
 // import { Button } from 'react-native-elements/dist/buttons/Button';
@@ -38,17 +38,15 @@ export default function profile({navigation}) {
       photo:null
     })
     const handleChoosePhoto =()=>{
-      ImageCropPicker.openPicker({
+      ImagePicker.launchImageLibrary({
         mediaType: 'photo',
-        width: 300,
-        height: 400,
-        cropping: true,
+        selectionLimit: 0,
         includeBase64: true
-      }).then(response => {
+      },(response) => {
         setstate({
           photo:response
-        })
-      })
+        })      
+      });
     }
     return (
         <View style={globalStyles.container}>

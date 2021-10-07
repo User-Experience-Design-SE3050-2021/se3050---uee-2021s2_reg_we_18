@@ -5,7 +5,7 @@ import { globalStyles } from '../styles/global';
 import { Divider, Headline, RadioButton } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
 import CustButton from '../shared/button';
-import ImageCropPicker from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-picker';
 
 export default function postVehicleAdForm() {
 
@@ -114,15 +114,12 @@ export default function postVehicleAdForm() {
                         name='plus-circle'
                         type='font-awesome'
                         color='#076AE0'
-                        onPress={() => ImageCropPicker.openPicker({
+                        onPress={() => ImagePicker.launchImageLibrary({
                             mediaType: 'photo',
-                            multiple: true,
-                            width: 300,
-                            height: 400,
-                            cropping: true,
+                            selectionLimit: 0,
                             includeBase64: true
-                          }).then(images => {
-                            console.log(images);
+                          },(response) => {
+                              console.log(response);
                           })
                         } />
                 </ScrollView>

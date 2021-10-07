@@ -22,6 +22,7 @@ export default function AboutStack() {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
             }} name='SparepartAdForm' component={postSparepartsAdForm} />
+            
         </Stack.Navigator>
     );
 }

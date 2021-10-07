@@ -5,7 +5,7 @@ import { Icon } from 'react-native-elements';
 import { globalStyles } from '../styles/global';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function allSparepartAds() {
+export default function allSparepartAds({navigation}) {
 
     const [sparepartsAds, setSparepartsAd] = useState([
         { title: 'Radio For Sale', condition: 'Used', location: 'Colombo', price: 'Rs. 13,000', seller: 'Saman', date: '2021-09-12', image: '../images/spareparts/radio.jpg', key: '1' },
@@ -18,7 +18,7 @@ export default function allSparepartAds() {
             data={sparepartsAds}
             style={globalStyles.card}
             renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => navigation.navigate('Review Details', item)}  >
+                <TouchableOpacity onPress={() => navigation.navigate('sparepartDetail')}>
                     <Card style={globalStyles.cardContent}>
                         <Card.Cover source={require('../images/spareparts/radio.jpg')} />
                         <Card.Content style={globalStyles.cardContainer}>
