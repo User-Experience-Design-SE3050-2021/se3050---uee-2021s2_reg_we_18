@@ -144,31 +144,16 @@ export default function postSparepartsAdForm() {
                 </View>
                 <Text style={globalStyles.label}>Location</Text>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} >
-                    <View>
-                        <Text style={globalStyles.label}>District</Text>
                         <Picker
                             selectedValue={ad && ad.location ? ad.location : null}
                             style={globalStyles.select}
                             onValueChange={(text) => setAd({...ad,location: text})}
                         >
-                            <Picker.Item label="Your District" value="" />
+                            <Picker.Item label="Select Your Location" value="" />
                             <Picker.Item label="Colombo" value="colombo" />
                             <Picker.Item label="Galle" value="galle" />
                             <Picker.Item label="Gamapaha" value="gampaha" />
                         </Picker>
-                    </View>
-                    <View>
-                        <Text style={globalStyles.label}>Area</Text>
-                        <Picker
-                            selectedValue={selectedValue}
-                            style={globalStyles.select}
-                        >
-                            <Picker.Item label="Your Area" value="" />
-                            <Picker.Item label="Kadana" value="kadana" />
-                            <Picker.Item label="Wattala" value="wattala" />
-                            <Picker.Item label="Ja-ela" value="jaela" />
-                        </Picker>
-                    </View>
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
                     <View style={{ flex: 1 }}>

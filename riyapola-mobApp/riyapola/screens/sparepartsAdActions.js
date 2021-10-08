@@ -20,9 +20,11 @@ const sparepartsAdActions = ({ navigation }) => {
     const [approved, setApproved] = React.useState({
         id: ""
     });
+    // const [checked, setChecked] = React.useState([]);
+    const [bulkApprove, setBulkApprove] = React.useState([])
 
     React.useEffect(() => {
-        axios.get('https://riyapola.herokuapp.com/spareparts/').then((res) => {
+        axios.get('https://riyapola.herokuapp.com/spareparts/pending/ads').then((res) => {
             console.log(res.data[0])
             setSpareparts(res.data)
         })
@@ -33,6 +35,18 @@ const sparepartsAdActions = ({ navigation }) => {
             console.log('status updated!')
         }).catch((err) => {
             console.log(err)
+        })
+    }
+
+    const bulkUpdate = (id) => {
+        bulkApprove.find(item => item == id) ? setBulkApprove(bulkApprove.filter(elem => elem != id)) : setBulkApprove([...bulkApprove, id])
+    }
+
+    const submitBulk = () => {
+        console.log('bulk ids',bulkApprove)
+        bulkApprove.forEach(async (item, index) => {
+            await axios.put(`https://riyapola.herokuapp.com/spareparts/${item}`,{status: "published"})
+            console.log(item,index)
         })
     }
 
@@ -58,10 +72,10 @@ const sparepartsAdActions = ({ navigation }) => {
                 {spareparts.length > 0 ? spareparts.filter(status => status.status !== "published").map((ad) => {
                     return (
                         <DataTable.Row key={ad._id}>
-                            <DataTable.Cell style={{marginRight: 7}}><Checkbox status={approved[0]} color='#076AE0' key={ad._id} /></DataTable.Cell>
-                            <DataTable.Cell style={{marginRight: 7}}>{ad.title}</DataTable.Cell>
-                            <DataTable.Cell style={{marginRight: 7}}>{ad.updatedAt.split('T')[0]}</DataTable.Cell>
-                            <DataTable.Cell style={{marginRight: 7}}><Icon name='check-circle' color='#076AE0' size={30} value={ad._id} onPress={() => {setSpareparts({...spareparts, status: "published"}), singleAdApprove(ad._id)}} /><Icon name='remove-circle' color='red' size={30} /><Icon name='info' size={30} /></DataTable.Cell>
+                            <DataTable.Cell style={{marginRight: 15}}><Checkbox status={bulkApprove.find(item => item == ad._id) ? 'checked' : 'unchecked'} onPress={() => bulkUpdate(ad._id)} color='#076AE0' key={ad._id} /></DataTable.Cell>
+                            <DataTable.Cell style={{marginRight: 15}}>{ad.title}</DataTable.Cell>
+                            <DataTable.Cell style={{marginRight: 15}}>{ad.updatedAt.split('T')[0]}</DataTable.Cell>
+                            <DataTable.Cell style={{marginRight: 15}}><Icon name='check-circle' color='#076AE0' size={30} value={ad._id} onPress={() => {setSpareparts({...spareparts, status: "published"}), singleAdApprove(ad._id)}} /><Icon name='remove-circle' color='red' size={30} /><Icon name='info' size={30} /></DataTable.Cell>
                         </DataTable.Row>
                     )
                 }) : (null)}
@@ -79,7 +93,7 @@ const sparepartsAdActions = ({ navigation }) => {
                 />
             </DataTable> 
             </ScrollView> : (null) }
-            <Button color='#076AE0' mode="contained" style={{ maxWidth: 200, alignSelf: 'flex-end', marginEnd: 10 }} >Bulk Approve</Button> 
+            <Button color='#076AE0' mode="contained" style={{ maxWidth: 200, alignSelf: 'flex-end', marginEnd: 10 }} onPress={() => submitBulk()}>Bulk Approve</Button> 
             
         </View>
     );
