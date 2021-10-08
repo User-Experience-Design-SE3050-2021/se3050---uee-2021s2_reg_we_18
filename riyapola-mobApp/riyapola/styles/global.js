@@ -98,4 +98,14 @@ export const globalStyles = StyleSheet.create({
         borderRadius:10,
         borderColor:"green"
     },
+    textarea: {
+        height: 100,
+        padding: 5,
+        borderColor: "#076AE0",
+        borderRadius: 8,
+        borderWidth: 1,
+        marginBottom: 10,
+        justifyContent: 'flex-start',
+        textAlignVertical: 'top'
+    }
 });
