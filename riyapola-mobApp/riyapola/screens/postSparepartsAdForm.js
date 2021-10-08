@@ -6,6 +6,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from 'axios';
 
 export default function postSparepartsAdForm() {
 
@@ -17,6 +18,7 @@ export default function postSparepartsAdForm() {
     const [condition, setCondition] = useState('new');
     const [ad, setAd] = useState(null);
     const [user, setUser] = useState(null);
+    const [actionWaiting, setactionWaiting] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -69,11 +71,6 @@ export default function postSparepartsAdForm() {
               setPhones([...phones, user.phoneNumber])
       }}, [user]);
 
-    // test onChange
-    useEffect(() => {
-        console.log(ad ? ad : 'test')
-      }, [ad]);
-
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -84,14 +81,26 @@ export default function postSparepartsAdForm() {
         });
 
         if (!result.cancelled) {
-            setImages([...pics,result.uri]);
+            setImages([...pics,result.base64]);
         }
-    };
-
-    const removeIcon = (image) => {
-
-        setImages(pics.filter(item => item !== image.uri));
-    }
+      };
+    
+      const removeIcon = (image) => {
+    
+          setImages(pics.filter(item => item !== image.base64));
+      }
+    
+      const handleSubmit = () => {
+        setactionWaiting(true)
+        axios.post('https://riyapola.herokuapp.com/spareparts', ad).then((res) => {
+            res.status === 200 ? alert('Ad submitted for reviewing') : alert('Ad submission failed')
+            setactionWaiting(false)
+        }).catch((err) => {
+           console.log(err)
+           alert('Rejected')
+           setactionWaiting(false)
+        })
+      }
 
     return (
         <ScrollView>
@@ -176,10 +185,10 @@ export default function postSparepartsAdForm() {
                     <Headline style={{ fontSize: 18, fontWeight: 'bold' }}>Photos</Headline>
                     <ScrollView horizontal>
                         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        {pics.length > 0 && pics.map(image => 
+                            {pics.length > 0 && pics.map(image =>
                                 <View style={{ display: 'flex', alignItems: 'flex-end', marginEnd: 10 }} >
-                                    <Icon name='clear' color='red' onPress={removeIcon.bind(this, { uri: image })} size={36} />
-                                    <Image source={{ uri: image }} style={{ width: 200, height: 200, padding: 5 }} />
+                                    <Icon name='clear' color='red' onPress={removeIcon.bind(this, { base64: image })} size={36} />
+                                    <Image source={{ uri: 'data:image/jpeg;base64,' + image }} style={{ width: 200, height: 200, padding: 5 }} />
                                 </View>)}
                             <Icon
                                 name='plus-circle'
@@ -229,7 +238,7 @@ export default function postSparepartsAdForm() {
                         />
                     </View>
                 </List.Section>
-                <Button icon="camera" style={globalStyles.btn} mode="contained" onPress={() => console.log('Pressed')}>
+                <Button style={globalStyles.btn} mode="contained" onPress={handleSubmit} loading={actionWaiting} disabled={actionWaiting} >
                     Post Your Ad
                 </Button>
             </View>
@@ -237,13 +246,3 @@ export default function postSparepartsAdForm() {
     )
 
 }
-
-const styles = StyleSheet.create({
-    radio: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        marginBottom: 10,
-        color: "#000"
-    }
-
-})
