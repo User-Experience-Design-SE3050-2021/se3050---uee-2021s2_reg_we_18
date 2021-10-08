@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import { View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, View } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 import { Button, Checkbox, DataTable, Headline } from 'react-native-paper';
 import AdminTabs from '../shared/AdminTabs';
@@ -22,12 +22,20 @@ const vehicleAdActions = ({ navigation }) => {
         id: ""
     })
 
-    // useEffect(() => {
-    //     axios.get('https://riyapola.herokuapp.com/vehicle').then((res) => {
-    //         console.log(res.data)
-    //         setSpareparts(res.data)
-    //     })
-    // },[])
+    useEffect(() => {
+        axios.get('https://riyapola.herokuapp.com/vehicle').then((res) => {
+            console.log(res.data)
+            setVehicle(res.data)
+        })
+    }, [])
+
+    const singleAdApprove = (id) => {
+        axios.put(`https://riyapola.herokuapp.com/vehicle/${id}`,{status: "published"}).then((res) => {
+            console.log('status updated!')
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
     useEffect(() => {
         setPage(0);
@@ -36,56 +44,41 @@ const vehicleAdActions = ({ navigation }) => {
     return (
         <View>
             <AdminTabs navigation={navigation} pageIndex={0} />
-            <Headline style={{fontSize: 18,alignSelf: 'center',fontWeight: 'bold',padding: 20}}>Approve/Reject vehicle Advertisements</Headline>
-            <DataTable>
-                <DataTable.Header>
-                    <DataTable.Title>Approved</DataTable.Title>
-                    <DataTable.Title>Ad Title</DataTable.Title>
-                    <DataTable.Title>Date</DataTable.Title>
-                    <DataTable.Title>Actions</DataTable.Title>
-                </DataTable.Header>
+            <Headline style={{ fontSize: 18, alignSelf: 'center', fontWeight: 'bold', padding: 20 }}>Approve/Reject vehicle Advertisements</Headline>
+            {vehicle.length != 0 ?
+                <ScrollView horizontal>
+                    <DataTable>
+                        <DataTable.Header>
+                            <DataTable.Title>Approved</DataTable.Title>
+                            <DataTable.Title>Ad Title</DataTable.Title>
+                            <DataTable.Title>Date</DataTable.Title>
+                            <DataTable.Title>Actions</DataTable.Title>
+                        </DataTable.Header>
+                        {vehicle.length > 0 ? vehicle.filter(status => status.status != "published").map((ad) => {
+                            return (
+                                <DataTable.Row key={ad._id}>
+                                    <DataTable.Cell style={{ marginRight: 17 }}><Checkbox status={approved[0]} color='#076AE0' key={ad._id} /></DataTable.Cell>
+                                    <DataTable.Cell style={{ marginRight: 17 }}>{ad.title}</DataTable.Cell>
+                                    <DataTable.Cell style={{ marginRight: 17 }}>{ad.updatedAt.split('T')[0]}</DataTable.Cell>
+                                    <DataTable.Cell style={{ marginRight: 17 }}><Icon name='check-circle' color='#076AE0' size={30} value={ad._id} onPress={() => { setVehicle({ ...vehicle, status: "published" }), singleAdApprove(ad._id) }} /><Icon name='remove-circle' color='red' size={30} /><Icon name='info' size={30} /></DataTable.Cell>
+                                </DataTable.Row>
+                            )
+                        }) : (null)}
 
-                <DataTable.Row>
-                    <DataTable.Cell><Checkbox status={approved[0]} color='#076AE0' key={0} onPress={(e) => setApproved({ ...approved, "0": approved[0] == "checked" ? "unchecked" : "checked" })} /></DataTable.Cell>
-                    <DataTable.Cell>Alto For Sale</DataTable.Cell>
-                    <DataTable.Cell>25/06/2021</DataTable.Cell>
-                    <DataTable.Cell><Icon name='check-circle' color='#076AE0' size={30} /><Icon name='remove-circle' color='red' size={30} /><Icon name='info' size={30} /></DataTable.Cell>
-                </DataTable.Row>
-
-                <DataTable.Row>
-                    <DataTable.Cell><Checkbox status={approved[1]} color='#076AE0' key={1} onPress={(e) => setApproved({ ...approved, "1": approved[1] == "checked" ? "unchecked" : "checked" })} /></DataTable.Cell>
-                    <DataTable.Cell>Vitz For Sale</DataTable.Cell>
-                    <DataTable.Cell>25/06/2021</DataTable.Cell>
-                    <DataTable.Cell><Icon name='check-circle' color='#076AE0' size={30} /><Icon name='remove-circle' color='red' size={30} /><Icon name='info' size={30} /></DataTable.Cell>
-                </DataTable.Row>
-
-                <DataTable.Row>
-                    <DataTable.Cell><Checkbox status={approved[2]} color='#076AE0' key={2} onPress={(e) => setApproved({ ...approved, "2": approved[2] == "checked" ? "unchecked" : "checked" })} /></DataTable.Cell>
-                    <DataTable.Cell>Axio For Sale</DataTable.Cell>
-                    <DataTable.Cell>25/06/2021</DataTable.Cell>
-                    <DataTable.Cell><Icon name='check-circle' color='#076AE0' size={30} /><Icon name='remove-circle' color='red' size={30} /><Icon name='info' size={30} /></DataTable.Cell>
-                </DataTable.Row>
-
-                <DataTable.Row>
-                    <DataTable.Cell><Checkbox status={approved[3]} color='#076AE0' key={3} onPress={(e) => setApproved({ ...approved, "3": approved[3] == "checked" ? "unchecked" : "checked" })} /></DataTable.Cell>
-                    <DataTable.Cell>Allion For Sale</DataTable.Cell>
-                    <DataTable.Cell>25/06/2021</DataTable.Cell>
-                    <DataTable.Cell><Icon name='check-circle' color='#076AE0' size={30} /><Icon name='remove-circle' color='red' size={30} /><Icon name='info' size={30} /></DataTable.Cell>
-                </DataTable.Row>
-
-                <DataTable.Pagination
-                    page={page}
-                    numberOfPages={2}
-                    onPageChange={(page) => setPage(page)}
-                    label="1-2 of 6"
-                    optionsPerPage={optionsPerPage}
-                    itemsPerPage={itemsPerPage}
-                    setItemsPerPage={setItemsPerPage}
-                    showFastPagination
-                    optionsLabel={'Rows per page'}
-                />
-            </DataTable>
-            <Button color='#076AE0' mode="contained" style={{maxWidth: 200, alignSelf: 'flex-end', marginEnd: 10}} >Bulk Approve</Button>
+                        <DataTable.Pagination
+                            page={page}
+                            numberOfPages={2}
+                            onPageChange={(page) => setPage(page)}
+                            label="1-2 of 6"
+                            optionsPerPage={optionsPerPage}
+                            itemsPerPage={itemsPerPage}
+                            setItemsPerPage={setItemsPerPage}
+                            showFastPagination
+                            optionsLabel={'Rows per page'}
+                        />
+                    </DataTable>
+                </ScrollView> : (null)}
+            <Button color='#076AE0' mode="contained" style={{ maxWidth: 200, alignSelf: 'flex-end', marginEnd: 10 }} >Bulk Approve</Button>
         </View>
     );
 }
