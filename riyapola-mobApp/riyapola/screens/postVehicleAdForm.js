@@ -6,31 +6,82 @@ import { Divider, Headline, RadioButton, List } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
 import CustButton from '../shared/button';
 import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function postVehicleAdForm() {
+export default function postVehicleAdForm({ navigation }) {
 
-    const [images, setImages] = useState([]);
+    const [pics, setImages] = useState([]);
     const [isAddPhone, setisAddPhone] = useState(true);
     const [phone, setPhone] = useState(null);
-    const [phones, setPhones] = useState([
-        '077-1234567',
-        '077-2132311',
-    ]);
+    const [phones, setPhones] = useState([]);
+    const [condition, setCondition] = useState('registered');
+    const [ad, setAd] = useState(null);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
+
         (async () => {
-          if (Platform.OS !== 'web') {
-            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-            if (status !== 'granted') {
-              alert('Sorry, we need camera roll permissions to make this work!');
+            if (Platform.OS !== 'web') {
+                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (status !== 'granted') {
+                    alert('Sorry, we need camera roll permissions to make this work!');
+                }
             }
-          }
         })();
-      }, []);
+        AsyncStorage.getItem('user', (err, result) => {
+            if(result)
+                setUser(JSON.parse(result))
+            else{
+                alert('Please login to publish advertisements')
+                navigation.navigate('login')
+            }
+        })
+        , []});
 
     useEffect(() => {
         setPhone(null)
+        ad ? setAd({...ad, contactNumbers: phones}) : null
       }, [phones]);
+
+    useEffect(() => {
+        ad ? setAd({...ad, images: pics}) : null
+      }, [pics]);
+
+    useEffect(() => {
+        setAd({...ad,condition})
+      }, [condition]);
+
+    useEffect(() => {
+        if(!ad)
+        setAd({
+            negotiable: true,
+            images: [],
+            contactNumbers: [],
+            title: null,
+            description: null,
+            status: "pending",
+            year: null,
+            make: null,
+            model: null,
+            category: null,
+            location: null,
+            bodyType: null,
+            transmission: null,
+            condition: "registered",
+            engineCapacity: null,
+            fuelType: null,
+            mileage: null,
+            price: null,
+            userId: null});
+        else if(!ad.userId){
+              setAd({...ad, userId: user._id})
+              setPhones([...phones, user.phoneNumber])
+      }}, [user]);
+
+    // test onChange
+    useEffect(() => {
+        console.log(ad ? ad : 'test')
+      }, [ad]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -42,13 +93,17 @@ export default function postVehicleAdForm() {
     });
 
     if (!result.cancelled) {
-        setImages([...images,result.uri]);
+        setImages([...pics,result.uri]);
     }
   };
 
   const removeIcon = (image) => {
 
-      setImages(images.filter(item => item !== image.uri));
+      setImages(pics.filter(item => item !== image.uri));
+  }
+
+  const handleSubmit = () => {
+
   }
 
     return (
@@ -57,17 +112,17 @@ export default function postVehicleAdForm() {
                 <Text style={globalStyles.topicForm}>Post Your Vehicle Ad</Text>
                 <Text style={globalStyles.label}>Condition</Text>
                 <View style={{ display: 'flex', flexDirection: 'row', flex: 1, alignItems: 'center' }} >
-                    <RadioButton value='Registered' color='#076AE0' status='checked'  style={{flex:1}} />
+                    <RadioButton value='registered' color='#076AE0' status={condition === 'registered' ? 'checked': 'unchecked'} onPress={() => setCondition('registered')} style={{flex:1}} />
                     <Text>Registered</Text>
-                    <RadioButton value='Unregistered' color='#076AE0' status='unchecked' style={{flex:1}} />
+                    <RadioButton value='unregistered' color='#076AE0' status={condition === 'unregistered' ? 'checked': 'unchecked'} onPress={() => setCondition('unregistered')} style={{flex:1}} />
                     <Text>Unregistered</Text>
                 </View>
                 <Text style={globalStyles.label}>Title</Text>
-                <TextInput placeholder="Advertisement Title" style={globalStyles.input} />
+                <TextInput placeholder="Advertisement Title" style={globalStyles.input} onChangeText={(text) => setAd({...ad,title: text})} />
                 <View style={{ display: 'flex', flexDirection: 'row',justifyContent: 'space-between', flex:1 }} >
                     <View style={{flex:1}}>
                         <Text style={globalStyles.label}>Vehicle Type</Text>
-                        <Picker style={globalStyles.select}  >
+                        <Picker style={globalStyles.select} onValueChange={(text) => setAd({...ad,category: text})} >
                             <Picker.Item label="Select Type" value="select" /> 
                             <Picker.Item label="Car" value="Car" /> 
                             <Picker.Item label="Van" value="Van" /> 
@@ -75,7 +130,7 @@ export default function postVehicleAdForm() {
                     </View>
                     <View style={{flex:1}}>
                         <Text style={globalStyles.label}>Vehicle Make</Text>
-                        <Picker style={globalStyles.select}  >
+                        <Picker style={globalStyles.select} onValueChange={(text) => setAd({...ad,make: text})} >
                             <Picker.Item label="Select Make" value="select" /> 
                             <Picker.Item label="Toyota" value="Toyota" /> 
                             <Picker.Item label="Nissan" value="Nissan" /> 
@@ -85,7 +140,7 @@ export default function postVehicleAdForm() {
                 <View style={{ display: 'flex', flexDirection: 'row',justifyContent: 'space-between', flex:1 }} >
                     <View style={{flex:1}}>
                         <Text style={globalStyles.label}>Vehicle Model</Text>
-                        <Picker style={globalStyles.select}  >
+                        <Picker style={globalStyles.select} onValueChange={(text) => setAd({...ad,model: text})} >
                             <Picker.Item label="Select Model" value="select" /> 
                             <Picker.Item label="Vitz" value="Vitz" /> 
                             <Picker.Item label="Alto" value="Alto" /> 
@@ -93,7 +148,7 @@ export default function postVehicleAdForm() {
                     </View>
                     <View style={globalStyles.label}>
                         <Text style={globalStyles.label}>Body Type</Text>
-                        <Picker style={globalStyles.select}  >
+                        <Picker style={globalStyles.select} onValueChange={(text) => setAd({...ad,bodyType: text})} >
                             <Picker.Item label="Select Body" value="select" /> 
                             <Picker.Item label="Sedan" value="Sedan" /> 
                             <Picker.Item label="Hatchback" value="Hatchback" /> 
@@ -101,11 +156,11 @@ export default function postVehicleAdForm() {
                     </View>
                 </View>
                 <Text style={globalStyles.label}>Description</Text>
-                <TextInput style={globalStyles.input} placeholder='Enter your description' />
+                <TextInput style={globalStyles.textarea} placeholderTextColor="grey" numberOfLines={10} multiline={true} placeholder='Enter your description' onChangeText={(text) => setAd({...ad,description: text})}/>
                 <View style={{ display: 'flex', flexDirection: 'row',justifyContent: 'space-between', flex: 1 }} >
                     <View style={{flex:1}}>
                         <Text style={globalStyles.label}>Location</Text>
-                        <Picker style={globalStyles.select}  >
+                        <Picker style={globalStyles.select} onValueChange={(text) => setAd({...ad,location: text})} >
                             <Picker.Item label="Select Location" value="select" /> 
                             <Picker.Item label="Kandy" value="Kandy" /> 
                             <Picker.Item label="Colombo" value="Colombo" /> 
@@ -113,13 +168,13 @@ export default function postVehicleAdForm() {
                     </View>
                     <View style={{flex:1}}>
                         <Text style={globalStyles.label}>Engine Capacity</Text>
-                        <TextInput placeholder="Enter Capacity(cc)" style={globalStyles.input} />
+                        <TextInput placeholder="Enter Capacity(cc)" style={globalStyles.input} onChangeText={(text) => setAd({...ad,engineCapacity: text})}/>
                     </View>
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row',justifyContent: 'space-between', flex: 1 }} >
                     <View style={{flex:1}}>
                         <Text style={globalStyles.label}>Transmission</Text>
-                        <Picker style={globalStyles.select}  >
+                        <Picker style={globalStyles.select}  onValueChange={(text) => setAd({...ad,transmission: text})}>
                             <Picker.Item label="Select Transmission" value="select" /> 
                             <Picker.Item label="Automatic" value="Automatic" /> 
                             <Picker.Item label="Manual" value="Manual" /> 
@@ -127,7 +182,7 @@ export default function postVehicleAdForm() {
                     </View>
                     <View style={{flex:1}}>
                         <Text style={globalStyles.label}>Fuel Type</Text>
-                        <Picker style={globalStyles.select}  >
+                        <Picker style={globalStyles.select} onValueChange={(text) => setAd({...ad,fuelType: text})} >
                             <Picker.Item label="Select Fuel Type" value="select" /> 
                             <Picker.Item label="Petrol" value="Petrol" /> 
                             <Picker.Item label="Diesel" value="Diesel" /> 
@@ -137,15 +192,15 @@ export default function postVehicleAdForm() {
                 <View style={{ display: 'flex', flexDirection: 'row',justifyContent: 'space-between', flex:1 }} >
                     <View style={{flex:1}}>
                         <Text style={globalStyles.label}>Price</Text>
-                        <TextInput placeholder="Enter Price(Rs.)" style={globalStyles.input} />
+                        <TextInput placeholder="Enter Price(Rs.)" style={globalStyles.input} onChangeText={(text) => setAd({...ad,price: text})}/>
                         <View style={{display:'flex',flexDirection:'row',alignItems: 'center',flex: 1}}>
-                            <RadioButton value='Negotiable' color='#076AE0' />
+                            <RadioButton value='negotiable' status={ad && ad.negotiable ? 'checked' : 'unchecked'} color='#076AE0' onPress={() => setAd({...ad, negotiable: !ad.negotiable})} />
                             <Text>Negotiable</Text>
                         </View>
                     </View>
                     <View style={{flex:1}}>
-                        <Text style={{top: 0, fontWeight: 'bold'}}>Mileage</Text>
-                        <TextInput placeholder="Enter Mileage(km)" style={globalStyles.input} />
+                        <Text style={{top: 0, fontWeight: 'bold'}} >Mileage</Text>
+                        <TextInput placeholder="Enter Mileage(km)" style={globalStyles.input} onChangeText={(text) => setAd({...ad,mileage: text})} />
                     </View>
                 </View>
                 <View >
@@ -153,7 +208,7 @@ export default function postVehicleAdForm() {
                     <Headline style={{fontSize: 18, fontWeight: 'bold'}}>Photos</Headline>
                 <ScrollView horizontal>
                     <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                    {images.length > 0 && images.map(image => 
+                    {pics.length > 0 && pics.map(image => 
                     <View style={{display: 'flex', alignItems: 'flex-end', marginEnd: 10}} >
                     <Icon name='clear' color='red' onPress={removeIcon.bind(this,{ uri: image })} size={36} />
                     <Image source={{ uri: image }} style={{ width: 200, height: 200, padding: 5 }} />
@@ -207,7 +262,7 @@ export default function postVehicleAdForm() {
                     </View>
                 </List.Section>
             </View>
-            <CustButton text='Post Ad' />
+            <CustButton text='Post Ad' onPress={handleSubmit} />
         </ScrollView>
     )
 }

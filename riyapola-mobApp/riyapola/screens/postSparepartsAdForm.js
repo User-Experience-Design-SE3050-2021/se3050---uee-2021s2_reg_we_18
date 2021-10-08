@@ -5,17 +5,18 @@ import { Divider, Headline, Button, RadioButton, List } from 'react-native-paper
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function postSparepartsAdForm() {
 
     const [selectedValue, setSelectedValue] = useState("Select Spare Part Category");
-    const [images, setImages] = useState([]);
+    const [pics, setImages] = useState([]);
     const [isAddPhone, setisAddPhone] = useState(true);
     const [phone, setPhone] = useState(null);
-    const [phones, setPhones] = useState([
-        '077-1234567',
-        '077-2132311',
-    ]);
+    const [phones, setPhones] = useState([]);
+    const [condition, setCondition] = useState('new');
+    const [ad, setAd] = useState(null);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -26,12 +27,52 @@ export default function postSparepartsAdForm() {
                 }
             }
         })();
+        AsyncStorage.getItem('user', (err, result) => {
+            if(result)
+                setUser(JSON.parse(result))
+            else{
+                alert('Please login to publish advertisements')
+                navigation.navigate('login')
+            }
+        })
     }, []);
-
     
     useEffect(() => {
         setPhone(null)
+        ad ? setAd({...ad, contactNumbers: phones}) : null
       }, [phones]);
+      useEffect(() => {
+        ad ? setAd({...ad, images: pics}) : null
+      }, [pics]);
+
+    useEffect(() => {
+        setAd({...ad,condition})
+      }, [condition]);
+
+    useEffect(() => {
+        if(!ad)
+        setAd({
+            negotiable: true,
+            images: [],
+            contactNumbers: [],
+            title: null,
+            description: null,
+            status: "pending",
+            category: null,
+            location: null,
+            condition: "new",
+            delivery: false,
+            price: null,
+            userId: null});
+        else if(!ad.userId){
+              setAd({...ad, userId: user._id})
+              setPhones([...phones, user.phoneNumber])
+      }}, [user]);
+
+    // test onChange
+    useEffect(() => {
+        console.log(ad ? ad : 'test')
+      }, [ad]);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -43,13 +84,13 @@ export default function postSparepartsAdForm() {
         });
 
         if (!result.cancelled) {
-            setImages([...images, result.uri]);
+            setImages([...pics,result.uri]);
         }
     };
 
     const removeIcon = (image) => {
 
-        setImages(images.filter(item => item !== image.uri));
+        setImages(pics.filter(item => item !== image.uri));
     }
 
     return (
@@ -58,37 +99,38 @@ export default function postSparepartsAdForm() {
                 <Text style={globalStyles.topicForm}>Post Your Spare Part Ad</Text>
                 <Text style={globalStyles.label}>Condition</Text>
                 <View style={{ display: 'flex', flexDirection: 'row', flex: 1, alignItems: 'center' }} >
-                    <RadioButton color='#076AE0' status='checked' style={{ flex: 1 }} value='New' />
+                    <RadioButton value='new' color='#076AE0' status={condition === 'new' ? 'checked': 'unchecked'} onPress={() => setCondition('new')} style={{flex:1}} />
                     <Text>New</Text>
-                    <RadioButton color='#076AE0' status='unchecked' style={{ flex: 1 }} value='Used' />
+                    <RadioButton value='used' color='#076AE0' status={condition === 'used' ? 'checked': 'unchecked'} onPress={() => setCondition('used')} style={{flex:1}} />
                     <Text>Used</Text>
-                    <RadioButton color='#076AE0' status='unchecked' style={{ flex: 1 }} value='Recondition' />
+                    <RadioButton value='reconditioned' color='#076AE0' status={condition === 'reconditioned' ? 'checked': 'unchecked'} onPress={() => setCondition('reconditioned')} style={{flex:1}} />
                     <Text>Recondition</Text>
                 </View>
                 <Text style={globalStyles.label}>Spare Part Category</Text>
                 <Picker
-                    selectedValue={selectedValue}
+                    selectedValue={ad && ad.category ? ad.category : 'Select Spare Part Category'}
                     style={globalStyles.input}
-                    onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                    onValueChange={(itemValue, itemIndex) => setAd({...ad, category: itemValue})}
                 >
                     <Picker.Item label="Select Spare Part Category" value="java" />
                     <Picker.Item label="Doors" value="doors" />
                 </Picker>
                 <Text style={globalStyles.label}>Title</Text>
-                <TextInput style={globalStyles.input} placeholder="Post Title" />
+                <TextInput style={globalStyles.input} placeholder="Post Title" onChangeText={(text) => setAd({...ad,title: text})} />
                 <Text style={globalStyles.label}>Description</Text>
                 <TextInput
-                    style={styles.textarea}
+                    style={globalStyles.textarea}
                     placeholder="Type something.."
                     placeholderTextColor="grey"
                     numberOfLines={10}
                     multiline={true}
+                    onChangeText={(text) => setAd({...ad,description: text})}
                 />
                 <Text style={globalStyles.label}>Delivery Available?</Text>
                 <View style={{ display: 'flex', flexDirection: 'row', flex: 1, alignItems: 'center' }}  >
-                    <RadioButton value='Yes' status='checked' style={{ flex: 1 }} color='#076AE0' />
+                    <RadioButton value='yes' status={ad && ad.delivery ? 'checked' : 'unchecked'} color='#076AE0' onPress={() => setAd({...ad, delivery: true})} style={{ flex: 1 }} />
                     <Text>Yes</Text>
-                    <RadioButton value='No' status='unchecked' style={{ flex: 1 }} color='#076AE0' />
+                    <RadioButton value='no' status={ad && !ad.delivery ? 'checked' : 'unchecked'} color='#076AE0' onPress={() => setAd({...ad, delivery: false})} style={{ flex: 1 }} />
                     <Text>No</Text>
                 </View>
                 <Text style={globalStyles.label}>Location</Text>
@@ -96,8 +138,9 @@ export default function postSparepartsAdForm() {
                     <View>
                         <Text style={globalStyles.label}>District</Text>
                         <Picker
-                            selectedValue={selectedValue}
+                            selectedValue={ad && ad.location ? ad.location : null}
                             style={globalStyles.select}
+                            onValueChange={(text) => setAd({...ad,location: text})}
                         >
                             <Picker.Item label="Your District" value="" />
                             <Picker.Item label="Colombo" value="colombo" />
@@ -121,10 +164,10 @@ export default function postSparepartsAdForm() {
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
                     <View style={{ flex: 1 }}>
                         <Text style={globalStyles.label}>Price</Text>
-                        <TextInput placeholder="Rs." style={globalStyles.input} />
+                        <TextInput placeholder="Rs." style={globalStyles.input} onChangeText={(text) => setAd({...ad,price: text})} />
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-                        <RadioButton value='Negotiable' color='#076AE0' status='checked' />
+                        <RadioButton  value='negotiable' status={ad && ad.negotiable ? 'checked' : 'unchecked'} color='#076AE0' onPress={() => setAd({...ad, negotiable: !ad.negotiable})} />
                         <Text>Negotiable</Text>
                     </View>
                 </View>
@@ -133,7 +176,7 @@ export default function postSparepartsAdForm() {
                     <Headline style={{ fontSize: 18, fontWeight: 'bold' }}>Photos</Headline>
                     <ScrollView horizontal>
                         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                            {images.length > 0 && images.map(image =>
+                        {pics.length > 0 && pics.map(image => 
                                 <View style={{ display: 'flex', alignItems: 'flex-end', marginEnd: 10 }} >
                                     <Icon name='clear' color='red' onPress={removeIcon.bind(this, { uri: image })} size={36} />
                                     <Image source={{ uri: image }} style={{ width: 200, height: 200, padding: 5 }} />
@@ -201,15 +244,6 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         marginBottom: 10,
         color: "#000"
-    },
-    textarea: {
-        height: 100,
-        borderColor: "#076AE0",
-        borderRadius: 8,
-        borderWidth: 1,
-        marginBottom: 10,
-        justifyContent: 'flex-start',
-        textAlignVertical: 'top'
     }
 
 })
