@@ -9,18 +9,24 @@ const optionsPerPage = [2, 3, 4];
 
 const vehicleAdActions = ({ navigation }) => {
     const [page, setPage] = useState(0);
-    const [approved, setApproved] = useState({
-        "0": "unchecked",
-        "1": "unchecked",
-        "2": "checked",
-        "3": "checked"
-    });
+    // const [approved, setApproved] = useState({
+    //     "0": "unchecked",
+    //     "1": "unchecked",
+    //     "2": "checked",
+    //     "3": "checked"
+    // });
     const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
 
-    const [vehicle, setVehicle] = useState({});
+    const [vehicle, setVehicle] = useState([]);
+    const [approved, setApproved] = useState({
+        id: ""
+    })
 
     // useEffect(() => {
-    //     axios.get()
+    //     axios.get('https://riyapola.herokuapp.com/vehicle').then((res) => {
+    //         console.log(res.data)
+    //         setSpareparts(res.data)
+    //     })
     // },[])
 
     useEffect(() => {
