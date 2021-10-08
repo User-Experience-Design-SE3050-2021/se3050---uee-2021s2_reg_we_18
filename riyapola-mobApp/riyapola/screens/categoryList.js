@@ -30,9 +30,9 @@ export default function categoryList({ navigation }) {
   };
 
   return (
-    <View style={{display:'flex', padding:20,flexDirection:'column',backgroundColor:'#e8f3ff'}}>
+    <View style={{display:'flex', padding:20,flexDirection:'column',backgroundColor:'white'}}>
       <View style={style.addNewOuter}>
-        <Text style={style.headerTextCategory}>List Of Categories</Text>
+        <Text style={style.headerTextCategory}>LIST OF CATEGORIES</Text>
         <TouchableOpacity
           style={style.addNewBtn}
           onPress={() => onPressNewCategory()}
@@ -85,7 +85,7 @@ export default function categoryList({ navigation }) {
         {dataSet.map((value, index) => {
           return (
             <View style={style.listViewCard} key={index}>
-              <Text style={style.listTableText}>{value.mainName}</Text>
+              <Text style={style.listTableText}>{value.mainName.toUpperCase()}</Text>
               <View style={style.twoButtonOuter}>
                 <TouchableOpacity
                   style={style.updateBtn}
@@ -149,19 +149,17 @@ const style = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     marginTop: 10,
-    // borderWidth:1,
+    borderWidth:1,
     borderRadius: 10,
-    // padding:10,
     borderColor: "#77edaa",
-    backgroundColor: "white",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 3
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 4,
+    
   },
   twoButtonOuter: {
     display: "flex",
@@ -170,14 +168,15 @@ const style = StyleSheet.create({
     marginBottom: 10,
   },
   listTableText: {
-    marginBottom: 20,
+    marginBottom: 5,
     marginTop: 5,
     fontSize: 25,
     marginLeft: 10,
+    color:'#24a1a6'
   },
   updateBtn: {
     alignItems: "center",
-    backgroundColor: "#3388ff",
+    backgroundColor: "#24a665",
     padding: 10,
     borderRadius: 5,
     marginRight: 20,
@@ -188,7 +187,7 @@ const style = StyleSheet.create({
   },
   deleteBtn: {
     alignItems: "center",
-    backgroundColor: "#ff3333",
+    backgroundColor: "#994b58",
     padding: 10,
     borderRadius: 5,
     marginRight: 20,
@@ -199,11 +198,12 @@ const style = StyleSheet.create({
   },
   headerTextCategory: {
     fontSize: 25,
-    textAlign: "center",
+    textAlign: "left",
+    color:"#24a1a6"
   },
   addNewBtn: {
     alignItems: "center",
-    backgroundColor: "#0d4db5",
+    backgroundColor: "#24a669",
     padding: 10,
     borderRadius: 5,
     marginRight: 20,
