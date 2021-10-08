@@ -2,12 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { View, TextInput, Text, Picker, Image, Platform } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler'
 import { globalStyles } from '../styles/global';
-import { Divider, Headline, RadioButton } from 'react-native-paper';
+import { Divider, Headline, RadioButton, List } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
 import CustButton from '../shared/button';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function postVehicleAdForm() {
+
+    const [images, setImages] = useState([]);
+    const [isAddPhone, setisAddPhone] = useState(true);
+    const [phone, setPhone] = useState(null);
+    const [phones, setPhones] = useState([
+        '077-1234567',
+        '077-2132311',
+    ]);
 
     useEffect(() => {
         (async () => {
@@ -20,18 +28,9 @@ export default function postVehicleAdForm() {
         })();
       }, []);
 
-      const [images, setImages] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'web') {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
-        }
-      }
-    })();
-  }, []);
+    useEffect(() => {
+        setPhone(null)
+      }, [phones]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -168,6 +167,45 @@ export default function postVehicleAdForm() {
                     </View>
                 </ScrollView>
                 </View>
+                <Divider style={{height: 3, marginTop: 5}} />
+                <Headline style={{ fontSize: 18, fontWeight: 'bold' }}>Contact Numbers</Headline>
+                {!isAddPhone ? <View style={{ flex: 1 }} >
+                    <Text style={{ top: 0, fontWeight: 'bold' }} >Phone</Text>
+                    <View style={{display:'flex', flexDirection: 'row', alignItems: 'baseline'}}>
+                    <TextInput placeholder="Enter Phone Number" onChangeText={setPhone} style={globalStyles.input} />
+                        <Icon
+                            name='plus-square'
+                            type='font-awesome'
+                            color='#076AE0'
+                            size={44}
+                            onPress={() => {
+                                if (phone && phone.length >= 10) {
+                                    setisAddPhone(true)
+                                    setPhones([...phones, phone])
+                                }
+                                else
+                                    alert('Invalid Phone Number')
+                            }}
+                            style={{ alignSelf: '' }}
+                        />
+                    </View>
+                </View> : null}
+                <List.Section style={{backgroundColor: '#fff', borderRadius: 12, elevation: 5 }} >
+                    {phones ? phones.map((phone) => {
+                        return (<List.Item title={phone}  style={{padding: 0, marginBottom: -15}} left={() => <List.Icon color="#076AE0" icon="phone" />} right={() => <List.Icon color="red" icon="minus-circle" />} onPress={() => setPhones(phones.filter(item => item !== phone))} />)
+                    }): null}
+                    <View style={{display: 'flex',flexDirection: 'row',alignItems: 'center', padding: 10, justifyContent: 'flex-end'} } >
+                    <Text style={{color: '#076AE0', marginEnd: 5}} >Add another phone number</Text>
+                    <Icon
+                        name='plus-circle'
+                        type='font-awesome'
+                        color='#076AE0'
+                        size={36}
+                        onPress={() => setisAddPhone(false)}
+                        disabled={!isAddPhone}
+                        />
+                    </View>
+                </List.Section>
             </View>
             <CustButton text='Post Ad' />
         </ScrollView>
