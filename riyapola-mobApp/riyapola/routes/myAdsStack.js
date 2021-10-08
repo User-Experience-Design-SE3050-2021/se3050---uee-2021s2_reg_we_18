@@ -1,5 +1,4 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import home from '../screens/home';
 // import allAds from '../screens/allAds';
 // import postAd from '../screens/postAd';
 import React from 'react';
