@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View } from 'react-native'
 import { Headline, Caption, Title, Card, Paragraph, Divider, ActivityIndicator } from 'react-native-paper';
 import { Icon, Button } from 'react-native-elements'
 import { SliderBox } from 'react-native-image-slider-box';
@@ -7,10 +7,23 @@ import { globalStyles } from '../styles/global';
 import { ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
 import * as Linking from 'expo-linking';
+import Svg, { Rect } from 'react-native-svg';
+import ContentLoader from 'react-native-masked-loader';
 
+  function getMaskedElement() {
+    return (
+      <Svg height={250} width="100%" fill={'black'} >
+        <Rect x="20" y="5" rx="9" ry="9" width="90%" height="100%" />
+      </Svg>
+    );
+  }
+  
 export default function vehicleDetail({ navigation, route }) {
 
     const [Ad, setAd] = useState(null)
+    const [images, setImages] = useState([])
+
+    const MaskedElement = getMaskedElement();
 
     useEffect(() => {
         axios.get(`https://riyapola.herokuapp.com/vehicle/${route.params}`).then(res => {
@@ -19,22 +32,24 @@ export default function vehicleDetail({ navigation, route }) {
     }, [])
 
     useEffect(() => {
+
         if(Ad && !Ad.seller)
         axios.get(`https://riyapola.herokuapp.com/user/${Ad.userId}`).then(res => {
             setAd({...Ad, seller: res.data})
         }).catch(err => alert('error retirieving ad'))
+        else if(Ad && Ad.seller){
+            let imgs = []
+            Ad.images.forEach((element, index) => {
+                imgs.push({uri:'data:image/jpeg;base64,'+element})
+                Ad.images.length - 1 === index ? setImages(imgs) : null
+            });
+        }
     }, [Ad])
-
-    const image = [
-        "https://source.unsplash.com/1024x768/?nature",
-        "https://source.unsplash.com/1024x768/?water",
-        "https://source.unsplash.com/1024x768/?tree"
-    ]
 
     return (
         <ScrollView>
             {Ad ? <View>
-                <SliderBox images={image}
+                {images.length > 0 ? <SliderBox images={images ? images : []}
                     sliderBoxHeight={250}
                     dotColor="#076AE0"
                     inactiveDotColor="#FFFFFF"
@@ -42,7 +57,7 @@ export default function vehicleDetail({ navigation, route }) {
                     circleLoop
                     ImageComponentStyle={{ width: '90%', marginTop: 10 }}
                     imageLoadingColor="#076AE0"
-                />
+                /> : <ContentLoader MaskedElement={MaskedElement}/> }
                 <View style={globalStyles.container}>
                     <View style={{ display: 'flex', flexDirection: 'row' }}>
                         <Headline style={{ fontWeight: 'bold', fontSize: 30, color: '#076AE0' }}>Rs. {Ad.price}/=</Headline>
