@@ -29,7 +29,7 @@ export default function landingPage({ navigation }) {
       }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <Avatar.Text
-          style={{ width: 200, marginTop: 20, marginLeft: "20%"}}
+          style={{ marginTop: 20, alignSelf:"center",width:"auto",padding:10 }}
           size={34}
           label="Select a Vehicle Category"
         />
