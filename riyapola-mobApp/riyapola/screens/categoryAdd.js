@@ -13,36 +13,68 @@ import { globalStyles } from "../styles/global";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 import CategoryTabs from "../shared/categoryTabs";
-import { MaterialIcons } from '@expo/vector-icons'
+import { MaterialIcons } from "@expo/vector-icons";
+import axios from "axios";
 
 // import Button from '../shared/button';
 
 export default function addCategory() {
-
   const [selectedValue, setSelectedValue] = useState("Vehicles");
-  const [category,setCategory] = useState(null);
-  const [categoryName,setCategoryName] = useState(null);
-  const [make,setMake] = useState(null);
-  console.log('make: ', make);
+  const [category, setCategory] = useState(null);
+  const [categoryName, setCategoryName] = useState(null);
+  const [makeArray, setMake] = useState(null);
   const [inputValues, setInputValues] = useState({
-    makeArray: []
+    type: "",
+    make: [],
   });
 
-  console.log('inputValues: ', inputValues);
-
   const addMakeToArray = () => {
+    setInputValues({ ...inputValues, make:Array.from(new Set( [...inputValues.make, makeArray])) });
+  };
 
-    setInputValues({...inputValues,makeArray:[...inputValues.makeArray,make]})
-  }
+  //Array.from(new Set([...this.state.vehicleMake, e.target.textContent])); 
+
+  const removeMakeToArray = () => {
+    setInputValues({ ...inputValues, make: [] });
+  };
 
   const deleteMake = (index) => {
-    console.log('index: ', index);
-    let vehicleMake = inputValues.makeArray;
-    vehicleMake.splice(index,1);
-    console.log('vehicleMake: ', vehicleMake);
-    setInputValues({...inputValues,makeArray:vehicleMake})
-  }
-  
+    let vehicleMake = inputValues.make;
+    vehicleMake.splice(index, 1);
+    setInputValues({ ...inputValues, make: vehicleMake });
+  };
+
+  const handleSubmit = () => {
+    let submitForm = inputValues;
+
+    submitForm.type = selectedValue;
+
+    if (submitForm.mainName == undefined || submitForm.mainName == "") {
+      alert("Please enter a category Main Name");
+    } else if (
+      submitForm.mainDescription == undefined ||
+      submitForm.mainDescription == ""
+    ) {
+      alert("Please enter a category Main Description");
+    } else if (submitForm.make.length === 0) {
+      alert("Please enter at least one vehicle Make");
+    } else {
+      axios
+        .post("https://riyapola.herokuapp.com/category", submitForm)
+        .then((res) => {
+          if (res.status === 200) {
+            alert("Category Added Successfully!");
+            setInputValues({
+              type: "",
+              make: [],
+            });
+          } else {
+            alert("Add Category Failed");
+          }
+        });
+    }
+  };
+
   return (
     <View style={globalStyles.categoryAddContainer}>
       {/* <View style={{ flex: 1 }}> */}
@@ -69,27 +101,44 @@ export default function addCategory() {
           <Picker.Item label="Spare Parts" value="Spare Parts" />
         </Picker>
 
-        <Text style={style.inputText}>Category Name</Text>
-        <TextInput style={style.input} placeholder="Select a Category Name" onChangeText={(text) => setInputValues({...inputValues,categoryName:text})}/>
-
-        <Text style={style.inputText}>Child Category Name</Text>
+        <Text style={style.inputText}>Main Name</Text>
         <TextInput
           style={style.input}
-          placeholder="Select a Child Category Name"
-           onChangeText={(text) => setInputValues({...inputValues,childCategoryName:text})}
+          placeholder="Select a Category Name"
+          onChangeText={(text) =>
+            setInputValues({ ...inputValues, mainName: text })
+          }
+        />
+
+        <Text style={style.inputText}>Main Description</Text>
+        <TextInput
+          style={style.input}
+          placeholder="Add a main description"
+          onChangeText={(text) =>
+            setInputValues({ ...inputValues, mainDescription: text })
+          }
         />
         <Text style={style.inputText}>Vehicle Make</Text>
-        <TextInput style={style.input} placeholder="Select a Vehicle Make" onChangeText={(text) => setMake(text)}/>
+        <TextInput
+          style={style.input}
+          placeholder="Select a Vehicle Make"
+          onChangeText={(text) => setMake(text)}
+        />
 
         <View style={style.buttonWrapper}>
           <View style={style.button}>
-            <Button title="Add Make" color="#841584" onPress={() => addMakeToArray()}/>
+            <Button
+              title="Add Make"
+              color="#841584"
+              onPress={() => addMakeToArray()}
+            />
           </View>
           <View style={style.button}>
-            <Button title="Select All" color="#841584" />
-          </View>
-          <View style={style.button}>
-            <Button title="Remove All" color="#841584" />
+            <Button
+              title="Remove All Make"
+              color="#841584"
+              onPress={() => removeMakeToArray()}
+            />
           </View>
         </View>
 
@@ -98,46 +147,55 @@ export default function addCategory() {
           nestedScrollEnabled={true}
           showsVerticalScrollIndicator={false}
         >
-          {  inputValues.makeArray.length !== 0 ?
-            inputValues.makeArray.map((make, index) => {
-             return <View
-                key={index}
-                style={{
-                  marginLeft: 30,
-                  marginTop: 15,
-                  marginRight: 10,
-                  width: 230,
-                  display:"flex",
-                  flexDirection:"row",
-                  justifyContent:"space-around"
-                }}
-              >
-                <View style={{width:200}}>
-                <Button title={make} color="blue" />
+          {inputValues.make.length !== 0 ? (
+            inputValues.make.map((make, index) => {
+              return (
+                <View
+                  key={index}
+                  style={{
+                    marginLeft: 30,
+                    marginTop: 15,
+                    marginRight: 10,
+                    width: 230,
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                  }}
+                >
+                  <View style={{ width: 200 }}>
+                    <Button title={make} color="blue" />
+                  </View>
+                  <MaterialIcons
+                    name="delete-outline"
+                    size={28}
+                    onPress={() => deleteMake(index)}
+                    color={"red"}
+                  />
                 </View>
-                <MaterialIcons name="delete-outline" size={28} onPress={() => deleteMake(index)} color={"red"}/>
-
-              </View>
-
+              );
             })
-            :
+          ) : (
             <View
-                // key={index}
-                style={{
-                  marginLeft: 30,
-                  marginTop: 15,
-                  marginRight: 10,
-                  width: 230,
-                }}
-              >
-                {/* <MaterialIcons name="delete-outline" size={28} /> */}
-                <Button title="No Makes Available" color="blue" />
-              </View>
-          }
+              // key={index}
+              style={{
+                marginLeft: 30,
+                marginTop: 15,
+                marginRight: 10,
+                width: 230,
+              }}
+            >
+              {/* <MaterialIcons name="delete-outline" size={28} /> */}
+              <Button title="No Makes Available" color="blue" />
+            </View>
+          )}
         </ScrollView>
 
         <View style={style.button}>
-          <Button title="Add Category" color="orange" />
+          <Button
+            title="Add Category"
+            color="orange"
+            onPress={() => handleSubmit()}
+          />
         </View>
       </ScrollView>
     </View>
