@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -13,102 +13,124 @@ import { globalStyles } from "../styles/global";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 import CategoryTabs from "../shared/categoryTabs";
-import { Avatar, Paragraph  } from "react-native-paper";
+import { Avatar, Paragraph } from "react-native-paper";
 import Tabs from "../shared/Tabs";
+import axios from "axios";
 
 export default function landingPage({ navigation }) {
+
+  const [categories, setCategories] = useState([]);
+  
+  useEffect(() => {
+    axios.get("https://riyapola.herokuapp.com/category").then((res) => {
+      setCategories(res.data);
+    })
+  },[])
+  
+  console.log('categories: ', categories);
+
+
   return (
     <View>
-      <Tabs pageIndex={0} navigation={navigation} style={{flex:1}} />
-      <View 
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "white",
-        padding: 5,
-      }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <Avatar.Text
-          style={{ marginTop: 20, alignSelf:"center",width:"auto",padding:10 }}
-          size={34}
-          label="Select a Vehicle Category"
-        />
-
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        nestedScrollEnabled={true}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        <Tabs pageIndex={0} navigation={navigation} style={{ flex: 1 }} />
         <View
           style={{
             display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            margin: 15,
+            flexDirection: "column",
+            backgroundColor: "white",
+            padding: 5,
           }}
         >
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Car</Text>
-          </TouchableOpacity>
+          <ScrollView 
+          contentContainerStyle={{ flexGrow: 1 }}
+          nestedScrollEnabled={true}
+          >
+            <Avatar.Text
+              style={{
+                marginTop: 20,
+                alignSelf: "center",
+                width: "auto",
+                padding: 20,
+                backgroundColor:"white",
+                borderWidth:1,
+                borderColor:"#123875",
+                // color:"#123875"
+                
+              }}
+              size={34}
+              label=" Vehicles "
+            />
 
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Bus</Text>
-          </TouchableOpacity>
-        </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                margin: 15,
+              }}
+            >
+              {
+                categories
+                  .filter((val) =>
+                   val.type == "Vehicles")
+                  .slice(0,4)
+                  .map((data,index) => 
+                    <TouchableOpacity style={style.mainCategories} key={index}>
+                    <Text style={style.mainCatText}>{data.mainName}</Text>
+                  </TouchableOpacity>
+                  )
+              }
 
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            margin: 15,
-          }}
-        >
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Van</Text>
-          </TouchableOpacity>
+            </View>  
 
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Lorry</Text>
-          </TouchableOpacity>
-        </View>
 
-        <Avatar.Text
-          style={{ width: 250, marginTop: 20, marginLeft: "15%" }}
-          size={34}
-          label="Select a Spare Parts Category"
-        />
 
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            margin: 15,
-          }}
-        >
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Headlight</Text>
-          </TouchableOpacity>
+            <Avatar.Text
+              style={{
+                marginTop: 20,
+                alignSelf: "center",
+                width: "auto",
+                padding: 20,
+                backgroundColor:"white",
+                borderWidth:1,
+                borderColor:"#123875",
+                // color:"#123875"
+                
+              }}
+              size={34}
+              label="Spare Parts"
+            />
 
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Brakepad</Text>
-          </TouchableOpacity>
-        </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                margin: 15,
+              }}
+            >
+             {
+                categories
+                  .filter((val) =>
+                   val.type == "Spare Parts")
+                  .slice(0,4)
+                  .map((data,index) => 
+                    <TouchableOpacity style={style.mainCategories} key={index}>
+                    <Text style={style.mainCatText}>{data.mainName}</Text>
+                  </TouchableOpacity> //#125675 //#751244
+                  )
+              }
+            </View>
 
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            margin: 15,
-          }}
-        >
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Water Pump</Text>
-          </TouchableOpacity>
+            
 
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Viper</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* <Avatar.Text
+            {/* <Avatar.Text
           style={{ width: 400, marginTop: 20, marginLeft:20,marginRight:20,height:55 }}
           size={34}
           label="Sometimes dealerships tend to focus more on developing from the inside-out, 
@@ -117,8 +139,9 @@ export default function landingPage({ navigation }) {
           But where is the focus on putting your nose down and actively searching for better leads?
            The only way a successful business can run is by being on the prowl for new customers"
         /> */}
+          </ScrollView>
+        </View>
       </ScrollView>
-    </View>
     </View>
   );
 }
@@ -162,8 +185,8 @@ const style = StyleSheet.create({
   },
   mainCategories: {
     borderColor: "#77edaa",
-    backgroundColor: "#000",
-    shadowColor: "#000",
+    backgroundColor: "#125675",
+    // shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -174,21 +197,23 @@ const style = StyleSheet.create({
     marginTop: 10,
     // borderWidth:1,
     borderRadius: 10,
-    width: 150,
-    height: 80,
+    maxWidth:"100%",
+    minWidth:"100%",
+    height: 50,
   },
   mainCatText: {
-    lineHeight: 80,
+    lineHeight: 50,
+    letterSpacing:3,
     textAlign: "center",
-    fontSize: 20,
+    fontSize: 23,
     // fontWeight:"bold",
     color: "white",
     // fontFamily:"Cochin",
-    textShadowColor: "white",
-    textShadowOffset: {
-      width: 1,
-      height: 1,
-    },
-    textShadowRadius: 6,
+    // textShadowColor: "white",
+    // textShadowOffset: {
+    //   width: 1,
+    //   height: 1,
+    // },
+    // textShadowRadius: 6,
   },
 });
