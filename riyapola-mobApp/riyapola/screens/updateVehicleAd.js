@@ -7,6 +7,7 @@ import { Icon } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from 'axios';
+import { districts } from '../utils/districts';
 
 export default function updateVehicleAd() {
 
@@ -18,6 +19,7 @@ export default function updateVehicleAd() {
     const [ad, setAd] = useState(null);
     const [user, setUser] = useState(null);
     const [actionWaiting, setactionWaiting] = useState(false);
+    const [dist, setDist] = useState(districts);
 
     useEffect(() => {
 
@@ -162,8 +164,11 @@ export default function updateVehicleAd() {
                         <Text style={globalStyles.label}>Location</Text>
                         <Picker style={globalStyles.select} selectedValue={ad && ad.location ? ad.location : null} onValueChange={(text) => setAd({ ...ad, location: text })} >
                             <Picker.Item label="Select Location" value="select" />
-                            <Picker.Item label="Kandy" value="Kandy" />
-                            <Picker.Item label="Colombo" value="Colombo" />
+                            {dist ? dist.map((dist) => {
+                                return (
+                                    <Picker.Item label={dist} value={dist} />
+                                )
+                            }) : null}
                         </Picker>
                     </View>
                     <View style={{ flex: 1 }}>
