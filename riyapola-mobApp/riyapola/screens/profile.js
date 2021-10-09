@@ -35,31 +35,31 @@ export default function profile({navigation}) {
     //         console.log(error.message);
     //     }
     // }'
-    const [id, setId] = useState("")
-    const [user, setUser] = useState({
-      name : "",
-      email : "",
-      password : "",
-      type : "buyerseller",
-      phoneNumber :"",
-      wishList:[],
-      image:[]
-  });
+    const [id, setId] = useState(null)
+    const [user, setUser] = useState(null);
   useEffect(() => {
     AsyncStorage.getItem('user', (err, result) => {
       console.log(result);
-      result =JSON.parse(result);
-      setUser({
-        name : result.name,
-        email :result.email,
-        password : result.password,
-        type : result.type,
-        phoneNumber :result.phoneNumber,
-        wishList:result.wishList,
-        image:result.image
-        })
+      if(result){
+      setUser(JSON.parse(result))
+      // setUser({
+      //   name : result.name,
+      //   email :result.email,
+      //   password : result.password,
+      //   type : result.type,
+      //   phoneNumber :result.phoneNumber,
+      //   wishList:result.wishList,
+      //   image:result.image
+      //   }
         console.log("resultuser",user);
       setId(result._id)
+    }
+  else{
+      alert('Please login to see the profile')
+      navigation.navigate('login')
+  }
+      // result =JSON.parse(result);
+     
       // setAccount({
       //     ...account,
       //     userId:user._id
@@ -135,6 +135,7 @@ export default function profile({navigation}) {
     
           // resolve(res.data);
           AsyncStorage.removeItem('user');
+          setUser(null);
           navigation.navigate('signup');
            
       }).catch(err=>{

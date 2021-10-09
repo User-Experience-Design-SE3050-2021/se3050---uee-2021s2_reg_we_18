@@ -8,7 +8,6 @@ import UserStack from './userStack'
 import myAdsStack from './myAdsStack';
 import React, { useState ,useEffect} from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View } from 'react-native';
 const RootDrawerNavigator = createDrawerNavigator();
 
 export default function NavDrawer(){
