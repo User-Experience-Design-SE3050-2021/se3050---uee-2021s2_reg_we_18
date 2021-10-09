@@ -30,7 +30,11 @@ export default function addCategory() {
   const [btndisable,setBtnDisable] = useState(false);
 
   const addMakeToArray = () => {
-    setInputValues({ ...inputValues, make:Array.from(new Set( [...inputValues.make, makeArray])) });
+    if(makeArray){
+      setInputValues({ ...inputValues, make:Array.from(new Set( [...inputValues.make, makeArray])) });
+    }else{
+      alert('Please enter a make')
+    }
   };
 
   //Array.from(new Set([...this.state.vehicleMake, e.target.textContent])); 
@@ -134,14 +138,14 @@ export default function addCategory() {
           <View style={style.button}>
             <Button
               title="Add Make"
-              color="#841584"
+              color="#125675"
               onPress={() => addMakeToArray()}
             />
           </View>
           <View style={style.button}>
             <Button
               title="Remove All Make"
-              color="#841584"
+              color="#125675"
               onPress={() => removeMakeToArray()}
             />
           </View>
@@ -168,7 +172,7 @@ export default function addCategory() {
                   }}
                 >
                   <View style={{ width: 200 }}>
-                    <Button title={make} color="blue" />
+                    <Button title={make} color="#123875" />
                   </View>
                   <MaterialIcons
                     name="delete-outline"
@@ -190,7 +194,7 @@ export default function addCategory() {
               }}
             >
               {/* <MaterialIcons name="delete-outline" size={28} /> */}
-              <Button title="No Makes Available" color="blue" />
+              <Button title="No Makes Available" color="black" />
             </View>
           )}
         </ScrollView>
@@ -198,7 +202,7 @@ export default function addCategory() {
         <View style={style.button}>
           <Button
             title="Add Category"
-            color="orange"
+            color="#751244"
             onPress={() => handleSubmit()}
             disabled={btndisable}
           />
@@ -211,7 +215,7 @@ export default function addCategory() {
 const style = StyleSheet.create({
   input: {
     borderWidth: 1,
-    borderColor: "#777",
+    borderColor: "#751244", //"#777",
     padding: 8,
     marginTop: 5,
     width: 290,
