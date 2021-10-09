@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, ActivityIndicator } from 'react-native';
+import { ScrollView, View, ActivityIndicator, Text } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 import { Button, Checkbox, DataTable, Headline } from 'react-native-paper';
 import AdminTabs from '../shared/AdminTabs';
@@ -22,15 +22,21 @@ const vehicleAdActions = ({ navigation }) => {
         id: ""
     })
     const [bulkApprove, setBulkApprove] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        setLoading(true)
         axios.get('https://riyapola.herokuapp.com/vehicle/pending/ads').then((res) => {
             console.log(res.data)
             setVehicle(res.data)
-            setLoading(false);
+            
         })
     }, [])
+
+    useEffect(() => {
+        if(loading)
+         setLoading(false);
+    }, [vehicle])
 
     const singleAdApprove = (id) => {
         axios.put(`https://riyapola.herokuapp.com/vehicle/${id}`,{status: "published"}).then((res) => {
@@ -59,6 +65,7 @@ const vehicleAdActions = ({ navigation }) => {
         <View>
             <AdminTabs navigation={navigation} pageIndex={0} />
             <Headline style={{ fontSize: 18, alignSelf: 'center', fontWeight: 'bold', padding: 20 }}>Approve/Reject vehicle Advertisements</Headline>
+            
             {vehicle.length != 0 ?
                 <ScrollView horizontal>
                     <DataTable>
@@ -91,7 +98,7 @@ const vehicleAdActions = ({ navigation }) => {
                             optionsLabel={'Rows per page'}
                         />
                     </DataTable>
-                </ScrollView> : <ActivityIndicator  animating={loading} size="large" color="#0000ff"/>}
+                </ScrollView> : loading ? <ActivityIndicator  animating={loading} size="large" color="#0000ff"/> : <Text>No Pending Ads</Text>}
             <Button color='#076AE0' mode="contained" style={{ maxWidth: 200, alignSelf: 'flex-end', marginEnd: 10 }} onPress={() => submitBulk()} >Bulk Approve</Button>
         </View>
     );
