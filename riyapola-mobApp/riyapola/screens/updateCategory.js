@@ -149,14 +149,14 @@ export default function updateCategory({route,navigation}) {
           <View style={style.button}>
             <Button
               title="Add Make"
-              color="#841584"
+              color="#125675"
               onPress={() => addMakeToArray()}
             />
           </View>
           <View style={style.button}>
             <Button
               title="Remove All Make"
-              color="#841584"
+              color="#125675"
               onPress={() => removeMakeToArray()}
             />
           </View>
@@ -183,7 +183,7 @@ export default function updateCategory({route,navigation}) {
                   }}
                 >
                   <View style={{ width: 200 }}>
-                    <Button title={make} color="blue" />
+                    <Button title={make} color="#123875" />
                   </View>
                   <MaterialIcons
                     name="delete-outline"
@@ -205,7 +205,7 @@ export default function updateCategory({route,navigation}) {
               }}
             >
               {/* <MaterialIcons name="delete-outline" size={28} /> */}
-              <Button title="No Makes Available" color="blue" />
+              <Button title="No Makes Available" color="black" />
             </View>
           )}
         </ScrollView>
@@ -213,7 +213,7 @@ export default function updateCategory({route,navigation}) {
         <View style={style.button}>
           <Button
             title="Update Category"
-            color="orange"
+            color="#751244"
             onPress={() => handleSubmit()}
             disabled={btndisable}
           />
