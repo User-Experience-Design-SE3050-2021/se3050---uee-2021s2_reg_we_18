@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Tab } from 'react-native-elements';
-import { StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
 export default function myAdsTab({ pageIndex, navigation }) {
 
@@ -24,15 +24,11 @@ export default function myAdsTab({ pageIndex, navigation }) {
     },[index])
 
     return (
-        <Tab value={index} onChange={tabSelected} style={styles.tabContainer}>
-            <Tab.Item title="Vehicle" />
-            <Tab.Item title="SpareParts" />
+        <View style={{backgroundColor: '#076AE0'}}>
+        <Tab value={index} onChange={tabSelected} >
+            <Tab.Item title="Vehicle" titleStyle={{color: 'white'}} />
+            <Tab.Item title="SpareParts" titleStyle={{color: 'white'}} />
         </Tab>
+        </View>
     )
 }
-
-const styles = StyleSheet.create({
-    tabContainer: {
-        backgroundColor: '#076AE0'
-    }
-})

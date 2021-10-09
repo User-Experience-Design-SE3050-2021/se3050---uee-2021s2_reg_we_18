@@ -22,7 +22,7 @@ const sparepartsAdActions = ({ navigation }) => {
     });
 
     React.useEffect(() => {
-        axios.get('https://riyapola.herokuapp.com/spareparts/').then((res) => {
+        axios.get('https://riyapola.herokuapp.com/spareparts/pending/ads').then((res) => {
             console.log(res.data[0])
             setSpareparts(res.data)
         })

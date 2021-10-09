@@ -6,6 +6,7 @@ import CategoryStack from './categoryStack';
 import AdminStack from './AdminStack';
 import UserStack from './userStack'
 import myAdsStack from './myAdsStack';
+import AllAdsStack from './AllAdsStack'
 import React, { useState ,useEffect} from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const RootDrawerNavigator = createDrawerNavigator();
@@ -49,7 +50,7 @@ export default function NavDrawer(){
             <RootDrawerNavigator.Screen name="Ads Management" component={AdminStack} />
           {/* {id} */}
              <RootDrawerNavigator.Screen name="User Profile" component={UserStack} />
-            <RootDrawerNavigator.Screen name="My Ads" component={myAdsStack} />
+             <RootDrawerNavigator.Screen name="My Ads" component={myAdsStack} />
         
            
         </RootDrawerNavigator.Navigator>

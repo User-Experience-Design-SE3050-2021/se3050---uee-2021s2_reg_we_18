@@ -23,7 +23,7 @@ const vehicleAdActions = ({ navigation }) => {
     })
 
     useEffect(() => {
-        axios.get('https://riyapola.herokuapp.com/vehicle').then((res) => {
+        axios.get('https://riyapola.herokuapp.com/vehicle/pending/ads').then((res) => {
             console.log(res.data)
             setVehicle(res.data)
         })

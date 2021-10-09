@@ -4,6 +4,8 @@ import { Card, Title, Headline } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
 import { globalStyles } from '../styles/global';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import Filter from '../shared/Fliter';
+import AllAdsTabs from '../shared/allAdsTabs';
 
 export default function allSparepartAds({navigation}) {
 
@@ -14,6 +16,9 @@ export default function allSparepartAds({navigation}) {
     ])
 
     return (
+        <View style={{flex:1}}>
+        <AllAdsTabs pageIndex={1} navigation={navigation} style={{flex:1}}/>
+        <Filter title="SpareParts" style={{flex:1}}/>
         <FlatList
             data={sparepartsAds}
             style={globalStyles.card}
@@ -33,5 +38,6 @@ export default function allSparepartAds({navigation}) {
                 </TouchableOpacity>
             )}
         />
+        </View>
     )
 }
