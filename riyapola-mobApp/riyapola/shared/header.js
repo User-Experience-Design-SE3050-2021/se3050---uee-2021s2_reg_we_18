@@ -3,12 +3,19 @@ import { StyleSheet, Text, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function header({ navigation, title }) {
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState(null)
      useEffect(() => {
             AsyncStorage.getItem('user', (err, result) => {
                 console.log("result in header",result);
-                result =JSON.parse(result);
-                setUser({...result})
+                if(result)
+                setUser(JSON.parse(result))
+            else{
+                // alert('Please login to publish advertisements')
+                // navigation.navigate('login')
+                setUser(null)
+            }
+            //    { result ? setUser({...result}) :}
+                console.log("useefect in header user ",user)
             })
      }, [])
     const openMenu = () => {
@@ -18,15 +25,15 @@ export default function header({ navigation, title }) {
         AsyncStorage.removeItem("user");
         navigation.navigate('login')
         console.log("signout")
-        setUser({})
+        setUser(null)
         console.log("signout user ",user)
     }
   
     return (
         <View style={styles.headerBackground}>
             <MaterialIcons name='menu' size={28} onPress={openMenu} style={styles.icon} />
-            { user ? (<MaterialIcons name='person-remove'  size={28} onPress={signOut} style={styles.signupIcon} />):<MaterialIcons name='person-add' size={28} onPress={() => navigation.navigate('signup')} style={styles.signupIcon}  />
-            
+            { user ? (<MaterialIcons name='person-remove'  size={28} onPress={signOut} style={styles.signupIcon} />)
+            :<MaterialIcons name='person-add' size={28} onPress={() => navigation.navigate('signup')} style={styles.signupIcon}  />
         }
             <View style={styles.header}>
                 <Text style={styles.headerText} onPress={() => {
