@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import { ScrollView, View, Text, ActivityIndicator } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 import { Button, Checkbox, DataTable, Headline } from 'react-native-paper';
 import AdminTabs from '../shared/AdminTabs';
@@ -20,11 +20,15 @@ const sparepartsAdActions = ({ navigation }) => {
     const [approved, setApproved] = React.useState({
         id: ""
     });
+    // const [checked, setChecked] = React.useState([]);
+    const [bulkApprove, setBulkApprove] = React.useState([])
+    const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
         axios.get('https://riyapola.herokuapp.com/spareparts/pending/ads').then((res) => {
             console.log(res.data[0])
             setSpareparts(res.data)
+            setLoading(false);
         })
     }, [])
 
@@ -36,6 +40,19 @@ const sparepartsAdActions = ({ navigation }) => {
         })
     }
 
+    const bulkUpdate = (id) => {
+        bulkApprove.find(item => item == id) ? setBulkApprove(bulkApprove.filter(elem => elem != id)) : setBulkApprove([...bulkApprove, id])
+    }
+
+    const submitBulk = () => {
+        console.log('bulk ids',bulkApprove)
+        bulkApprove.forEach(async (item, index) => {
+            await axios.put(`https://riyapola.herokuapp.com/spareparts/${item}`,{status: "published"})
+            // spareparts.find(elem => elem._id == item) ? setSpareparts({...spareparts, status: "published"}) : (null)
+           
+        })
+    }
+
     React.useEffect(() => {
         setPage(0);
     }, [itemsPerPage]);
@@ -44,7 +61,6 @@ const sparepartsAdActions = ({ navigation }) => {
         <View>
             <AdminTabs navigation={navigation} pageIndex={1} />
             <Headline style={{ fontSize: 16, alignSelf: 'center', fontWeight: 'bold', padding: 20 }}>Approve/Reject Spareparts Advertisements</Headline>
-            
             {spareparts.length != 0 ? 
             <ScrollView horizontal>
             <DataTable>
@@ -58,10 +74,10 @@ const sparepartsAdActions = ({ navigation }) => {
                 {spareparts.length > 0 ? spareparts.filter(status => status.status !== "published").map((ad) => {
                     return (
                         <DataTable.Row key={ad._id}>
-                            <DataTable.Cell style={{marginRight: 7}}><Checkbox status={approved[0]} color='#076AE0' key={ad._id} /></DataTable.Cell>
-                            <DataTable.Cell style={{marginRight: 7}}>{ad.title}</DataTable.Cell>
-                            <DataTable.Cell style={{marginRight: 7}}>{ad.updatedAt.split('T')[0]}</DataTable.Cell>
-                            <DataTable.Cell style={{marginRight: 7}}><Icon name='check-circle' color='#076AE0' size={30} value={ad._id} onPress={() => {setSpareparts({...spareparts, status: "published"}), singleAdApprove(ad._id)}} /><Icon name='remove-circle' color='red' size={30} /><Icon name='info' size={30} /></DataTable.Cell>
+                            <DataTable.Cell style={{marginRight: 15}}><Checkbox status={bulkApprove.find(item => item == ad._id) ? 'checked' : 'unchecked'} onPress={() => bulkUpdate(ad._id)} color='#076AE0' key={ad._id} /></DataTable.Cell>
+                            <DataTable.Cell style={{marginRight: 15}}>{ad.title}</DataTable.Cell>
+                            <DataTable.Cell style={{marginRight: 15}}>{ad.updatedAt.split('T')[0]}</DataTable.Cell>
+                            <DataTable.Cell style={{marginRight: 15}}><Icon name='check-circle' color='#076AE0' size={30} value={ad._id} onPress={() => {setSpareparts({...spareparts, status: "published"}), singleAdApprove(ad._id)}} /><Icon name='remove-circle' color='red' size={30} /><Icon name='info' size={30} /></DataTable.Cell>
                         </DataTable.Row>
                     )
                 }) : (null)}
@@ -78,8 +94,8 @@ const sparepartsAdActions = ({ navigation }) => {
                     optionsLabel={'Rows per page'}
                 />
             </DataTable> 
-            </ScrollView> : (null) }
-            <Button color='#076AE0' mode="contained" style={{ maxWidth: 200, alignSelf: 'flex-end', marginEnd: 10 }} >Bulk Approve</Button> 
+            </ScrollView> : <ActivityIndicator  animating={loading} size="large" color="#0000ff"/> }
+            <Button color='#076AE0' mode="contained" style={{ maxWidth: 200, alignSelf: 'flex-end', marginEnd: 10 }} onPress={() => submitBulk()}>Bulk Approve</Button> 
             
         </View>
     );

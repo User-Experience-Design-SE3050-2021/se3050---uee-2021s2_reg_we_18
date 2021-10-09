@@ -6,21 +6,25 @@ import CategoryStack from './categoryStack';
 import AdminStack from './AdminStack';
 import UserStack from './userStack'
 import myAdsStack from './myAdsStack';
-import AllAdsStack from './AllAdsStack'
 import React, { useState ,useEffect} from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const RootDrawerNavigator = createDrawerNavigator();
 
 export default function NavDrawer(){
-    // const [id, setId] = useState("")
+    const [id, setId] = useState("")
     // useEffect(() => {
-    //     AsyncStorage.getItem('user', (err, result) => {
-    //       console.log(result);
-    //       result =JSON.parse(result);
-    //       if(result){
-              
-    //         setId(result._id)
-    //       }
+        
+useEffect(() => {
+    AsyncStorage.getItem('user', (err, result) => {
+        console.log("result in drawer",result);
+        result =JSON.parse(result);
+        if(result){
+
+          setId(result._id)
+        }
+      })
+   
+}, [])
           
     //     //   setUser({
     //     //     name : result.name,
@@ -48,11 +52,14 @@ export default function NavDrawer(){
             <RootDrawerNavigator.Screen name="Category" component={CategoryStack} />
             {/* <RootDrawerNavigator.Screen name="Category List" component={CategoryListStack} /> */}
             <RootDrawerNavigator.Screen name="Ads Management" component={AdminStack} />
-          {/* {id} */}
-             <RootDrawerNavigator.Screen name="User Profile" component={UserStack} />
-             <RootDrawerNavigator.Screen name="My Ads" component={myAdsStack} />
-        
-           
+       
+          {/* { id ? 
+          <View> */}
+          <RootDrawerNavigator.Screen name="User Profile" component={UserStack} />
+            <RootDrawerNavigator.Screen name="My Ads" component={myAdsStack} />
+            {/* </View>
+            :null
+            } */}
         </RootDrawerNavigator.Navigator>
     </NavigationContainer>
     )

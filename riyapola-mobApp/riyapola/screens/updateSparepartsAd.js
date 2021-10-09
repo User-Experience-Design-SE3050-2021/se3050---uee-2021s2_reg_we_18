@@ -8,17 +8,18 @@ import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from 'axios';
 
-export default function postSparepartsAdForm() {
+export default function updateSparepartsAd() {
 
     const [selectedValue, setSelectedValue] = useState("Select Spare Part Category");
     const [pics, setImages] = useState([]);
     const [isAddPhone, setisAddPhone] = useState(true);
     const [phone, setPhone] = useState(null);
     const [phones, setPhones] = useState([]);
-    const [condition, setCondition] = useState('new');
+    const [condition, setCondition] = useState();
     const [ad, setAd] = useState(null);
     const [user, setUser] = useState(null);
     const [actionWaiting, setactionWaiting] = useState(false);
+    const [sparepart, setSparepart] = useState({});
 
     useEffect(() => {
         (async () => {
@@ -37,7 +38,20 @@ export default function postSparepartsAdForm() {
                 navigation.navigate('login')
             }
         })
+
+        axios.get('https://riyapola.herokuapp.com/spareparts/616040fe89c636000408bd77').then((res) => {
+            setAd(res.data);
+            console.log(res.data)
+            setCondition(res.data.condition)
+            setImages([res.data.images])
+            // addMobile(res.data.contactNumbers)
+           
+        })
     }, []);
+
+    // const addMobile = (contacts) => {
+    //     phones ? phones.filter((item) => {item == contacts, setPhones(phones.filter(elem => elem != contacts))}) : setPhones([...phones, contacts])  
+    // }
     
     useEffect(() => {
         setPhone(null)
@@ -92,7 +106,8 @@ export default function postSparepartsAdForm() {
     
       const handleSubmit = () => {
         setactionWaiting(true)
-        axios.post('https://riyapola.herokuapp.com/spareparts', ad).then((res) => {
+        setAd({...ad, status: "pending"})
+        axios.put('https://riyapola.herokuapp.com/spareparts/616040fe89c636000408bd77', ad).then((res) => {
             res.status === 200 ? alert('Ad submitted for reviewing') : alert('Ad submission failed')
             setactionWaiting(false)
         }).catch((err) => {
@@ -122,15 +137,16 @@ export default function postSparepartsAdForm() {
                     onValueChange={(itemValue, itemIndex) => setAd({...ad, category: itemValue})}
                 >
                     <Picker.Item label="Select Spare Part Category" value="java" />
-                    <Picker.Item label="Doors" value="doors" />
+                    {/* <Picker.Item label={ad.category ? ad.category : (null)} value={ad.category ? ad.category : (null)} /> */}
                 </Picker>
                 <Text style={globalStyles.label}>Title</Text>
-                <TextInput style={globalStyles.input} placeholder="Post Title" onChangeText={(text) => setAd({...ad,title: text})} />
+                <TextInput style={globalStyles.input} value={ad ? ad.title : null} placeholder="Post Title" onChangeText={(text) => setAd({...ad,title: text})} />
                 <Text style={globalStyles.label}>Description</Text>
                 <TextInput
                     style={globalStyles.textarea}
                     placeholder="Type something.."
                     placeholderTextColor="grey"
+                    value={ad ? ad.description : null}
                     numberOfLines={10}
                     multiline={true}
                     onChangeText={(text) => setAd({...ad,description: text})}
@@ -158,7 +174,7 @@ export default function postSparepartsAdForm() {
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
                     <View style={{ flex: 1 }}>
                         <Text style={globalStyles.label}>Price</Text>
-                        <TextInput placeholder="Rs." style={globalStyles.input} onChangeText={(text) => setAd({...ad,price: text})} />
+                        <TextInput placeholder="Rs." style={globalStyles.input}  value={ad ? ad.price : null} onChangeText={(text) => setAd({...ad,price: text})} />
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                         <RadioButton  value='negotiable' status={ad && ad.negotiable ? 'checked' : 'unchecked'} color='#076AE0' onPress={() => setAd({...ad, negotiable: !ad.negotiable})} />
@@ -223,9 +239,16 @@ export default function postSparepartsAdForm() {
                         />
                     </View>
                 </List.Section>
+                <View>
                 <Button style={globalStyles.btn} mode="contained" onPress={handleSubmit} loading={actionWaiting} disabled={actionWaiting} >
-                    Post Your Ad
+                    Update Your Ad
                 </Button>
+                </View>
+                <View style={{paddingTop: 5}}>
+                <Button mode="contained" color="red"  loading={actionWaiting} disabled={actionWaiting} >
+                    Delete Your Ad
+                </Button>
+                </View>
             </View>
         </ScrollView>
     )
