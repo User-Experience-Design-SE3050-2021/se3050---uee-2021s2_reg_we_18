@@ -6,6 +6,16 @@ import { globalStyles } from '../styles/global';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import AllAdsTabs from '../shared/allAdsTabs';
 import axios from 'axios';
+import Svg, { Rect } from 'react-native-svg';
+import ContentLoader from 'react-native-masked-loader';
+
+function getMaskedElement() {
+    return (
+      <Svg height={250} width="100%" fill={'black'} >
+        <Rect x="20" y="5" rx="9" ry="9" width="90%" height="100%" />
+      </Svg>
+    );
+  }
 
 export default function allSparepartAds({ navigation }) {
 
@@ -60,6 +70,7 @@ export default function allSparepartAds({ navigation }) {
     const showFilter = () => setVisible(true);
 
     const hideFilter = () => setVisible(false);
+    const MaskedElement = getMaskedElement();
 
     const searchFilter = (text) => {
         console.log('filter')
@@ -143,7 +154,7 @@ export default function allSparepartAds({ navigation }) {
                     renderItem={({ item }) => (
                         <TouchableOpacity onPress={() => navigation.navigate('sparepartDetail', item._id)}>
                             <Card style={globalStyles.cardContent}>
-                                {fullsparepartAds.find(elem => elem._id === item._id) ? <Card.Cover source={{ uri: 'data:image/jpeg;base64,' + fullsparepartAds.find(elem => elem._id === item._id).images[0] }} /> : <ActivityIndicator />}
+                                {fullsparepartAds.find(elem => elem._id === item._id) ? <Card.Cover source={{ uri: 'data:image/jpeg;base64,' + fullsparepartAds.find(elem => elem._id === item._id).images[0] }} /> : <ContentLoader MaskedElement={MaskedElement}/>}
                                 <Card.Content style={globalStyles.cardContainer}>
                                     <Title> {item.title}</Title><View style={{ alignItems: 'flex-end' }}><Text>{item.condition}</Text></View>
                                     <Title style={{ fontSize: 15 }}><Icon iconStyle={{ fontSize: 15 }} color="blue" name="place" />{item.location}</Title>
