@@ -51,7 +51,6 @@ export default function categoryList({ navigation }) {
   };
 
   const deleteCategoryById = (id) => {
-    console.log('deleteCategoryById: ');
     setTimeout(() => {
       axios
         .delete(`https://riyapola.herokuapp.com/category/${id}`)
