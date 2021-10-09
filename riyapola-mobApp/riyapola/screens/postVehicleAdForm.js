@@ -36,8 +36,7 @@ export default function postVehicleAdForm({ navigation }) {
                 alert('Please login to publish advertisements')
                 navigation.navigate('login')
             }
-        })
-        , []});
+        })}, []);
 
     useEffect(() => {
         setPhone(null)
@@ -172,7 +171,7 @@ export default function postVehicleAdForm({ navigation }) {
                     </View>
                     <View style={{flex:1}}>
                         <Text style={globalStyles.label}>Engine Capacity</Text>
-                        <TextInput placeholder="Enter Capacity(cc)" style={globalStyles.input} onChangeText={(text) => setAd({...ad,engineCapacity: text})}/>
+                        <TextInput placeholder="Enter Capacity(cc)" keyboardType="numeric" style={globalStyles.input} onChangeText={(text) => setAd({...ad,engineCapacity: text})}/>
                     </View>
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row',justifyContent: 'space-between', flex: 1 }} >
@@ -196,7 +195,7 @@ export default function postVehicleAdForm({ navigation }) {
                 <View style={{ display: 'flex', flexDirection: 'row',justifyContent: 'space-between', flex:1 }} >
                     <View style={{flex:1}}>
                         <Text style={globalStyles.label}>Price</Text>
-                        <TextInput placeholder="Enter Price(Rs.)" style={globalStyles.input} onChangeText={(text) => setAd({...ad,price: text})}/>
+                        <TextInput placeholder="Enter Price(Rs.)" keyboardType="numeric" style={globalStyles.input} onChangeText={(text) => setAd({...ad,price: text})}/>
                         <View style={{display:'flex',flexDirection:'row',alignItems: 'center',flex: 1}}>
                             <RadioButton value='negotiable' status={ad && ad.negotiable ? 'checked' : 'unchecked'} color='#076AE0' onPress={() => setAd({...ad, negotiable: !ad.negotiable})} />
                             <Text>Negotiable</Text>
@@ -204,7 +203,7 @@ export default function postVehicleAdForm({ navigation }) {
                     </View>
                     <View style={{flex:1}}>
                         <Text style={{top: 0, fontWeight: 'bold'}} >Mileage</Text>
-                        <TextInput placeholder="Enter Mileage(km)" style={globalStyles.input} onChangeText={(text) => setAd({...ad,mileage: text})} />
+                        <TextInput placeholder="Enter Mileage(km)" keyboardType="numeric" style={globalStyles.input} onChangeText={(text) => setAd({...ad,mileage: text})} />
                     </View>
                 </View>
                 <View >
@@ -231,7 +230,7 @@ export default function postVehicleAdForm({ navigation }) {
                 {!isAddPhone ? <View style={{ flex: 1 }} >
                     <Text style={{ top: 0, fontWeight: 'bold' }} >Phone</Text>
                     <View style={{display:'flex', flexDirection: 'row', alignItems: 'baseline'}}>
-                    <TextInput placeholder="Enter Phone Number" onChangeText={setPhone} style={globalStyles.input} />
+                    <TextInput placeholder="Enter Phone Number" keyboardType="numeric" onChangeText={setPhone} style={globalStyles.input} />
                         <Icon
                             name='plus-square'
                             type='font-awesome'
