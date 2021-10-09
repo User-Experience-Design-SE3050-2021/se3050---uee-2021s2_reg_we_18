@@ -13,102 +13,116 @@ import { globalStyles } from "../styles/global";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 import CategoryTabs from "../shared/categoryTabs";
-import { Avatar, Paragraph  } from "react-native-paper";
+import { Avatar, Paragraph } from "react-native-paper";
 import Tabs from "../shared/Tabs";
 
 export default function landingPage({ navigation }) {
   return (
     <View>
-      <Tabs pageIndex={0} navigation={navigation} style={{flex:1}} />
-      <View 
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "white",
-        padding: 5,
-      }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <Avatar.Text
-          style={{ marginTop: 20, alignSelf:"center",width:"auto",padding:10 }}
-          size={34}
-          label="Select a Vehicle Category"
-        />
-
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        nestedScrollEnabled={true}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        <Tabs pageIndex={0} navigation={navigation} style={{ flex: 1 }} />
         <View
           style={{
             display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            margin: 15,
+            flexDirection: "column",
+            backgroundColor: "white",
+            padding: 5,
           }}
         >
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Car</Text>
-          </TouchableOpacity>
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }}
+                  nestedScrollEnabled={true}
+          >
+            <Avatar.Text
+              style={{
+                marginTop: 20,
+                alignSelf: "center",
+                width: "auto",
+                padding: 10,
+              }}
+              size={34}
+              label="Select a Vehicle Category"
+            />
 
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Bus</Text>
-          </TouchableOpacity>
-        </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                margin: 15,
+              }}
+            >
+              <TouchableOpacity style={style.mainCategories}>
+                <Text style={style.mainCatText}>Car</Text>
+              </TouchableOpacity>
 
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            margin: 15,
-          }}
-        >
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Van</Text>
-          </TouchableOpacity>
+              <TouchableOpacity style={style.mainCategories}>
+                <Text style={style.mainCatText}>Bus</Text>
+              </TouchableOpacity>
+            </View>
 
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Lorry</Text>
-          </TouchableOpacity>
-        </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                margin: 15,
+              }}
+            >
+              <TouchableOpacity style={style.mainCategories}>
+                <Text style={style.mainCatText}>Van</Text>
+              </TouchableOpacity>
 
-        <Avatar.Text
-          style={{ width: 250, marginTop: 20, marginLeft: "15%" }}
-          size={34}
-          label="Select a Spare Parts Category"
-        />
+              <TouchableOpacity style={style.mainCategories}>
+                <Text style={style.mainCatText}>Lorry</Text>
+              </TouchableOpacity>
+            </View>
 
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            margin: 15,
-          }}
-        >
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Headlight</Text>
-          </TouchableOpacity>
+            <Avatar.Text
+              style={{ width: 250, marginTop: 20, marginLeft: "15%" }}
+              size={34}
+              label="Select a Spare Parts Category"
+            />
 
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Brakepad</Text>
-          </TouchableOpacity>
-        </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                margin: 15,
+              }}
+            >
+              <TouchableOpacity style={style.mainCategories}>
+                <Text style={style.mainCatText}>Headlight</Text>
+              </TouchableOpacity>
 
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            margin: 15,
-          }}
-        >
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Water Pump</Text>
-          </TouchableOpacity>
+              <TouchableOpacity style={style.mainCategories}>
+                <Text style={style.mainCatText}>Brakepad</Text>
+              </TouchableOpacity>
+            </View>
 
-          <TouchableOpacity style={style.mainCategories}>
-            <Text style={style.mainCatText}>Viper</Text>
-          </TouchableOpacity>
-        </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                margin: 15,
+              }}
+            >
+              <TouchableOpacity style={style.mainCategories}>
+                <Text style={style.mainCatText}>Water Pump</Text>
+              </TouchableOpacity>
 
-        {/* <Avatar.Text
+              <TouchableOpacity style={style.mainCategories}>
+                <Text style={style.mainCatText}>Viper</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* <Avatar.Text
           style={{ width: 400, marginTop: 20, marginLeft:20,marginRight:20,height:55 }}
           size={34}
           label="Sometimes dealerships tend to focus more on developing from the inside-out, 
@@ -117,8 +131,9 @@ export default function landingPage({ navigation }) {
           But where is the focus on putting your nose down and actively searching for better leads?
            The only way a successful business can run is by being on the prowl for new customers"
         /> */}
+          </ScrollView>
+        </View>
       </ScrollView>
-    </View>
     </View>
   );
 }
