@@ -7,8 +7,9 @@ import { Icon } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from 'axios';
+import { districts } from '../utils/districts';
 
-export default function updateVehicleAd() {
+export default function updateVehicleAd({route}) {
 
     const [pics, setImages] = useState([]);
     const [isAddPhone, setisAddPhone] = useState(true);
@@ -18,6 +19,7 @@ export default function updateVehicleAd() {
     const [ad, setAd] = useState(null);
     const [user, setUser] = useState(null);
     const [actionWaiting, setactionWaiting] = useState(false);
+    const [dist, setDist] = useState(districts);
 
     useEffect(() => {
 
@@ -38,7 +40,7 @@ export default function updateVehicleAd() {
             }
         })
 
-        axios.get('https://riyapola.herokuapp.com/vehicle/61618a0d6ebd080004beb819').then((res) => {
+        axios.get(`https://riyapola.herokuapp.com/vehicle/${route.params}`).then((res) => {
             setAd(res.data);
             console.log(res.data)
             setCondition(res.data.condition)
@@ -84,7 +86,7 @@ export default function updateVehicleAd() {
 
     const handleSubmit = () => {
         setactionWaiting(true)
-        axios.put('https://riyapola.herokuapp.com/vehicle/61618a0d6ebd080004beb819', { ...ad, status: "pending" }).then((res) => {
+        axios.put(`https://riyapola.herokuapp.com/vehicle/${route.params}`, { ...ad, status: "pending" }).then((res) => {
             res.status === 200 ? alert('Ad submitted for reviewing') : alert('Ad submission failed')
             setactionWaiting(false)
         }).catch((err) => {
@@ -96,7 +98,7 @@ export default function updateVehicleAd() {
 
     const handleDelete = () => {
         setactionWaiting(true)
-        axios.delete('https://riyapola.herokuapp.com/vehicle/61618a0d6ebd080004beb819').then((res) => {
+        axios.delete(`https://riyapola.herokuapp.com/vehicle/${route.params}`).then((res) => {
             res.status === 200 ? alert('Ad Successfully Deleted!') : alert('Ad deletion fail')
             setactionWaiting(false)
         }).catch((err) => {
@@ -162,8 +164,11 @@ export default function updateVehicleAd() {
                         <Text style={globalStyles.label}>Location</Text>
                         <Picker style={globalStyles.select} selectedValue={ad && ad.location ? ad.location : null} onValueChange={(text) => setAd({ ...ad, location: text })} >
                             <Picker.Item label="Select Location" value="select" />
-                            <Picker.Item label="Kandy" value="Kandy" />
-                            <Picker.Item label="Colombo" value="Colombo" />
+                            {dist ? dist.map((dist) => {
+                                return (
+                                    <Picker.Item label={dist} value={dist} />
+                                )
+                            }) : null}
                         </Picker>
                     </View>
                     <View style={{ flex: 1 }}>
