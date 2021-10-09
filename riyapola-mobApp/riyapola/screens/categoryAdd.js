@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -18,12 +18,31 @@ import { MaterialIcons } from '@expo/vector-icons'
 // import Button from '../shared/button';
 
 export default function addCategory() {
+
   const [selectedValue, setSelectedValue] = useState("Vehicles");
+  const [category,setCategory] = useState(null);
+  const [categoryName,setCategoryName] = useState(null);
+  const [make,setMake] = useState(null);
+  console.log('make: ', make);
   const [inputValues, setInputValues] = useState({
-    categoryName: "",
-    childcategoryName: "",
+    makeArray: []
   });
 
+  console.log('inputValues: ', inputValues);
+
+  const addMakeToArray = () => {
+
+    setInputValues({...inputValues,makeArray:[...inputValues.makeArray,make]})
+  }
+
+  const deleteMake = (index) => {
+    console.log('index: ', index);
+    let vehicleMake = inputValues.makeArray;
+    vehicleMake.splice(index,1);
+    console.log('vehicleMake: ', vehicleMake);
+    setInputValues({...inputValues,makeArray:vehicleMake})
+  }
+  
   return (
     <View style={globalStyles.categoryAddContainer}>
       {/* <View style={{ flex: 1 }}> */}
@@ -51,19 +70,20 @@ export default function addCategory() {
         </Picker>
 
         <Text style={style.inputText}>Category Name</Text>
-        <TextInput style={style.input} placeholder="Select a Category Name" />
+        <TextInput style={style.input} placeholder="Select a Category Name" onChangeText={(text) => setInputValues({...inputValues,categoryName:text})}/>
 
         <Text style={style.inputText}>Child Category Name</Text>
         <TextInput
           style={style.input}
           placeholder="Select a Child Category Name"
+           onChangeText={(text) => setInputValues({...inputValues,childCategoryName:text})}
         />
         <Text style={style.inputText}>Vehicle Make</Text>
-        <TextInput style={style.input} placeholder="Select a Vehicle Make" />
+        <TextInput style={style.input} placeholder="Select a Vehicle Make" onChangeText={(text) => setMake(text)}/>
 
         <View style={style.buttonWrapper}>
           <View style={style.button}>
-            <Button title="Add Make" color="#841584" />
+            <Button title="Add Make" color="#841584" onPress={() => addMakeToArray()}/>
           </View>
           <View style={style.button}>
             <Button title="Select All" color="#841584" />
@@ -78,85 +98,42 @@ export default function addCategory() {
           nestedScrollEnabled={true}
           showsVerticalScrollIndicator={false}
         >
-          <View
-            style={{
-              marginLeft: 30,
-              marginTop: 15,
-              marginRight: 10,
-              width: 230,
-            }}
-          >
-            <MaterialIcons name="delete-outline" size={28} />
-            <Button title="Add Category" color="blue" />
-          </View>
+          {  inputValues.makeArray.length !== 0 ?
+            inputValues.makeArray.map((make, index) => {
+             return <View
+                key={index}
+                style={{
+                  marginLeft: 30,
+                  marginTop: 15,
+                  marginRight: 10,
+                  width: 230,
+                  display:"flex",
+                  flexDirection:"row",
+                  justifyContent:"space-around"
+                }}
+              >
+                <View style={{width:200}}>
+                <Button title={make} color="blue" />
+                </View>
+                <MaterialIcons name="delete-outline" size={28} onPress={() => deleteMake(index)} color={"red"}/>
 
-          <View
-            style={{
-              marginLeft: 30,
-              marginTop: 15,
-              marginRight: 10,
-              width: 230,
-            }}
-          >
-                        <MaterialIcons name="delete-outline" size={28} />
+              </View>
 
-            <Button title="Add Category" color="blue" />
-          </View>
-
-          <View
-            style={{
-              marginLeft: 30,
-              marginTop: 15,
-              marginRight: 10,
-              width: 230,
-            }}
-          >
-            <Button title="Add Category" color="blue" />
-          </View>
-
-          <View
-            style={{
-              marginLeft: 30,
-              marginTop: 15,
-              marginRight: 10,
-              width: 230,
-            }}
-          >
-            <Button title="Add Category" color="blue" />
-          </View>
-
-          <View
-            style={{
-              marginLeft: 30,
-              marginTop: 15,
-              marginRight: 10,
-              width: 230,
-            }}
-          >
-            <Button title="Add Category" color="blue" />
-          </View>
-
-          <View
-            style={{
-              marginLeft: 30,
-              marginTop: 15,
-              marginRight: 10,
-              width: 230,
-            }}
-          >
-            <Button title="Add Category" color="blue" />
-          </View>
-
-          <View
-            style={{
-              marginLeft: 30,
-              marginTop: 15,
-              marginRight: 10,
-              width: 230,
-            }}
-          >
-            <Button title="Add Category" color="blue" />
-          </View>
+            })
+            :
+            <View
+                // key={index}
+                style={{
+                  marginLeft: 30,
+                  marginTop: 15,
+                  marginRight: 10,
+                  width: 230,
+                }}
+              >
+                {/* <MaterialIcons name="delete-outline" size={28} /> */}
+                <Button title="No Makes Available" color="blue" />
+              </View>
+          }
         </ScrollView>
 
         <View style={style.button}>
