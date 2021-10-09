@@ -34,7 +34,17 @@ export default function profile({navigation}) {
     //     catch(error){
     //         console.log(error.message);
     //     }
-    // }
+    // }'
+    const [id, setId] = useState("")
+    const [user, setUser] = useState({
+      name : "",
+      email : "",
+      password : "",
+      type : "buyerseller",
+      phoneNumber :"",
+      wishList:[],
+      image:[]
+  });
   useEffect(() => {
     AsyncStorage.getItem('user', (err, result) => {
       console.log(result);
@@ -69,19 +79,13 @@ export default function profile({navigation}) {
     const [state, setstate] = useState({
       photo:null
     })
-  const [id, setId] = useState("")
-    const [user, setUser] = useState({
-      name : "",
-      email : "",
-      password : "",
-      type : "buyerseller",
-      phoneNumber :"",
-      wishList:[],
-      image:[]
-  });
+ 
   const [modalVisible, setModalVisible] = useState(false)
   const updateUser = ()=>{
-    
+    // setUser({
+    //   ...user,
+    //   image:[state.photo]
+    // })
         // console.log("payload",payload)
         // console.log("decodeItem",decodeItem)
           axios.post(`https://riyapola.herokuapp.com/user/update/${id}`, user).then((res) => {
@@ -162,7 +166,8 @@ const handleChoosePhoto = async () => {
   });
 
   if (!result.cancelled) {
-    setstate({...state,photo: result.uri});
+    setUser({...user,image: [result.uri]});
+   
   }
 };
 
@@ -171,10 +176,10 @@ const handleChoosePhoto = async () => {
             <Card>
             <ScrollView>
             <View style={{display: 'flex', alignItems: 'center'}}>
-              {state.photo ?
+              {user.image ?
               <Image
-              source={{ uri: state.photo }}
-              style={{width:50,height:50}}
+              source={{ uri: user.image[0] }}
+              style={{width:150,height:150,borderRadius:50,shadowRadius:60}}
               />:(
                 <MaterialIcons name='person' size={50}  />
               )
@@ -227,7 +232,7 @@ const handleChoosePhoto = async () => {
       defaultValue={user.phoneNumber}
       />
             <FlatButton text="Update" onPress={updateUser}  />   
-            <FlatButton text="Delete" onPress={()=>setModalVisible(true)} />   
+            <FlatButton text="Delete"  style={style.deleteBtn} onPress={()=>setModalVisible(true)} />   
             </ScrollView>
             </Card>   
             <Modal
