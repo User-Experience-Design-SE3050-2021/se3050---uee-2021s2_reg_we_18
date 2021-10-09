@@ -19,8 +19,6 @@ export default function updateSparepartsAd() {
     const [ad, setAd] = useState(null);
     const [user, setUser] = useState(null);
     const [actionWaiting, setactionWaiting] = useState(false);
-    const [sparepart, setSparepart] = useState({});
-
     useEffect(() => {
         (async () => {
             if (Platform.OS !== 'web') {
@@ -39,20 +37,17 @@ export default function updateSparepartsAd() {
             }
         })
 
-        axios.get('https://riyapola.herokuapp.com/spareparts/616040fe89c636000408bd77').then((res) => {
+        axios.get('https://riyapola.herokuapp.com/spareparts/616181036ebd080004beb816').then((res) => {
             setAd(res.data);
-            console.log(res.data)
+            console.log(res.data.price)
             setCondition(res.data.condition)
-            setImages([res.data.images])
-            // addMobile(res.data.contactNumbers)
+            setImages(res.data.images)
+            setPhones(res.data.contactNumbers)
            
         })
     }, []);
 
-    // const addMobile = (contacts) => {
-    //     phones ? phones.filter((item) => {item == contacts, setPhones(phones.filter(elem => elem != contacts))}) : setPhones([...phones, contacts])  
-    // }
-    
+  
     useEffect(() => {
         setPhone(null)
         ad ? setAd({...ad, contactNumbers: phones}) : null
@@ -65,25 +60,7 @@ export default function updateSparepartsAd() {
         setAd({...ad,condition})
       }, [condition]);
 
-    useEffect(() => {
-        if(!ad)
-        setAd({
-            negotiable: true,
-            images: [],
-            contactNumbers: [],
-            title: null,
-            description: null,
-            status: "pending",
-            category: null,
-            location: null,
-            condition: "new",
-            delivery: false,
-            price: null,
-            userId: null});
-        else if(!ad.userId){
-              setAd({...ad, userId: user._id})
-              setPhones([...phones, user.phoneNumber])
-      }}, [user]);
+    
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -106,8 +83,7 @@ export default function updateSparepartsAd() {
     
       const handleSubmit = () => {
         setactionWaiting(true)
-        setAd({...ad, status: "pending"})
-        axios.put('https://riyapola.herokuapp.com/spareparts/616040fe89c636000408bd77', ad).then((res) => {
+        axios.put('https://riyapola.herokuapp.com/spareparts/616181036ebd080004beb816', {...ad, status: "pending"}).then((res) => {
             res.status === 200 ? alert('Ad submitted for reviewing') : alert('Ad submission failed')
             setactionWaiting(false)
         }).catch((err) => {
@@ -115,6 +91,18 @@ export default function updateSparepartsAd() {
            alert('Rejected')
            setactionWaiting(false)
         })
+      }
+
+      const handleDelete = () => {
+          setactionWaiting(true)
+          axios.delete('https://riyapola.herokuapp.com/spareparts/616181036ebd080004beb816').then((res) => {
+              res.status === 200 ? alert('Ad Successfully Deleted!') : alert('Ad deletion fail')
+              setactionWaiting(false)
+          }).catch((err) => {
+              console.log(err)
+              alert('Rejected')
+              setactionWaiting(false)
+          })
       }
 
     return (
@@ -140,13 +128,13 @@ export default function updateSparepartsAd() {
                     {/* <Picker.Item label={ad.category ? ad.category : (null)} value={ad.category ? ad.category : (null)} /> */}
                 </Picker>
                 <Text style={globalStyles.label}>Title</Text>
-                <TextInput style={globalStyles.input} value={ad ? ad.title : null} placeholder="Post Title" onChangeText={(text) => setAd({...ad,title: text})} />
+                <TextInput style={globalStyles.input} value={ad && ad.title ? ad.title : null} placeholder="Post Title" onChangeText={(text) => setAd({...ad,title: text})} />
                 <Text style={globalStyles.label}>Description</Text>
                 <TextInput
                     style={globalStyles.textarea}
                     placeholder="Type something.."
                     placeholderTextColor="grey"
-                    value={ad ? ad.description : null}
+                    value={ad && ad.description ? ad.description : null}
                     numberOfLines={10}
                     multiline={true}
                     onChangeText={(text) => setAd({...ad,description: text})}
@@ -174,7 +162,7 @@ export default function updateSparepartsAd() {
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
                     <View style={{ flex: 1 }}>
                         <Text style={globalStyles.label}>Price</Text>
-                        <TextInput placeholder="Rs." style={globalStyles.input}  value={ad ? ad.price : null} onChangeText={(text) => setAd({...ad,price: text})} />
+                        <TextInput style={globalStyles.input} keyboardType="numeric" value={ad && ad.price ? ad.price.toString() : null} onChangeText={(text) => setAd({...ad,price: text})} />
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                         <RadioButton  value='negotiable' status={ad && ad.negotiable ? 'checked' : 'unchecked'} color='#076AE0' onPress={() => setAd({...ad, negotiable: !ad.negotiable})} />
@@ -205,7 +193,7 @@ export default function updateSparepartsAd() {
                 {!isAddPhone ? <View style={{ flex: 1 }} >
                     <Text style={{ top: 0, fontWeight: 'bold' }} >Phone</Text>
                     <View style={{display:'flex', flexDirection: 'row', alignItems: 'baseline'}}>
-                    <TextInput placeholder="Enter Phone Number" onChangeText={setPhone} style={globalStyles.input} />
+                    <TextInput placeholder="Enter Phone Number" keyboardType="numeric" onChangeText={setPhone} style={globalStyles.input} />
                         <Icon
                             name='plus-square'
                             type='font-awesome'
@@ -245,7 +233,7 @@ export default function updateSparepartsAd() {
                 </Button>
                 </View>
                 <View style={{paddingTop: 5}}>
-                <Button mode="contained" color="red"  loading={actionWaiting} disabled={actionWaiting} >
+                <Button mode="contained" color="red" onPress={handleDelete}  loading={actionWaiting} disabled={actionWaiting} >
                     Delete Your Ad
                 </Button>
                 </View>

@@ -8,7 +8,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
 import * as Linking from 'expo-linking';
 
-export default function sparepartDetail({ navigation, route }) {
+export default function vehicleDetail({ navigation, route }) {
 
     const [Ad, setAd] = useState(null)
 

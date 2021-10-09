@@ -158,7 +158,7 @@ export default function postSparepartsAdForm() {
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
                     <View style={{ flex: 1 }}>
                         <Text style={globalStyles.label}>Price</Text>
-                        <TextInput placeholder="Rs." style={globalStyles.input} onChangeText={(text) => setAd({...ad,price: text})} />
+                        <TextInput placeholder="Rs." keyboardType="numeric" style={globalStyles.input} onChangeText={(text) => setAd({...ad,price: text})} />
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                         <RadioButton  value='negotiable' status={ad && ad.negotiable ? 'checked' : 'unchecked'} color='#076AE0' onPress={() => setAd({...ad, negotiable: !ad.negotiable})} />
@@ -189,7 +189,7 @@ export default function postSparepartsAdForm() {
                 {!isAddPhone ? <View style={{ flex: 1 }} >
                     <Text style={{ top: 0, fontWeight: 'bold' }} >Phone</Text>
                     <View style={{display:'flex', flexDirection: 'row', alignItems: 'baseline'}}>
-                    <TextInput placeholder="Enter Phone Number" onChangeText={setPhone} style={globalStyles.input} />
+                    <TextInput placeholder="Enter Phone Number" keyboardType="numeric" onChangeText={setPhone} style={globalStyles.input} />
                         <Icon
                             name='plus-square'
                             type='font-awesome'

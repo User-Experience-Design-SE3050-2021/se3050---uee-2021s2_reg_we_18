@@ -13,6 +13,7 @@ export default function postAd({navigation}) {
             <Button text="Post Vehicle Ad"   onPress={() => navigation.navigate('VehicleAdForm')} />
             <Button text="Post Spare Part Ad" onPress={() => navigation.navigate('SparepartAdForm') }/>
             <Button text="Update Sparepart Ad" onPress={() => navigation.navigate('updateSparepartsAd') }/>
+            <Button text="Update Vehicle Ad" onPress={() => navigation.navigate('updateVehicleAd') }/>
             </View>
         </View>
     )
