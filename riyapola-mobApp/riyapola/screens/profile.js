@@ -256,7 +256,14 @@ const handleChoosePhoto = async () => {
       // value={user.phoneNumber}
       />
             <FlatButton text="Update" onPress={updateUser}  />   
-            <FlatButton text="Delete"  style={style.deleteBtn} onPress={()=>setModalVisible(true)} />   
+            {/* <View style={style.deleteBtn}> */}
+            {/* <FlatButton text="Delete"  style={style.deleteBtn} onPress={()=>setModalVisible(true)} />  */}
+            <TouchableOpacity onPress={()=>setModalVisible(true)} >
+            <View style={style.buttonUpdateDelete}>
+                <Text style={style.buttonText}>Delete</Text>
+            </View>
+        </TouchableOpacity>
+            {/* </View>   */}
             </ScrollView>
             </Card>   
             <Modal
@@ -454,6 +461,22 @@ const style = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
   },
+  buttonUpdateDelete: {
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 14,
+    marginEnd: 10,
+    marginStart: 10,
+    marginBottom: 10,
+    backgroundColor: '#ff3333'
+},
+buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    fontSize: 16,
+    textAlign: 'center'
+}
 });
 
 
