@@ -11,7 +11,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function vehicleMyAds({navigation}) {
 
     const [vehicleAds, setVehicleAds] = useState(null)
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({
+        name : "",
+        email : "",
+        password : "",
+        type : "buyerseller",
+        phoneNumber :"",
+        wishList:[],
+        image:[]
+    });
 useEffect(() => {
     AsyncStorage.getItem('user', (err, result) => {
         console.log(result);
@@ -51,6 +59,7 @@ useEffect(() => {
                     // resolve(res.data)
                     // setVehicleAds(res.data)
                     console.log("res.data",res.data);
+
                     setVehicleAds(
                         res.data.filter(vehicle=>vehicle.userId === user._id)
                     )
@@ -63,6 +72,31 @@ useEffect(() => {
             })
         
 }, [])
+useEffect(() => {
+    console.log('useEffect user',user)
+    console.log('useEffect vehicleAds',vehicleAds)
+    axios.get('https://riyapola.herokuapp.com/vehicle').then((res) => {
+                if (res.status == 200) {
+                    // dispatch({
+                    //     type: GET_All_VEHICLE_ADS,
+                    //     payload: res.data
+                    // })
+                    // resolve(res.data)
+                    // setVehicleAds(res.data)
+                    console.log("res.data",res.data);
+                    
+                    setVehicleAds(
+                        res.data.filter(vehicle=>vehicle.userId === user._id)
+                    )
+                    console.log("vehicleAds",vehicleAds);
+                }
+                // else
+                //     resolve(res)
+            }).catch((err) => {
+                // reject(err);
+            })
+
+}, [user])
     return (
         <View>
             <MyAdsTab  pageIndex={0} navigation={navigation} />
@@ -73,8 +107,8 @@ useEffect(() => {
             // getItem={Item._id === user.id}
             renderItem={({ item }) => (
                 <View key={item._id}>
-                <TouchableOpacity onPress={() => console.log("ad pressed")} >
-                    <Card style={globalStyles.cardContent} >
+                <TouchableOpacity onPress={() => console.log("ad pressed")} key={item._id} >
+                    <Card style={globalStyles.cardContent} key={item._id}>
                         <Card.Cover source={require('../images/vehicles/axio.jpg')} />
                         <Card.Content style={globalStyles.cardContainer}>
                             <Title> {item.title}</Title><View><Text> | {item.condition}</Text></View>

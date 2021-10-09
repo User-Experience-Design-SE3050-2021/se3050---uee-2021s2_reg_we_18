@@ -30,8 +30,10 @@ export default function postVehicleAdForm({ navigation }) {
             }
         })();
         AsyncStorage.getItem('user', (err, result) => {
-            if(result)
+            if(result){
                 setUser(JSON.parse(result))
+                console.log("resultuser in vehicle ad form",user);
+            }
             else{
                 alert('Please login to publish advertisements')
                 navigation.navigate('login')
