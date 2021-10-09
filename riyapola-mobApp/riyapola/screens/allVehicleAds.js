@@ -26,9 +26,11 @@ export default function allVehicleAds({navigation}) {
 
     useEffect(() => {
         if (vehicleAds.length > 0) {
-            vehicleAds.forEach(elem => {
+            let arr = [];
+            vehicleAds.forEach((elem, index) => {
                 axios.get(`https://riyapola.herokuapp.com/vehicle/${elem._id}`).then(res => {
-                    setfullVehicleAds([...fullVehicleAds.sort((a, b) => a.title.localeCompare(b.title) == 0 ? -1 : a.title.localeCompare(b.title)), res.data])
+                    arr.push(res.data)
+                    index === vehicleAds.length-1 ? setfullVehicleAds(arr) : null
             }).catch(err => alert('error retirieving ad'))
             });
             axios.get('https://riyapola.herokuapp.com/user/sellers').then((res) => {
@@ -40,11 +42,15 @@ export default function allVehicleAds({navigation}) {
         }
     }, [vehicleAds])
 
+    useEffect(() => {
+           console.log('set', fullVehicleAds.length)
+    }, [fullVehicleAds])
+
     return (
         <View style={{flex:1}}>
         <AllAdsTabs pageIndex={0} navigation={navigation} style={{flex:1}}/>
         <Filter title="Vehicles" style={{flex:1}} />
-        <FlatList
+        {vehicleAds.length > 0 ? <FlatList
             data={vehicleAds}
             style={[globalStyles.card,{flex: 1}]}
             renderItem={({ item }) => (
@@ -52,17 +58,17 @@ export default function allVehicleAds({navigation}) {
                     <Card style={globalStyles.cardContent}>
                     {fullVehicleAds.find(elem => elem._id === item._id) ? <Card.Cover source={{uri:'data:image/jpeg;base64,'+fullVehicleAds.find(elem => elem._id === item._id).images[0]}} /> : <ActivityIndicator />}
                         <Card.Content style={globalStyles.cardContainer}>
-                            <Title> {item.title}</Title><View style={{alignItems: 'flex-end'}}><Text>{item.condition}</Text></View>
+                            <Title style={{ fontSize: 24}}> {item.title}</Title><View style={{alignItems: 'flex-end'}}><Text>{item.condition}</Text></View>
                             <Title style={{ fontSize: 15 }}><Icon iconStyle={{ fontSize: 15 }} color="blue" name="place" />{item.location}</Title>
                         </Card.Content>
                         <Card.Content style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
-                            <Headline style={{ fontWeight: "bold" }}>{item.price}</Headline>
+                            <Headline style={{ fontWeight: "bold",fontSize: 20 }}>Rs.{item.price}/=</Headline>
                             {fullVehicleAds.find(elem => elem._id === item._id) ? <Title style={{ fontSize: 15 }}>{sellers.length > 0 ? sellers.find(seller => fullVehicleAds.find(elem => elem._id === item._id).userId === seller._id).name: ''} | {fullVehicleAds.find(elem => elem._id === item._id).updatedAt.split('T')[0]} </Title> : <Text>Loading...</Text>}
                         </Card.Content>
                     </Card>
                 </TouchableOpacity>
             )}
-        />
+        /> : <ActivityIndicator size='large' color='#076AE0' style={{marginVertical: 50}} />}
         </View>
     )
 }
