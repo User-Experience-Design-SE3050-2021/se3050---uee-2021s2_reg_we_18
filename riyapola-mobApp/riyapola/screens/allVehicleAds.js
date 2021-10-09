@@ -30,10 +30,12 @@ export default function allVehicleAds({ navigation }) {
 
     useEffect(() => {
         if (vehicleAds.length > 0) {
-            vehicleAds.forEach(elem => {
+            let arr = [];
+            vehicleAds.forEach((elem, index) => {
                 axios.get(`https://riyapola.herokuapp.com/vehicle/${elem._id}`).then(res => {
-                    setfullVehicleAds([...fullVehicleAds.sort((a, b) => a.title.localeCompare(b.title) == 0 ? -1 : a.title.localeCompare(b.title)), res.data])
-                }).catch(err => alert('error retirieving ad'))
+                    arr.push(res.data)
+                    index === vehicleAds.length-1 ? setfullVehicleAds(arr) : null
+            }).catch(err => alert('error retirieving ad'))
             });
             axios.get('https://riyapola.herokuapp.com/user/sellers').then((res) => {
                 res.status === 200 ? setAllSellers(res.data) : alert('Server error')
@@ -43,6 +45,10 @@ export default function allVehicleAds({ navigation }) {
             })
         }
     }, [vehicleAds])
+
+    useEffect(() => {
+           console.log('set', fullVehicleAds.length)
+    }, [fullVehicleAds])
 
     return (
         <View style={{ flex: 1 }}>
@@ -106,7 +112,7 @@ export default function allVehicleAds({ navigation }) {
                                     <Title style={{ fontSize: 15 }}><Icon iconStyle={{ fontSize: 15 }} color="blue" name="place" />{item.location}</Title>
                                 </Card.Content>
                                 <Card.Content style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
-                                    <Headline style={{ fontWeight: "bold" }}>Rs.{item.price.toFixed().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Headline>
+                                    <Headline style={{ fontWeight: "bold" }}>Rs.{item.price.toFixed().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}/=</Headline>
                                     {fullVehicleAds.find(elem => elem._id === item._id) ? <Title style={{ fontSize: 13 }}>{sellers.length > 0 ? sellers.find(seller => fullVehicleAds.find(elem => elem._id === item._id).userId === seller._id).name : ''} | {fullVehicleAds.find(elem => elem._id === item._id).updatedAt.split('T')[0]} </Title> : <Text>Loading...</Text>}
                                 </Card.Content>
                             </Card>
