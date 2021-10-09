@@ -102,16 +102,16 @@ useEffect(() => {
             // getItem={item._id === user.id}
             renderItem={({ item }) => (
                 <View key={item._id}>
-                <TouchableOpacity onPress={() => navigation.navigate('sparepart detail', item)}  key={item._id}>
+                <TouchableOpacity onPress={() => navigation.navigate('sparepartDetail',item._id)}  key={item._id}>
                     <Card style={globalStyles.cardContent} key={item._id}>
-                        <Card.Cover source={require('../images/spareparts/radio.jpg')} />
+                        <Card.Cover source={{ uri: 'data:image/jpeg;base64,' + item.images[0] }} />
                         <Card.Content style={globalStyles.cardContainer}>
-                            <Title> {item.title}</Title><View><Text> | {item.condition}</Text></View>
+                            <Title> {item.title}</Title><View><Text>  {item.condition}</Text></View>
                             <Title style={{ fontSize: 15 }}><Icon iconStyle={{ fontSize: 15 }} color="blue" name="place" />{item.location}</Title>
                         </Card.Content>
                         <Card.Content style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
-                            <Headline style={{ fontWeight: "bold" }}>{item.price}</Headline>
-                            <Title style={{ fontSize: 15 }}>{item.seller} | {item.date} </Title>
+                            <Headline style={{ fontWeight: "bold" }}>Rs.{item.price.toFixed().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}/=</Headline>
+                            <Title style={{ fontSize: 15 }}>{user.name} | {item.updatedAt.split('T')[0]} </Title>
                         </Card.Content>
                         <Card.Content style={{ flexDirection: 'row', display: 'flex' }}>
                             <Headline style={{ fontWeight: "bold" }}>Status:</Headline>
