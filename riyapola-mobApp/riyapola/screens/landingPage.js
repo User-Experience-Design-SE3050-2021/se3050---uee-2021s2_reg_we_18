@@ -6,141 +6,88 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
-  ScrollView,
   Picker,
+  ImageBackground,
 } from "react-native";
+import { ScrollView } from 'react-native-gesture-handler';
 import { globalStyles } from "../styles/global";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Input } from "react-native-elements";
+import { Input, LinearProgress } from "react-native-elements";
 import CategoryTabs from "../shared/categoryTabs";
-import { Avatar, Paragraph } from "react-native-paper";
+import { Avatar, Paragraph, Headline, Card, Title } from "react-native-paper";
 import Tabs from "../shared/Tabs";
 import axios from "axios";
 
 export default function landingPage({ navigation }) {
 
   const [categories, setCategories] = useState([]);
-  
+
   useEffect(() => {
     axios.get("https://riyapola.herokuapp.com/category").then((res) => {
       setCategories(res.data);
     })
-  },[])
-  
+  }, [])
+
   console.log('categories: ', categories);
 
 
   return (
     <View>
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        nestedScrollEnabled={true}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        <Tabs pageIndex={0} navigation={navigation} style={{ flex: 1 }} />
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            backgroundColor: "white",
-            padding: 5,
-          }}
-        >
-          <ScrollView 
-          contentContainerStyle={{ flexGrow: 1 }}
-          nestedScrollEnabled={true}
-          >
-            <Avatar.Text
-              style={{
-                marginTop: 20,
-                alignSelf: "center",
-                width: "auto",
-                padding: 20,
-                backgroundColor:"white",
-                borderWidth:1,
-                borderColor:"#123875",
-                // color:"#123875"
-                
-              }}
-              size={34}
-              label=" Vehicles "
-            />
+      <Tabs pageIndex={0} navigation={navigation} style={{ flex: 1 }} />
 
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                margin: 15,
-              }}
-            >
-              {
-                categories
-                  .filter((val) =>
-                   val.type == "Vehicles")
-                  .slice(0,4)
-                  .map((data,index) => 
-                    <TouchableOpacity style={style.mainCategories} key={index}>
-                    <Text style={style.mainCatText}>{data.mainName}</Text>
-                  </TouchableOpacity>
-                  )
-              }
+      <ScrollView>
+        <Headline style={{ alignSelf: 'center', fontSize: 28, width: 'auto', fontWeight: 'bold', color: '#076AE0', paddingTop: 20 }}>Vehicles</Headline>
+        {
+          categories
+            .filter((val) =>
+              val.type == "Vehicles")
+            .slice(0, 4)
+            .map((data, index) =>
+              <TouchableOpacity>
+                <Card style={{ margin: 20, marginTop: 10, borderWidth: 1, borderColor: "#076AE0"}} >
+                  <Card.Content>
+                    <View style={{ flexDirection: 'row', flex: 1 }}>
+                      <View>
+                        <Card.Cover style={{ width: 100, height: 100, backgroundColor: '#fff' }} source={require('../images/vehicles/listVehicle.png')} />
+                      </View>
+                      <View style={{ left: 30, top: 30 }}>
+                        <Title style={{ fontSize: 25, color: "#076AE0" }}>{data.mainName}</Title>
+                      </View>
+                    </View>
 
-            </View>  
+                  </Card.Content>
+                  <LinearProgress style={{ top: 5 }} color="#076AE0" />
+                </Card>
 
+              </TouchableOpacity>
+            )
+        }
+        <Headline style={{ alignSelf: 'center', fontSize: 28, width: 'auto', fontWeight: 'bold', color: '#0abbcf', paddingTop: 10, }}>Spare Parts</Headline>
+        {
+          categories
+            .filter((val) =>
+              val.type == "Spare Parts")
+            .slice(0, 4)
+            .map((data, index) =>
+              <TouchableOpacity>
+                <Card style={{ margin: 20, marginTop: 10, bottom:10, borderWidth: 1, borderColor: "#0abbcf", }}>
+                  <Card.Content>
+                    <View style={{ flexDirection: 'row', flex: 1 }}>
+                      <View>
+                        <Card.Cover style={{ width: 100, height: 100, backgroundColor: '#fff' }} source={require('../images/spareparts/listSparepart.png')} />
+                      </View>
+                      <View style={{ left: 30, top: 30 }}>
+                        <Title style={{ fontSize: 25, color: "#0abbcf" }}>{data.mainName}</Title>
+                      </View>
+                    </View>
 
+                  </Card.Content>
+                  <LinearProgress style={{ top: 5 }} color="#0abbcf" />
+                </Card>
 
-            <Avatar.Text
-              style={{
-                marginTop: 20,
-                alignSelf: "center",
-                width: "auto",
-                padding: 20,
-                backgroundColor:"white",
-                borderWidth:1,
-                borderColor:"#123875",
-                // color:"#123875"
-                
-              }}
-              size={34}
-              label="Spare Parts"
-            />
-
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                margin: 15,
-              }}
-            >
-             {
-                categories
-                  .filter((val) =>
-                   val.type == "Spare Parts")
-                  .slice(0,4)
-                  .map((data,index) => 
-                    <TouchableOpacity style={style.mainCategories} key={index}>
-                    <Text style={style.mainCatText}>{data.mainName}</Text>
-                  </TouchableOpacity> //#125675 //#751244
-                  )
-              }
-            </View>
-
-            
-
-            {/* <Avatar.Text
-          style={{ width: 400, marginTop: 20, marginLeft:20,marginRight:20,height:55 }}
-          size={34}
-          label="Sometimes dealerships tend to focus more on developing from the inside-out, 
-          more so than outside-in. They focus on brand development, inbound marketing, 
-          and making the buying process easier and easier for clients. 
-          But where is the focus on putting your nose down and actively searching for better leads?
-           The only way a successful business can run is by being on the prowl for new customers"
-        /> */}
-          </ScrollView>
-        </View>
+              </TouchableOpacity>
+            )
+        }
       </ScrollView>
     </View>
   );
@@ -197,13 +144,13 @@ const style = StyleSheet.create({
     marginTop: 10,
     // borderWidth:1,
     borderRadius: 10,
-    maxWidth:"100%",
-    minWidth:"100%",
+    maxWidth: "100%",
+    minWidth: "100%",
     height: 50,
   },
   mainCatText: {
     lineHeight: 50,
-    letterSpacing:3,
+    letterSpacing: 3,
     textAlign: "center",
     fontSize: 23,
     // fontWeight:"bold",

@@ -9,7 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from 'axios';
 import {districts} from '../utils/districts';
 
-export default function updateSparepartsAd() {
+export default function updateSparepartsAd({route}) {
 
     const [selectedValue, setSelectedValue] = useState("Select Spare Part Category");
     const [pics, setImages] = useState([]);
@@ -41,7 +41,7 @@ export default function updateSparepartsAd() {
             }
         })
 
-        axios.get('https://riyapola.herokuapp.com/spareparts/616181036ebd080004beb816').then((res) => {
+        axios.get(`https://riyapola.herokuapp.com/spareparts/${route.params}`).then((res) => {
             setAd(res.data);
             console.log(res.data.price)
             setCondition(res.data.condition)
@@ -87,7 +87,7 @@ export default function updateSparepartsAd() {
 
     const handleSubmit = () => {
         setactionWaiting(true)
-        axios.put('https://riyapola.herokuapp.com/spareparts/616181036ebd080004beb816', { ...ad, status: "pending" }).then((res) => {
+        axios.put(`https://riyapola.herokuapp.com/spareparts/${route.params}`, { ...ad, status: "pending" }).then((res) => {
             res.status === 200 ? alert('Ad submitted for reviewing') : alert('Ad submission failed')
             setactionWaiting(false)
         }).catch((err) => {
@@ -99,7 +99,7 @@ export default function updateSparepartsAd() {
 
     const handleDelete = () => {
         setactionWaiting(true)
-        axios.delete('https://riyapola.herokuapp.com/spareparts/616181036ebd080004beb816').then((res) => {
+        axios.delete(`https://riyapola.herokuapp.com/spareparts/${route.params}`).then((res) => {
             res.status === 200 ? alert('Ad Successfully Deleted!') : alert('Ad deletion fail')
             setactionWaiting(false)
         }).catch((err) => {
@@ -112,7 +112,7 @@ export default function updateSparepartsAd() {
     return (
         <ScrollView>
             <View style={globalStyles.container}>
-                <Text style={globalStyles.topicForm}>Post Your Spare Part Ad</Text>
+                <Text style={globalStyles.topicForm}>Update Your Spare Part Ad</Text>
                 <Text style={globalStyles.label}>Condition</Text>
                 <View style={{ display: 'flex', flexDirection: 'row', flex: 1, alignItems: 'center' }} >
                     <RadioButton value='new' color='#076AE0' status={condition === 'new' ? 'checked' : 'unchecked'} onPress={() => setCondition('new')} style={{ flex: 1 }} />
