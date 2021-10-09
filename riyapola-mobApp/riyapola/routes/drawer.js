@@ -75,6 +75,40 @@ else{
          });
         //  AsyncStorage.removeItem("tempUser");
 }, [])
+const getUser=()=>{
+  AsyncStorage.getItem('user', (err, result) => {
+    console.log(result);
+    if(result){
+    setUser(JSON.parse(result))
+    // setUser({
+    //   name : result.name,
+    //   email :result.email,
+    //   password : result.password,
+    //   type : result.type,
+    //   phoneNumber :result.phoneNumber,
+    //   wishList:result.wishList,
+    //   image:result.image
+    //   }
+      console.log("resultuser",user);
+    // setId(result._id)
+  }
+else{
+  setUser({
+    _id:"",
+    name : "",
+    email : "",
+    password : "",
+    type : "",
+    phoneNumber :"",
+    wishList:[],
+    image:[]
+  })
+    // alert('Please login to see the profile')
+    // navigation.navigate('login')
+}
+});
+}
+getUser();
     //     //   setUser({
     //     //     name : result.name,
     //     //     email :result.email,
