@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import { ScrollView, View, Text, ActivityIndicator } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 import { Button, Checkbox, DataTable, Headline } from 'react-native-paper';
 import AdminTabs from '../shared/AdminTabs';
@@ -22,11 +22,13 @@ const sparepartsAdActions = ({ navigation }) => {
     });
     // const [checked, setChecked] = React.useState([]);
     const [bulkApprove, setBulkApprove] = React.useState([])
+    const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
         axios.get('https://riyapola.herokuapp.com/spareparts/pending/ads').then((res) => {
             console.log(res.data[0])
             setSpareparts(res.data)
+            setLoading(false);
         })
     }, [])
 
@@ -46,7 +48,8 @@ const sparepartsAdActions = ({ navigation }) => {
         console.log('bulk ids',bulkApprove)
         bulkApprove.forEach(async (item, index) => {
             await axios.put(`https://riyapola.herokuapp.com/spareparts/${item}`,{status: "published"})
-            console.log(item,index)
+            // spareparts.find(elem => elem._id == item) ? setSpareparts({...spareparts, status: "published"}) : (null)
+           
         })
     }
 
@@ -58,7 +61,6 @@ const sparepartsAdActions = ({ navigation }) => {
         <View>
             <AdminTabs navigation={navigation} pageIndex={1} />
             <Headline style={{ fontSize: 16, alignSelf: 'center', fontWeight: 'bold', padding: 20 }}>Approve/Reject Spareparts Advertisements</Headline>
-            
             {spareparts.length != 0 ? 
             <ScrollView horizontal>
             <DataTable>
@@ -92,7 +94,7 @@ const sparepartsAdActions = ({ navigation }) => {
                     optionsLabel={'Rows per page'}
                 />
             </DataTable> 
-            </ScrollView> : (null) }
+            </ScrollView> : <ActivityIndicator  animating={loading} size="large" color="#0000ff"/> }
             <Button color='#076AE0' mode="contained" style={{ maxWidth: 200, alignSelf: 'flex-end', marginEnd: 10 }} onPress={() => submitBulk()}>Bulk Approve</Button> 
             
         </View>
