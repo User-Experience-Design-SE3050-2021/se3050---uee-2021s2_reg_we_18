@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, ActivityIndicator } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 import { Button, Checkbox, DataTable, Headline } from 'react-native-paper';
 import AdminTabs from '../shared/AdminTabs';
@@ -21,12 +21,14 @@ const vehicleAdActions = ({ navigation }) => {
     const [approved, setApproved] = useState({
         id: ""
     })
-    const [bulkApprove, setBulkApprove] = useState([])
+    const [bulkApprove, setBulkApprove] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         axios.get('https://riyapola.herokuapp.com/vehicle/pending/ads').then((res) => {
             console.log(res.data)
             setVehicle(res.data)
+            setLoading(false);
         })
     }, [])
 
@@ -89,7 +91,7 @@ const vehicleAdActions = ({ navigation }) => {
                             optionsLabel={'Rows per page'}
                         />
                     </DataTable>
-                </ScrollView> : (null)}
+                </ScrollView> : <ActivityIndicator  animating={loading} size="large" color="#0000ff"/>}
             <Button color='#076AE0' mode="contained" style={{ maxWidth: 200, alignSelf: 'flex-end', marginEnd: 10 }} onPress={() => submitBulk()} >Bulk Approve</Button>
         </View>
     );

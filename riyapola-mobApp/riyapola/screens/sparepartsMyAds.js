@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { Card, Title, Headline } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
@@ -6,21 +6,76 @@ import { globalStyles } from '../styles/global';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import MyAdsTab from '../shared/myAdsTab';
 import FlatButton from '../shared/button';
-
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function sparepartsMyAds({navigation}) {
 
     const [sparepartsAds, setSparepartsAd] = useState([
-        { title: 'Radio For Sale', condition: 'Used', location: 'Colombo', price: 'Rs. 13,000', seller: 'Saman', date: '2021-09-12', image: '../images/spareparts/radio.jpg', key: '1' ,status:'approved' },
-        { title: 'JBL Car Audio', condition: 'New', location: 'Gampaha', price: 'Rs. 30,000', seller: 'Rohan', date: '2021-09-13', image: '../images/spareparts/radio2.jpg', key: '2' ,status:'approved' },
-        { title: 'Used Radio Set', condition: 'Recondition', location: 'Kandy', price: 'Rs. 12,300', seller: 'Eranda', date: '2021-09-12', image: '../images/spareparts/radio.jpg', key: '3',status:'Not approved'  }
+        // { title: 'Radio For Sale', condition: 'Used', location: 'Colombo', price: 'Rs. 13,000', seller: 'Saman', date: '2021-09-12', image: '../images/spareparts/radio.jpg', key: '1' ,status:'approved' },
+        // { title: 'JBL Car Audio', condition: 'New', location: 'Gampaha', price: 'Rs. 30,000', seller: 'Rohan', date: '2021-09-13', image: '../images/spareparts/radio2.jpg', key: '2' ,status:'approved' },
+        // { title: 'Used Radio Set', condition: 'Recondition', location: 'Kandy', price: 'Rs. 12,300', seller: 'Eranda', date: '2021-09-12', image: '../images/spareparts/radio.jpg', key: '3',status:'Not approved'  }
     ])
+    const [user, setUser] = useState({
+        _id:"",
+        name : "",
+        email : "",
+        password : "",
+        type : "buyerseller",
+        phoneNumber :"",
+        wishList:[],
+        image:[]
+    });
+useEffect(() => {
 
+    AsyncStorage.getItem('user', (err, result) => {
+        console.log(result);
+        result =JSON.parse(result);
+        setUser({
+            _id:result._id,
+          name : result.name,
+          email :result.email,
+          password : result.password,
+          type : result.type,
+          phoneNumber :result.phoneNumber,
+          wishList:result.wishList,
+          image:result.image
+          })
+          console.log("result._id",result._id);
+          console.log("resultuser",user);
+        // setId(result._id)
+        // setAccount({
+        //     ...account,
+        //     userId:user._id
+        // })
+             });
+   
+            axios.get('https://riyapola.herokuapp.com/spareparts/').then((res) => {
+                if(res.status == 200){
+                    // dispatch({
+                    //     type: actionType.GET_ALL_SPAREPARTS_ADS,
+                    //     payload: res.data
+                    // })
+                    setSparepartsAd(
+                       res.data.filter(spareParts=>spareParts.userId === user._id)
+                    )
+                    console.log("sparepartsMyAds",sparepartsMyAds);
+                }
+                // else    
+                //     resolve(res.data)
+            }).catch((err) => {
+                // reject(err);
+            })
+       
+           
+        
+}, [])
     return (
         <View>
             <MyAdsTab pageIndex={1} navigation={navigation}  />
         <FlatList
             data={sparepartsAds}
             style={globalStyles.card}
+            // getItem={item._id === user.id}
             renderItem={({ item }) => (
                 <View>
                 <TouchableOpacity onPress={() => navigation.navigate('sparepart detail', item)}  >

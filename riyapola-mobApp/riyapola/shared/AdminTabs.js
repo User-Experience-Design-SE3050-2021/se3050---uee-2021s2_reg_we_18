@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Tab } from 'react-native-elements';
-import { StyleSheet } from 'react-native';
+import { StyleSheet,View } from 'react-native';
 
 export default function AdminTabs({ pageIndex, navigation }) {
 
@@ -24,10 +24,12 @@ export default function AdminTabs({ pageIndex, navigation }) {
     },[index])
 
     return (
-        <Tab value={index} onChange={tabSelected} variant='primary' >
-            <Tab.Item title="Vehicle Ads" />
-            <Tab.Item title="Spare Parts Ads" />
+        <View style={{backgroundColor: '#076AE0'}}>
+        <Tab value={index} onChange={tabSelected} >
+            <Tab.Item title="Vehicle Ads" titleStyle={{color: 'white'}} />
+            <Tab.Item title="Spare Parts Ads" titleStyle={{color: 'white'}} />
         </Tab>
+        </View>
     )
 }
 
