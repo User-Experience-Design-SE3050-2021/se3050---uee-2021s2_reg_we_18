@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -11,98 +11,201 @@ import {
   Modal,
   Alert,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 import { globalStyles } from "../styles/global";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
-import { categoryData } from "../categoryDataSet/categoryData";
+// import { categoryData } from "../categoryDataSet/categoryData";
+import axios from "axios";
 
 export default function categoryList({ navigation }) {
-  const [dataSet, setCategoryData] = useState(categoryData);
+  // const [dataSet, setCategoryData] = useState(categoryData);
   const [modalVisible, setModalVisible] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [categoryData, setCategoryData] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
+  const [deletedId, setDeletedId] = useState(null);
+  const [textValue, setSearchQuerry] = useState("");
+
+  useEffect(() => {
+    setTimeout(() => {
+      axios.get("https://riyapola.herokuapp.com/category").then((res) => {
+        setCategoryData(res.data);
+        if (res.data) {
+          setCategoryData(res.data);
+          setPageLoading(false);
+        }
+      });
+    });
+  });
 
   const onPressNewCategory = () => {
     navigation.navigate("Add");
   };
 
-  const onPressUpdateCategory = () => {
-    navigation.navigate("Update");
+  const onPressUpdateCategory = (id) => {
+    navigation.navigate("Update", {
+      id: id,
+    });
   };
 
-  return (
-    <View style={{display:'flex', padding:20,flexDirection:'column',backgroundColor:'white'}}>
-      <View style={style.addNewOuter}>
-        <Text style={style.headerTextCategory}>LIST OF CATEGORIES</Text>
-        <TouchableOpacity
-          style={style.addNewBtn}
-          onPress={() => onPressNewCategory()}
-        >
-          <Text style={style.deleteText}>Add new category</Text>
-        </TouchableOpacity>
-      </View>
+  const deleteCategoryById = (id) => {
+    console.log('deleteCategoryById: ');
+    setTimeout(() => {
+      axios
+        .delete(`https://riyapola.herokuapp.com/category/${id}`)
+        .then((res) => {
+          console.log("delete data", res.data);
+        });
+    });
+  };
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(false);
-        }}
+  return pageLoading ? (
+    <View style={{ marginTop: "80%", marginLeft: "0%" }}>
+      <ActivityIndicator size="large" color="green" />
+    </View>
+  ) : (
+    <View
+      style={{
+        display: "flex",
+        padding: 20,
+        flexDirection: "column",
+        backgroundColor: "white",
+        maxHeight:"100%",
+        minHeight:"100%"
+      }}
+    >
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        nestedScrollEnabled={true}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
       >
-        <View style={style.centeredView}>
-          <View style={style.modalView}>
-            <Text style={{textAlign:"center", marginBottom:20, fontSize:20,letterSpacing:3}}>Are you sure ?</Text>
-            {/* <Pressable
-              style={[style.button, style.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={style.textStyle}>Cancel</Text>
-            </Pressable>
-            <Pressable
-              style={[style.button, style.buttonClose]}
-              // onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={style.textStyle}>Yes</Text>
-            </Pressable> */}
-
-            <View style={style.twoButtonOuter}>
-              <TouchableOpacity
-                style={style.updateBtn}
-                onPress={() => setModalVisible(false)}
-              >
-                <Text style={style.updateText}>No</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={style.deleteBtn}>
-                <Text style={style.deleteText}>Delete</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+        <View style={style.addNewOuter}>
+          <Text style={style.headerTextCategory}>LIST OF CATEGORIES</Text>
+          <TouchableOpacity
+            style={style.addNewBtn}
+            onPress={() => onPressNewCategory()}
+          >
+            <Text style={style.deleteText}>Add New Category</Text>
+          </TouchableOpacity>
+          <TextInput
+            style={{
+              borderWidth: 1,
+              borderColor: "black", //"#777",
+              padding: 8,
+              marginTop: 15,
+              minWidth: "100%",
+              maxWidth: "100%",
+              height: 40,
+              borderRadius: 25,
+              textAlign: "center",
+            }}
+            placeholder="Search here ..."
+            onChangeText={(text) => setSearchQuerry(text)}
+          >
+            asdasd
+          </TextInput>
         </View>
-      </Modal>
 
-      <ScrollView style={style.scrollview}>
-        {dataSet.map((value, index) => {
-          return (
-            <View style={style.listViewCard} key={index}>
-              <Text style={style.listTableText}>{value.mainName.toUpperCase()}</Text>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(false);
+          }}
+        >
+          <View style={style.centeredView}>
+            <View style={style.modalView}>
+              <Text
+                style={{
+                  textAlign: "center",
+                  marginBottom: 20,
+                  fontSize: 20,
+                  letterSpacing: 3,
+                }}
+              >
+                Are you sure?
+              </Text>
               <View style={style.twoButtonOuter}>
                 <TouchableOpacity
                   style={style.updateBtn}
-                  onPress={() => onPressUpdateCategory()}
+                  onPress={() => setModalVisible(false)}
                 >
-                  <Text style={style.updateText}>Update</Text>
+                  <Text style={style.updateText}>No</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={style.deleteBtn}
-                  onPress={() => setModalVisible(true)}
+                  onPress={() => deleteCategoryById()}
                 >
                   <Text style={style.deleteText}>Delete</Text>
                 </TouchableOpacity>
               </View>
             </View>
-          );
-        })}
+          </View>
+        </Modal>
+
+        <ScrollView style={style.scrollview} nestedScrollEnabled={true}>
+          {categoryData
+            .filter((elem) => {
+              return elem.mainName
+                .toLowerCase()
+                .includes(`${textValue.toLocaleLowerCase()}`);
+            })
+            .map((value, index) => {
+              return (
+                <View style={style.listViewCard} key={index}>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Text style={style.listTableText}>
+                      {value.mainName.toUpperCase()}
+                    </Text>
+                    <Text
+                      style={{
+                        marginBottom: 5,
+                        marginTop: 5,
+                        fontSize: 10,
+                        marginRight: 13,
+                        borderWidth: 1,
+                        borderColor: "black",
+                        borderRadius: 5,
+                        color: "black",
+                        padding: 10,
+                        letterSpacing: 5,
+                      }}
+                    >
+                      {value.type.toUpperCase()}
+                    </Text>
+                  </View>
+                  <View style={style.twoButtonOuter}>
+                    <TouchableOpacity
+                      style={style.updateBtn}
+                      onPress={() => onPressUpdateCategory(value._id)}
+                    >
+                      <Text style={style.updateText}>Update</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={style.deleteBtn}
+                      onPress={() =>
+                        // setModalVisible(true)
+                        deleteCategoryById(value._id)
+                      }
+                    >
+                      <Text style={style.deleteText}>Delete</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              );
+            })}
+        </ScrollView>
       </ScrollView>
     </View>
   );
@@ -149,17 +252,16 @@ const style = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     marginTop: 10,
-    borderWidth:1,
+    borderWidth: 1,
     borderRadius: 10,
-    borderColor: "#77edaa",
+    borderColor: "#994b58",
     // shadowColor: "#000",
-    // shadowOffset: {
+    // shadowOffset: {#77edaa
     //   width: 0,
     //   height: 2,
     // },
     // shadowOpacity: 0.25,
     // shadowRadius: 4,
-    
   },
   twoButtonOuter: {
     display: "flex",
@@ -172,7 +274,7 @@ const style = StyleSheet.create({
     marginTop: 5,
     fontSize: 25,
     marginLeft: 10,
-    color:'#24a1a6'
+    color: "#24a1a6",
   },
   updateBtn: {
     alignItems: "center",
@@ -190,7 +292,7 @@ const style = StyleSheet.create({
     backgroundColor: "#994b58",
     padding: 10,
     borderRadius: 5,
-    marginRight: 20,
+    marginRight: 0,
     width: 120,
   },
   deleteText: {
@@ -198,8 +300,8 @@ const style = StyleSheet.create({
   },
   headerTextCategory: {
     fontSize: 25,
-    textAlign: "left",
-    color:"#24a1a6"
+    textAlign: "center",
+    color: "black",
   },
   addNewBtn: {
     alignItems: "center",
@@ -236,8 +338,8 @@ const style = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 105,
-    borderColor:'#000',
-    borderWidth:2
+    borderColor: "#000",
+    borderWidth: 2,
   },
   button: {
     borderRadius: 20,
