@@ -1,18 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, ScrollView, Picker } from 'react-native';
-import { Card, Title, Headline, Portal, Appbar, Dialog, Provider, RadioButton, Button, ActivityIndicator } from 'react-native-paper';
+import { Card, Title, Headline, Portal, Appbar, Dialog, Provider, RadioButton, Button, ActivityIndicator, Searchbar } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
 import { globalStyles } from '../styles/global';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import Filter from '../shared/Fliter';
 import AllAdsTabs from '../shared/allAdsTabs';
 import axios from 'axios';
+import Svg, { Rect } from 'react-native-svg';
+import ContentLoader from 'react-native-masked-loader';
+
+function getMaskedElement() {
+    return (
+      <Svg height={250} width="100%" fill={'black'} >
+        <Rect x="20" y="5" rx="9" ry="9" width="90%" height="100%" />
+      </Svg>
+    );
+  }
 
 export default function allSparepartAds({ navigation }) {
 
     const [sparepartAds, setsparepartAds] = useState([])
     const [fullsparepartAds, setfullsparepartAds] = useState([])
-    const [sellers, setAllSellers] = useState([])
+    const [sellers, setAllSellers] = useState([]);
+    const [sparepartAdsDum, setSparepartAdsDum] = useState([]);
+    const [search, setSearch] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
+
 
     useEffect(() => {
 
@@ -48,6 +61,7 @@ export default function allSparepartAds({ navigation }) {
 
     useEffect(() => {
         console.log('set', fullsparepartAds.length)
+        setSparepartAdsDum(sparepartAds)
     }, [fullsparepartAds])
 
     const [visible, setVisible] = useState(false);
@@ -56,6 +70,22 @@ export default function allSparepartAds({ navigation }) {
     const showFilter = () => setVisible(true);
 
     const hideFilter = () => setVisible(false);
+    const MaskedElement = getMaskedElement();
+
+    const searchFilter = (text) => {
+        console.log('filter')
+        // if (text) {
+        //     console.log(text)
+        //     const newData = sparepartAdsDum.filter((item) => {
+        //         item.title.toLowerCase().includes(text.toLowerCase())
+        //     });
+        //     setsparepartAds(newData);
+        //     setSearch(text);
+        // } else {
+        //     setsparepartAds(sparepartAdsDum);
+        //     setSearch(text);
+        // }
+    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -102,7 +132,14 @@ export default function allSparepartAds({ navigation }) {
                 </Portal>
                 <AllAdsTabs pageIndex={1} navigation={navigation} style={{ flex: 1 }} />
                 <View style={{ display: "flex", flexDirection: 'row', justifyContent: 'center' }}>
-                    <Filter title="SpareParts" />
+                    <Searchbar
+                        placeholder="Search"
+                        style={{ marginTop: 10, marginBottom: 10, borderRadius: 50, width: 300 }}
+                        onChangeText={setSearchQuery}
+                        value={searchQuery}
+                        icon="magnify"
+                        onIconPress={searchFilter(searchQuery)}
+                    />
                     <Icon name="filter" onPress={showFilter} type='font-awesome' color="#076AE0" raised reverse />
                 </View>
 
@@ -110,14 +147,14 @@ export default function allSparepartAds({ navigation }) {
                     <Appbar.BackAction onPress={() => { navigation.goBack() }} style={{ marginBottom: 40 }} />
                     <Text style={{ marginBottom: 35, color: "#fff", fontWeight: "bold" }}>Spare Parts</Text>
                 </Appbar.Header>
-                <Filter title="SpareParts" style={{ flex: 1 }} />
                 {sparepartAds.length > 0 ? <FlatList
-                    data={sparepartAds}
+                    data={sparepartAdsDum.length > 0 ? sparepartAdsDum : sparepartAds}
                     style={globalStyles.card}
+                    keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => (
                         <TouchableOpacity onPress={() => navigation.navigate('sparepartDetail', item._id)}>
                             <Card style={globalStyles.cardContent}>
-                                {fullsparepartAds.find(elem => elem._id === item._id) ? <Card.Cover source={{ uri: 'data:image/jpeg;base64,' + fullsparepartAds.find(elem => elem._id === item._id).images[0] }} /> : <ActivityIndicator />}
+                                {fullsparepartAds.find(elem => elem._id === item._id) ? <Card.Cover source={{ uri: 'data:image/jpeg;base64,' + fullsparepartAds.find(elem => elem._id === item._id).images[0] }} /> : <ContentLoader MaskedElement={MaskedElement}/>}
                                 <Card.Content style={globalStyles.cardContainer}>
                                     <Title> {item.title}</Title><View style={{ alignItems: 'flex-end' }}><Text>{item.condition}</Text></View>
                                     <Title style={{ fontSize: 15 }}><Icon iconStyle={{ fontSize: 15 }} color="blue" name="place" />{item.location}</Title>
