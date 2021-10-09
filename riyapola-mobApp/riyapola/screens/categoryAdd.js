@@ -27,6 +27,7 @@ export default function addCategory() {
     type: "",
     make: [],
   });
+  const [btndisable,setBtnDisable] = useState(false);
 
   const addMakeToArray = () => {
     setInputValues({ ...inputValues, make:Array.from(new Set( [...inputValues.make, makeArray])) });
@@ -59,6 +60,7 @@ export default function addCategory() {
     } else if (submitForm.make.length === 0) {
       alert("Please enter at least one vehicle Make");
     } else {
+      setBtnDisable(true);
       axios
         .post("https://riyapola.herokuapp.com/category", submitForm)
         .then((res) => {
@@ -68,6 +70,7 @@ export default function addCategory() {
               type: "",
               make: [],
             });
+            setBtnDisable(false);
           } else {
             alert("Add Category Failed");
           }
@@ -103,6 +106,7 @@ export default function addCategory() {
 
         <Text style={style.inputText}>Main Name</Text>
         <TextInput
+          value={inputValues.mainName ? inputValues.mainName : ''}
           style={style.input}
           placeholder="Select a Category Name"
           onChangeText={(text) =>
@@ -112,6 +116,7 @@ export default function addCategory() {
 
         <Text style={style.inputText}>Main Description</Text>
         <TextInput
+          value={inputValues.mainDescription ? inputValues.mainDescription : ''}
           style={style.input}
           placeholder="Add a main description"
           onChangeText={(text) =>
@@ -195,6 +200,7 @@ export default function addCategory() {
             title="Add Category"
             color="orange"
             onPress={() => handleSubmit()}
+            disabled={btndisable}
           />
         </View>
       </ScrollView>
