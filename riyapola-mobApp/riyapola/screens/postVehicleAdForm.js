@@ -36,8 +36,8 @@ export default function postVehicleAdForm({ navigation }) {
                 alert('Please login to publish advertisements')
                 navigation.navigate('login')
             }
-        })
-        , []});
+        })}
+        , []);
 
     useEffect(() => {
         setPhone(null)
