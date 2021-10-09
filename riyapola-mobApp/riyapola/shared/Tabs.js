@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Tab } from 'react-native-elements';
+import { View } from 'react-native'
 
 export default function Tabs({ pageIndex, navigation }) {
 
@@ -11,7 +12,7 @@ export default function Tabs({ pageIndex, navigation }) {
                 navigation.navigate('Home')
                 break;
             case 1:
-                navigation.navigate('AllAds')
+                navigation.navigate('allads')
                 break;
             case 2:
                 navigation.navigate('postAd')
@@ -22,10 +23,12 @@ export default function Tabs({ pageIndex, navigation }) {
     },[index])
 
     return (
-        <Tab value={index} onChange={setIndex} variant='primary' >
-            <Tab.Item title="Home" />
-            <Tab.Item title="All Ads" />
-            <Tab.Item title="Post Ad" />
+        <View style={{backgroundColor: '#076AE0'}}>
+        <Tab value={index} onChange={setIndex}  >
+            <Tab.Item title="Home" titleStyle={{color: 'white'}} />
+            <Tab.Item title="All Ads" titleStyle={{color: 'white'}} />
+            <Tab.Item title="Post Ad" titleStyle={{color: 'white'}} />
         </Tab>
+        </View>
     )
 }

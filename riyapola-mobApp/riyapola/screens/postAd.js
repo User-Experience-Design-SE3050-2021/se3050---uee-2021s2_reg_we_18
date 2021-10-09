@@ -12,6 +12,7 @@ export default function postAd({navigation}) {
             <View style={globalStyles.container}>
             <Button text="Post Vehicle Ad"   onPress={() => navigation.navigate('VehicleAdForm')} />
             <Button text="Post Spare Part Ad" onPress={() => navigation.navigate('SparepartAdForm') }/>
+            <Button text="Update Sparepart Ad" onPress={() => navigation.navigate('updateSparepartsAd') }/>
             </View>
         </View>
     )
