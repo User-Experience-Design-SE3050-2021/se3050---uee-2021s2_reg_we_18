@@ -36,7 +36,15 @@ export default function profile({navigation}) {
     //     }
     // }'
     const [id, setId] = useState(null)
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({
+      name : "",
+      email : "",
+      password : "",
+      type : "buyerseller",
+      phoneNumber :"",
+      wishList:[],
+      image:[]
+    });
   useEffect(() => {
     AsyncStorage.getItem('user', (err, result) => {
       console.log(result);
@@ -55,6 +63,16 @@ export default function profile({navigation}) {
       setId(result._id)
     }
   else{
+    setUser({
+      _id:"",
+      name : "",
+      email : "",
+      password : "",
+      type : "buyerseller",
+      phoneNumber :"",
+      wishList:[],
+      image:[]
+    })
       alert('Please login to see the profile')
       navigation.navigate('login')
   }
@@ -75,7 +93,9 @@ export default function profile({navigation}) {
           })();
           //  AsyncStorage.removeItem("tempUser");
   }, [])
-  
+  useEffect(() => {
+    console.log('useEffect user',user)
+}, [user])
     const [state, setstate] = useState({
       photo:null
     })
@@ -88,7 +108,7 @@ export default function profile({navigation}) {
     // })
         // console.log("payload",payload)
         // console.log("decodeItem",decodeItem)
-          axios.post(`https://riyapola.herokuapp.com/user/update/${id}`, user).then((res) => {
+          axios.post(`https://riyapola.herokuapp.com/user/update/${user._id}`, user).then((res) => {
            
               const { token } = res.data;
               console.log('token',token);
@@ -204,7 +224,8 @@ const handleChoosePhoto = async () => {
           })
       }}
       // keyboardType='numeric'
-      defaultValue={user.name}
+       defaultValue={user.name}
+      // value={user.name}
         />
       <MaterialIcons name='email' size={28} />
       <Text>Email</Text>
@@ -218,6 +239,7 @@ const handleChoosePhoto = async () => {
       }}
       keyboardType='email-address'
       defaultValue={user.email}
+      // value={user.email}
       />
       <MaterialIcons name='smartphone' size={28} />
       <Text>Phone Number</Text>
@@ -230,7 +252,8 @@ const handleChoosePhoto = async () => {
           })
       }}
       keyboardType='phone-pad'
-      defaultValue={user.phoneNumber}
+       defaultValue={user.phoneNumber}
+      // value={user.phoneNumber}
       />
             <FlatButton text="Update" onPress={updateUser}  />   
             <FlatButton text="Delete"  style={style.deleteBtn} onPress={()=>setModalVisible(true)} />   
