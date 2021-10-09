@@ -7,6 +7,7 @@ import { Icon } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from 'axios';
+import {districts} from '../utils/districts';
 
 export default function postSparepartsAdForm() {
 
@@ -19,6 +20,8 @@ export default function postSparepartsAdForm() {
     const [ad, setAd] = useState(null);
     const [user, setUser] = useState(null);
     const [actionWaiting, setactionWaiting] = useState(false);
+    const [dist, setDist] = useState(districts);
+
 
     useEffect(() => {
         (async () => {
@@ -150,9 +153,11 @@ export default function postSparepartsAdForm() {
                             onValueChange={(text) => setAd({...ad,location: text})}
                         >
                             <Picker.Item label="Select Your Location" value="" />
-                            <Picker.Item label="Colombo" value="colombo" />
-                            <Picker.Item label="Galle" value="galle" />
-                            <Picker.Item label="Gamapaha" value="gampaha" />
+                            {dist ? dist.map((dist) => {
+                                return(
+                                    <Picker.Item label={dist} value={dist} />
+                                )
+                            }): null}
                         </Picker>
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >

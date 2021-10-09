@@ -7,6 +7,7 @@ import { Icon } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from 'axios';
+import {districts} from '../utils/districts';
 
 export default function updateSparepartsAd() {
 
@@ -19,6 +20,9 @@ export default function updateSparepartsAd() {
     const [ad, setAd] = useState(null);
     const [user, setUser] = useState(null);
     const [actionWaiting, setactionWaiting] = useState(false);
+    const [dist, setDist] = useState(districts);
+
+
     useEffect(() => {
         (async () => {
             if (Platform.OS !== 'web') {
@@ -29,9 +33,9 @@ export default function updateSparepartsAd() {
             }
         })();
         AsyncStorage.getItem('user', (err, result) => {
-            if(result)
+            if (result)
                 setUser(JSON.parse(result))
-            else{
+            else {
                 alert('Please login to publish advertisements')
                 navigation.navigate('login')
             }
@@ -43,24 +47,24 @@ export default function updateSparepartsAd() {
             setCondition(res.data.condition)
             setImages(res.data.images)
             setPhones(res.data.contactNumbers)
-           
+
         })
     }, []);
 
-  
+
     useEffect(() => {
         setPhone(null)
-        ad ? setAd({...ad, contactNumbers: phones}) : null
-      }, [phones]);
-      useEffect(() => {
-        ad ? setAd({...ad, images: pics}) : null
-      }, [pics]);
+        ad ? setAd({ ...ad, contactNumbers: phones }) : null
+    }, [phones]);
+    useEffect(() => {
+        ad ? setAd({ ...ad, images: pics }) : null
+    }, [pics]);
 
     useEffect(() => {
-        setAd({...ad,condition})
-      }, [condition]);
+        setAd({ ...ad, condition })
+    }, [condition]);
 
-    
+
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -72,38 +76,38 @@ export default function updateSparepartsAd() {
         });
 
         if (!result.cancelled) {
-            setImages([...pics,result.base64]);
+            setImages([...pics, result.base64]);
         }
-      };
-    
-      const removeIcon = (image) => {
-    
-          setImages(pics.filter(item => item !== image.base64));
-      }
-    
-      const handleSubmit = () => {
+    };
+
+    const removeIcon = (image) => {
+
+        setImages(pics.filter(item => item !== image.base64));
+    }
+
+    const handleSubmit = () => {
         setactionWaiting(true)
-        axios.put('https://riyapola.herokuapp.com/spareparts/616181036ebd080004beb816', {...ad, status: "pending"}).then((res) => {
+        axios.put('https://riyapola.herokuapp.com/spareparts/616181036ebd080004beb816', { ...ad, status: "pending" }).then((res) => {
             res.status === 200 ? alert('Ad submitted for reviewing') : alert('Ad submission failed')
             setactionWaiting(false)
         }).catch((err) => {
-           console.log(err)
-           alert('Rejected')
-           setactionWaiting(false)
+            console.log(err)
+            alert('Rejected')
+            setactionWaiting(false)
         })
-      }
+    }
 
-      const handleDelete = () => {
-          setactionWaiting(true)
-          axios.delete('https://riyapola.herokuapp.com/spareparts/616181036ebd080004beb816').then((res) => {
-              res.status === 200 ? alert('Ad Successfully Deleted!') : alert('Ad deletion fail')
-              setactionWaiting(false)
-          }).catch((err) => {
-              console.log(err)
-              alert('Rejected')
-              setactionWaiting(false)
-          })
-      }
+    const handleDelete = () => {
+        setactionWaiting(true)
+        axios.delete('https://riyapola.herokuapp.com/spareparts/616181036ebd080004beb816').then((res) => {
+            res.status === 200 ? alert('Ad Successfully Deleted!') : alert('Ad deletion fail')
+            setactionWaiting(false)
+        }).catch((err) => {
+            console.log(err)
+            alert('Rejected')
+            setactionWaiting(false)
+        })
+    }
 
     return (
         <ScrollView>
@@ -111,24 +115,24 @@ export default function updateSparepartsAd() {
                 <Text style={globalStyles.topicForm}>Post Your Spare Part Ad</Text>
                 <Text style={globalStyles.label}>Condition</Text>
                 <View style={{ display: 'flex', flexDirection: 'row', flex: 1, alignItems: 'center' }} >
-                    <RadioButton value='new' color='#076AE0' status={condition === 'new' ? 'checked': 'unchecked'} onPress={() => setCondition('new')} style={{flex:1}} />
+                    <RadioButton value='new' color='#076AE0' status={condition === 'new' ? 'checked' : 'unchecked'} onPress={() => setCondition('new')} style={{ flex: 1 }} />
                     <Text>New</Text>
-                    <RadioButton value='used' color='#076AE0' status={condition === 'used' ? 'checked': 'unchecked'} onPress={() => setCondition('used')} style={{flex:1}} />
+                    <RadioButton value='used' color='#076AE0' status={condition === 'used' ? 'checked' : 'unchecked'} onPress={() => setCondition('used')} style={{ flex: 1 }} />
                     <Text>Used</Text>
-                    <RadioButton value='reconditioned' color='#076AE0' status={condition === 'reconditioned' ? 'checked': 'unchecked'} onPress={() => setCondition('reconditioned')} style={{flex:1}} />
+                    <RadioButton value='reconditioned' color='#076AE0' status={condition === 'reconditioned' ? 'checked' : 'unchecked'} onPress={() => setCondition('reconditioned')} style={{ flex: 1 }} />
                     <Text>Recondition</Text>
                 </View>
                 <Text style={globalStyles.label}>Spare Part Category</Text>
                 <Picker
                     selectedValue={ad && ad.category ? ad.category : 'Select Spare Part Category'}
                     style={globalStyles.input}
-                    onValueChange={(itemValue, itemIndex) => setAd({...ad, category: itemValue})}
+                    onValueChange={(itemValue, itemIndex) => setAd({ ...ad, category: itemValue })}
                 >
                     <Picker.Item label="Select Spare Part Category" value="java" />
                     {/* <Picker.Item label={ad.category ? ad.category : (null)} value={ad.category ? ad.category : (null)} /> */}
                 </Picker>
                 <Text style={globalStyles.label}>Title</Text>
-                <TextInput style={globalStyles.input} value={ad && ad.title ? ad.title : null} placeholder="Post Title" onChangeText={(text) => setAd({...ad,title: text})} />
+                <TextInput style={globalStyles.input} value={ad && ad.title ? ad.title : null} placeholder="Post Title" onChangeText={(text) => setAd({ ...ad, title: text })} />
                 <Text style={globalStyles.label}>Description</Text>
                 <TextInput
                     style={globalStyles.textarea}
@@ -137,35 +141,37 @@ export default function updateSparepartsAd() {
                     value={ad && ad.description ? ad.description : null}
                     numberOfLines={10}
                     multiline={true}
-                    onChangeText={(text) => setAd({...ad,description: text})}
+                    onChangeText={(text) => setAd({ ...ad, description: text })}
                 />
                 <Text style={globalStyles.label}>Delivery Available?</Text>
                 <View style={{ display: 'flex', flexDirection: 'row', flex: 1, alignItems: 'center' }}  >
-                    <RadioButton value='yes' status={ad && ad.delivery ? 'checked' : 'unchecked'} color='#076AE0' onPress={() => setAd({...ad, delivery: true})} style={{ flex: 1 }} />
+                    <RadioButton value='yes' status={ad && ad.delivery ? 'checked' : 'unchecked'} color='#076AE0' onPress={() => setAd({ ...ad, delivery: true })} style={{ flex: 1 }} />
                     <Text>Yes</Text>
-                    <RadioButton value='no' status={ad && !ad.delivery ? 'checked' : 'unchecked'} color='#076AE0' onPress={() => setAd({...ad, delivery: false})} style={{ flex: 1 }} />
+                    <RadioButton value='no' status={ad && !ad.delivery ? 'checked' : 'unchecked'} color='#076AE0' onPress={() => setAd({ ...ad, delivery: false })} style={{ flex: 1 }} />
                     <Text>No</Text>
                 </View>
                 <Text style={globalStyles.label}>Location</Text>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} >
-                        <Picker
-                            selectedValue={ad && ad.location ? ad.location : null}
-                            style={globalStyles.select}
-                            onValueChange={(text) => setAd({...ad,location: text})}
-                        >
-                            <Picker.Item label="Select Your Location" value="" />
-                            <Picker.Item label="Colombo" value="colombo" />
-                            <Picker.Item label="Galle" value="galle" />
-                            <Picker.Item label="Gamapaha" value="gampaha" />
-                        </Picker>
+                    <Picker
+                        selectedValue={ad && ad.location ? ad.location : null}
+                        style={globalStyles.select}
+                        onValueChange={(text) => setAd({ ...ad, location: text })}
+                    >
+                        <Picker.Item label="Select Your Location" value="" />
+                        {dist ? dist.map((dist) => {
+                            return (
+                                <Picker.Item label={dist} value={dist} />
+                            )
+                        }) : null}
+                    </Picker>
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
                     <View style={{ flex: 1 }}>
                         <Text style={globalStyles.label}>Price</Text>
-                        <TextInput style={globalStyles.input} keyboardType="numeric" value={ad && ad.price ? ad.price.toString() : null} onChangeText={(text) => setAd({...ad,price: text})} />
+                        <TextInput style={globalStyles.input} keyboardType="numeric" value={ad && ad.price ? ad.price.toString() : null} onChangeText={(text) => setAd({ ...ad, price: text })} />
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-                        <RadioButton  value='negotiable' status={ad && ad.negotiable ? 'checked' : 'unchecked'} color='#076AE0' onPress={() => setAd({...ad, negotiable: !ad.negotiable})} />
+                        <RadioButton value='negotiable' status={ad && ad.negotiable ? 'checked' : 'unchecked'} color='#076AE0' onPress={() => setAd({ ...ad, negotiable: !ad.negotiable })} />
                         <Text>Negotiable</Text>
                     </View>
                 </View>
@@ -188,12 +194,12 @@ export default function updateSparepartsAd() {
                         </View>
                     </ScrollView>
                 </View>
-                <Divider style={{height: 3, marginTop: 5}} />
+                <Divider style={{ height: 3, marginTop: 5 }} />
                 <Headline style={{ fontSize: 18, fontWeight: 'bold' }}>Contact Numbers</Headline>
                 {!isAddPhone ? <View style={{ flex: 1 }} >
                     <Text style={{ top: 0, fontWeight: 'bold' }} >Phone</Text>
-                    <View style={{display:'flex', flexDirection: 'row', alignItems: 'baseline'}}>
-                    <TextInput placeholder="Enter Phone Number" keyboardType="numeric" onChangeText={setPhone} style={globalStyles.input} />
+                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline' }}>
+                        <TextInput placeholder="Enter Phone Number" keyboardType="numeric" onChangeText={setPhone} style={globalStyles.input} />
                         <Icon
                             name='plus-square'
                             type='font-awesome'
@@ -211,31 +217,31 @@ export default function updateSparepartsAd() {
                         />
                     </View>
                 </View> : null}
-                <List.Section style={{backgroundColor: '#fff', borderRadius: 12, elevation: 5 }} >
+                <List.Section style={{ backgroundColor: '#fff', borderRadius: 12, elevation: 5 }} >
                     {phones ? phones.map((phone) => {
-                        return (<List.Item title={phone}  style={{padding: 0, marginBottom: -15}} left={() => <List.Icon color="#076AE0" icon="phone" />} right={() => <List.Icon color="red" icon="minus-circle" />} onPress={() => setPhones(phones.filter(item => item !== phone))} />)
-                    }): null}
-                    <View style={{display: 'flex',flexDirection: 'row',alignItems: 'center', padding: 10, justifyContent: 'flex-end'} } >
-                    <Text style={{color: '#076AE0', marginEnd: 5}} >Add another phone number</Text>
-                    <Icon
-                        name='plus-circle'
-                        type='font-awesome'
-                        color='#076AE0'
-                        size={36}
-                        onPress={() => setisAddPhone(false)}
-                        disabled={!isAddPhone}
+                        return (<List.Item title={phone} style={{ padding: 0, marginBottom: -15 }} left={() => <List.Icon color="#076AE0" icon="phone" />} right={() => <List.Icon color="red" icon="minus-circle" />} onPress={() => setPhones(phones.filter(item => item !== phone))} />)
+                    }) : null}
+                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 10, justifyContent: 'flex-end' }} >
+                        <Text style={{ color: '#076AE0', marginEnd: 5 }} >Add another phone number</Text>
+                        <Icon
+                            name='plus-circle'
+                            type='font-awesome'
+                            color='#076AE0'
+                            size={36}
+                            onPress={() => setisAddPhone(false)}
+                            disabled={!isAddPhone}
                         />
                     </View>
                 </List.Section>
                 <View>
-                <Button style={globalStyles.btn} mode="contained" onPress={handleSubmit} loading={actionWaiting} disabled={actionWaiting} >
-                    Update Your Ad
-                </Button>
+                    <Button style={globalStyles.btn} mode="contained" onPress={handleSubmit} loading={actionWaiting} disabled={actionWaiting} >
+                        Update Your Ad
+                    </Button>
                 </View>
-                <View style={{paddingTop: 5}}>
-                <Button mode="contained" color="red" onPress={handleDelete}  loading={actionWaiting} disabled={actionWaiting} >
-                    Delete Your Ad
-                </Button>
+                <View style={{ paddingTop: 5 }}>
+                    <Button mode="contained" color="red" onPress={handleDelete} loading={actionWaiting} disabled={actionWaiting} >
+                        Delete Your Ad
+                    </Button>
                 </View>
             </View>
         </ScrollView>
