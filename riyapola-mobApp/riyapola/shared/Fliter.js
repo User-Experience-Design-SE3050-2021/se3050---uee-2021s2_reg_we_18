@@ -4,18 +4,20 @@ import { Searchbar } from 'react-native-paper';
 import { Appbar } from 'react-native-paper';
 
 
-export default function Filter({title,navigation}) {
+export default function Filter({title,navigation, searchFilter}) {
     const [searchQuery, setSearchQuery] = React.useState('');
     const onChangeSearch = query => setSearchQuery(query);
 
     return (
         <View>
-            <Searchbar
+            {/* <Searchbar
                 placeholder="Search"
                 style={{marginTop: 10, marginBottom: 10, borderRadius: 50, width: 300}}
-                onChangeText={onChangeSearch}
-                value={searchQuery}
-            />
+                onChangeText={setSearchQuery}
+                // value={searchQuery}
+                icon="search"
+                onIconPress={searchFilter(searchQuery)}
+            /> */}
             {/* <Appbar.Header style={{height: 10, backgroundColor: "#076AE0"}}>
                 <Appbar.BackAction onPress={() => {navigation.goBack()}} style={{marginBottom: 40}} />
                 <Text style={{marginBottom: 35, color: "#fff", fontWeight: "bold"}}>{title}</Text>

@@ -65,6 +65,7 @@ const loginUser =()=>{
                     image:userResponds.image ? userResponds.image: []
                   }
                   AsyncStorage.setItem("user", JSON.stringify(token));
+                  console.log('set item login', token)
                   navigation.navigate('Home');
                 //   dispatch({type:ADD_USER,payload:userDetails})
                

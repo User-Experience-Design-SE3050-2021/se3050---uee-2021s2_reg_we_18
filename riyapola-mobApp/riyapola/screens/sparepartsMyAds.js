@@ -11,12 +11,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function sparepartsMyAds({navigation}) {
 
     const [sparepartsAds, setSparepartsAd] = useState(null)
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({
+        name : "",
+        email : "",
+        password : "",
+        type : "buyerseller",
+        phoneNumber :"",
+        wishList:[],
+        image:[]
+    });
 useEffect(() => {
 
     AsyncStorage.getItem('user', (err, result) => {
         console.log(result);
-        result =JSON.parse(result);
+        // result =JSON.parse(result);
         if(result){
             setUser(JSON.parse(result))
             // setUser({
@@ -64,6 +72,27 @@ useEffect(() => {
            
         
 }, [])
+useEffect(() => {
+    console.log('useEffect user',user)
+    console.log('useEffect sparepartsMyAds',sparepartsMyAds)
+    axios.get('https://riyapola.herokuapp.com/spareparts/').then((res) => {
+        if(res.status == 200){
+            // dispatch({
+            //     type: actionType.GET_ALL_SPAREPARTS_ADS,
+            //     payload: res.data
+            // })
+            setSparepartsAd(
+               res.data.filter(spareParts=>spareParts.userId === user._id)
+            )
+            console.log("sparepartsMyAds",sparepartsMyAds);
+        }
+        // else    
+        //     resolve(res.data)
+    }).catch((err) => {
+        // reject(err);
+    })
+
+}, [user])
     return (
         <View>
             <MyAdsTab pageIndex={1} navigation={navigation}  />
@@ -72,9 +101,9 @@ useEffect(() => {
             style={globalStyles.card}
             // getItem={item._id === user.id}
             renderItem={({ item }) => (
-                <View>
-                <TouchableOpacity onPress={() => navigation.navigate('sparepart detail', item)}  >
-                    <Card style={globalStyles.cardContent}>
+                <View key={item._id}>
+                <TouchableOpacity onPress={() => navigation.navigate('sparepart detail', item)}  key={item._id}>
+                    <Card style={globalStyles.cardContent} key={item._id}>
                         <Card.Cover source={require('../images/spareparts/radio.jpg')} />
                         <Card.Content style={globalStyles.cardContainer}>
                             <Title> {item.title}</Title><View><Text> | {item.condition}</Text></View>

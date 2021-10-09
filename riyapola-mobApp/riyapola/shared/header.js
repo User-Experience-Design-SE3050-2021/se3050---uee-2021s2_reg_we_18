@@ -2,27 +2,66 @@ import React, { useState ,useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
 import AsyncStorage from "@react-native-async-storage/async-storage";
+// import {NavigationActions} from '@react-navigation/native';
+// import {useNavigation} from '@react-navigation/native';
+
+
 export default function header({ navigation, title }) {
     const [user, setUser] = useState(null)
      useEffect(() => {
             AsyncStorage.getItem('user', (err, result) => {
                 console.log("result in header",result);
-                if(result)
+                if(result){
+                // result=JSON.parse(result)
+                console.log("result in header in if",result);
+                // setUser({
+                //     _id:result._id,
+                //     name : result.name,
+                //     email :result.email,
+                //     password : result.password,
+                //     type : result.type,
+                //     phoneNumber :result.phoneNumber,
+                //     wishList:result.wishList,
+                //     image:result.image
+                //     })
                 setUser(JSON.parse(result))
+                console.log("if")
+                console.log("useefect in header user ",user)
+            }
             else{
                 // alert('Please login to publish advertisements')
                 // navigation.navigate('login')
                 setUser(null)
+                console.log("else")
             }
             //    { result ? setUser({...result}) :}
                 console.log("useefect in header user ",user)
             })
      }, [])
+     useEffect(() => {
+         console.log('useEffect user',user)
+     }, [user])
+    //  const resetAction = NavigationActions.reset({
+    //     index: 0,                       
+    //     actions: [NavigationActions.navigate({ routeName: 'Home' })],
+    //   });
     const openMenu = () => {
         navigation.openDrawer();
     }
+    // const resetAction = NavigationAction.reset({
+    //     index: 0,                       
+    //     actions: [NavigationAction.navigate({ routeName: 'Home' })],
+    //   });
     const signOut=()=>{
         AsyncStorage.removeItem("user");
+        // navigation.dispatch(resetAction);
+        // const navigation = useNavigation();
+
+        // navigation.reset({
+        //         index: 0,
+        //         routes: [{name: 'Events'}],
+        //       });
+        //   onPress={() =>  this.props.navigation.dispatch(resetAction)}
         navigation.navigate('login')
         console.log("signout")
         setUser(null)
