@@ -10,38 +10,33 @@ import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function sparepartsMyAds({navigation}) {
 
-    const [sparepartsAds, setSparepartsAd] = useState([
-        // { title: 'Radio For Sale', condition: 'Used', location: 'Colombo', price: 'Rs. 13,000', seller: 'Saman', date: '2021-09-12', image: '../images/spareparts/radio.jpg', key: '1' ,status:'approved' },
-        // { title: 'JBL Car Audio', condition: 'New', location: 'Gampaha', price: 'Rs. 30,000', seller: 'Rohan', date: '2021-09-13', image: '../images/spareparts/radio2.jpg', key: '2' ,status:'approved' },
-        // { title: 'Used Radio Set', condition: 'Recondition', location: 'Kandy', price: 'Rs. 12,300', seller: 'Eranda', date: '2021-09-12', image: '../images/spareparts/radio.jpg', key: '3',status:'Not approved'  }
-    ])
-    const [user, setUser] = useState({
-        _id:"",
-        name : "",
-        email : "",
-        password : "",
-        type : "buyerseller",
-        phoneNumber :"",
-        wishList:[],
-        image:[]
-    });
+    const [sparepartsAds, setSparepartsAd] = useState(null)
+    const [user, setUser] = useState(null);
 useEffect(() => {
 
     AsyncStorage.getItem('user', (err, result) => {
         console.log(result);
         result =JSON.parse(result);
-        setUser({
-            _id:result._id,
-          name : result.name,
-          email :result.email,
-          password : result.password,
-          type : result.type,
-          phoneNumber :result.phoneNumber,
-          wishList:result.wishList,
-          image:result.image
-          })
-          console.log("result._id",result._id);
-          console.log("resultuser",user);
+        if(result){
+            setUser(JSON.parse(result))
+            // setUser({
+            //     _id:result._id,
+            //   name : result.name,
+            //   email :result.email,
+            //   password : result.password,
+            //   type : result.type,
+            //   phoneNumber :result.phoneNumber,
+            //   wishList:result.wishList,
+            //   image:result.image
+            //   })
+              console.log("result._id",result._id);
+              console.log("resultuser",user);
+            }
+            else{
+                setUser(null)
+                alert('Please login to see you Ads advertisements')
+                navigation.navigate('login')
+            }
         // setId(result._id)
         // setAccount({
         //     ...account,
