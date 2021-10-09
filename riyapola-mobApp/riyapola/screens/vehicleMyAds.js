@@ -124,7 +124,7 @@ useEffect(() => {
                         </Card.Content>
                     </Card>
                 </TouchableOpacity>
-                <FlatButton text="Edit" onPress={()=>{navigation.navigate('updateVehicleAd',{"item":item._id})}} />
+                <FlatButton text="Edit" onPress={()=>{navigation.navigate('updateVehicleAd',item._id)}} />
                 {/* <FlatButton text="Delete" onPress={()=>{navigation.navigate('Home')}}  /> */}
                 </View>
                 
