@@ -173,7 +173,7 @@ export default function updateVehicleAd({route}) {
                     </View>
                     <View style={{ flex: 1 }}>
                         <Text style={globalStyles.label}>Engine Capacity</Text>
-                        <TextInput placeholder="Enter Capacity(cc)" keyboardType="numeric" style={globalStyles.input} onChangeText={(text) => setAd({ ...ad, engineCapacity: text })} />
+                        <TextInput placeholder="Enter Capacity(cc)" value={ad && ad.engineCapacity ? ad.engineCapacity : null} keyboardType="numeric" style={globalStyles.input} onChangeText={(text) => setAd({ ...ad, engineCapacity: text })} />
                     </View>
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', flex: 1 }} >

@@ -94,16 +94,16 @@ useEffect(() => {
 
 }, [user])
     return (
-        <View>
+        <View style={{flex: 1}}>
             <MyAdsTab pageIndex={1} navigation={navigation}  />
         <FlatList
             data={sparepartsAds}
             style={globalStyles.card}
             // getItem={item._id === user.id}
             renderItem={({ item }) => (
-                <View key={item._id}>
-                <TouchableOpacity onPress={() => navigation.navigate('sparepartDetail',item._id)}  key={item._id}>
-                    <Card style={globalStyles.cardContent} key={item._id}>
+                <View key={item._id} style={{flex:1}}>
+                <TouchableOpacity  key={item._id}>
+                    <Card style={globalStyles.cardContent} key={item._id} onPress={() => navigation.navigate('sparepartDetail',item._id)}>
                         <Card.Cover source={{ uri: 'data:image/jpeg;base64,' + item.images[0] }} />
                         <Card.Content style={globalStyles.cardContainer}>
                             <Title> {item.title}</Title><View><Text>  {item.condition}</Text></View>
