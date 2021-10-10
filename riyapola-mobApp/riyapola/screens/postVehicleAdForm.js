@@ -89,15 +89,14 @@ export default function postVehicleAdForm({ navigation }) {
                 userId: null
             });
         else if (!ad.userId) {
-            setAd({ ...ad, userId: user._id })
-            setPhones([...phones, user.phoneNumber])
+            setAd({ ...ad, userId: user ? user._id : null })
+            setPhones([...phones, user ? user.phoneNumber : ''])
         }
     }, [user]);
 
     useEffect(() =>{
         if(ad && categories){
-            setAd({...ad, userId: user._id,category:categories})
-            setPhones([...phones, user.phoneNumber])
+            setAd({...ad, userId: user ? user._id : null,category:categories})
         }
       },[categories])
 

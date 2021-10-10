@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, ScrollView, Picker } from 'react-native';
-import { Card, Title, Headline, ActivityIndicator, Portal, Appbar, Dialog, Provider, RadioButton, Button } from 'react-native-paper';
+import { Card, Title, Headline, ActivityIndicator, Portal, Appbar, Dialog, Provider, RadioButton, Button, Searchbar } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
 import { globalStyles } from '../styles/global';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import Filter from '../shared/Fliter';
 import axios from 'axios';
 import AllAdsTabs from '../shared/allAdsTabs';
 import Svg, { Rect } from 'react-native-svg';
@@ -26,8 +25,11 @@ export default function allVehicleAds({ navigation }) {
     const [visible, setVisible] = useState(false);
     const [condition, setCondition] = useState('registered')
     const showFilter = () => setVisible(true);
+    const [vehicleAdsDum, setVehiclAdsDum] = useState([]);
+    const [search, setSearch] = useState(false);
     const hideFilter = () => setVisible(false);
     const MaskedElement = getMaskedElement();
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
 
@@ -60,6 +62,28 @@ export default function allVehicleAds({ navigation }) {
     useEffect(() => {
            console.log('set', fullVehicleAds.length)
     }, [fullVehicleAds])
+
+    useEffect(() => {
+        console.log('test',vehicleAdsDum)
+        if((vehicleAdsDum.length < vehicleAds.length) && vehicleAdsDum.length > 0){
+            console.log('in in',vehicleAdsDum)
+            setSearch(true);
+        }
+    }, [vehicleAdsDum])
+
+    useEffect(() => {
+        if(searchQuery === ''){
+            console.log(searchQuery)
+            setSearch(false);
+        }
+    }, [searchQuery])
+
+    const searchFilter = () => {
+        if (searchQuery || searchQuery !== '') {
+            console.log(vehicleAds[0].title.toLowerCase().includes(searchQuery.toLowerCase()))
+            setvehicleAdsDum(vehicleAds.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase())));
+        }
+    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -104,7 +128,14 @@ export default function allVehicleAds({ navigation }) {
                 </Portal>
                 <AllAdsTabs pageIndex={0} navigation={navigation} style={{ flex: 1 }} />
                 <View style={{ display: "flex", flexDirection: 'row', justifyContent: 'center' }}>
-                    <Filter title="SpareParts" />
+                <Searchbar
+                        placeholder="Search"
+                        style={{ marginTop: 10, marginBottom: 10, borderRadius: 50, width: 300 }}
+                        onChangeText={setSearchQuery}
+                        value={searchQuery}
+                        icon="magnify"
+                        onIconPress={searchFilter}
+                    />
                     <Icon name="filter" onPress={showFilter} type='font-awesome' color="#076AE0" raised reverse />
                 </View>
                 <Appbar.Header style={{ height: 10, backgroundColor: "#076AE0" }}>
@@ -114,6 +145,7 @@ export default function allVehicleAds({ navigation }) {
                 <FlatList
                     data={vehicleAds}
                     style={[globalStyles.card, { flex: 1 }]}
+                    keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => (
                         <TouchableOpacity onPress={() => navigation.navigate('vehicleDetail', item._id)}  >
                             <Card style={globalStyles.cardContent}>
@@ -134,6 +166,5 @@ export default function allVehicleAds({ navigation }) {
         </View>
 
     )
-    'text'.incl ()
 
 }

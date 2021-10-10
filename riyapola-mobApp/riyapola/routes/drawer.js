@@ -77,7 +77,7 @@ else{
 }, [])
 const getUser=()=>{
   AsyncStorage.getItem('user', (err, result) => {
-    console.log(result);
+    // console.log(result);
     if(result){
     setUser(JSON.parse(result))
     // setUser({
@@ -89,7 +89,7 @@ const getUser=()=>{
     //   wishList:result.wishList,
     //   image:result.image
     //   }
-      console.log("resultuser",user);
+      // console.log("resultuser",user);
     // setId(result._id)
   }
 else{
