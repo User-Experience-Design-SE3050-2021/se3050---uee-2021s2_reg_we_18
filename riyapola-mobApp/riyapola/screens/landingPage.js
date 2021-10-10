@@ -32,7 +32,7 @@ export default function landingPage({ navigation }) {
 
 
   return (
-    <View>
+    <View style={{flex:1}}>
       <Tabs pageIndex={0} navigation={navigation} style={{ flex: 1 }} />
 
       <ScrollView>
@@ -70,7 +70,7 @@ export default function landingPage({ navigation }) {
             .slice(0, 4)
             .map((data, index) =>
               <TouchableOpacity>
-                <Card style={{ margin: 20, marginTop: 10, bottom:10, borderWidth: 1, borderColor: "#0abbcf", }}>
+                <Card style={{ margin: 20, marginTop: 30, bottom:10, borderWidth: 1, borderColor: "#0abbcf", }}>
                   <Card.Content>
                     <View style={{ flexDirection: 'row', flex: 1 }}>
                       <View>
