@@ -5,8 +5,7 @@ import profile from '../screens/profile';
 import vehicleMyAds from '../screens/vehicleMyAds';
 import sparepartsMyAds from '../screens/sparepartsMyAds';
 import signup from '../screens/signup';
-import AllAdsStack from './AllAdsStack';
-
+// import login from '../screens/login';
 const Stack = createStackNavigator();
 
 export default function userStack() {
@@ -42,11 +41,6 @@ export default function userStack() {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
             }} name='sparePartsMyAds' component={sparepartsMyAds} />
-               <Stack.Screen options={({ navigation }) => {
-                return {
-                    headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
-                }
-            }} name='allads' component={AllAdsStack} />
 
         </Stack.Navigator>
     );

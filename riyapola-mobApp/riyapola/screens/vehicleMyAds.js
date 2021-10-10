@@ -107,8 +107,8 @@ useEffect(() => {
             // getItem={Item._id === user.id}
             renderItem={({ item }) => (
                 <View key={item._id}>
-                <TouchableOpacity key={item._id} onPress={() => navigation.navigate('vehicleDetail',item._id)}>
-                    <Card style={globalStyles.cardContent} key={item._id} >
+                <TouchableOpacity key={item._id} >
+                    <Card style={globalStyles.cardContent} key={item._id} onPress={() => navigation.navigate('vehicleDetail',item._id)}>
                         <Card.Cover source={{ uri: 'data:image/jpeg;base64,' + item.images[0] }} />
                         <Card.Content style={globalStyles.cardContainer}>
                             <Title> {item.title}</Title><View><Text> {item.condition}</Text></View>
@@ -124,7 +124,7 @@ useEffect(() => {
                         </Card.Content>
                     </Card>
                 </TouchableOpacity>
-                <FlatButton text="Edit" onPress={()=>navigation.navigate('updateVehicleAd',item._id)} />
+                <FlatButton text="Edit" onPress={()=>{navigation.navigate('updateVehicleAd',item._id)}} />
                 {/* <FlatButton text="Delete" onPress={()=>{navigation.navigate('Home')}}  /> */}
                 </View>
                 
