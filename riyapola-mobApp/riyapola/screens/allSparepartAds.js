@@ -23,7 +23,7 @@ export default function allSparepartAds({ navigation }) {
     const [fullsparepartAds, setfullsparepartAds] = useState([])
     const [sellers, setAllSellers] = useState([]);
     const [sparepartAdsDum, setSparepartAdsDum] = useState([]);
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
 
 
@@ -64,6 +64,21 @@ export default function allSparepartAds({ navigation }) {
         setSparepartAdsDum(sparepartAds)
     }, [fullsparepartAds])
 
+    useEffect(() => {
+        console.log('test',sparepartAdsDum)
+        if((sparepartAdsDum.length < sparepartAds.length) && sparepartAdsDum.length > 0){
+            console.log('in in',sparepartAdsDum)
+            setSearch(true);
+        }
+    }, [sparepartAdsDum])
+
+    useEffect(() => {
+        if(searchQuery === ''){
+            console.log(searchQuery)
+            setSearch(false);
+        }
+    }, [searchQuery])
+
     const [visible, setVisible] = useState(false);
     const [condition, setCondition] = useState('new')
 
@@ -72,19 +87,11 @@ export default function allSparepartAds({ navigation }) {
     const hideFilter = () => setVisible(false);
     const MaskedElement = getMaskedElement();
 
-    const searchFilter = (text) => {
-        console.log('filter')
-        // if (text) {
-        //     console.log(text)
-        //     const newData = sparepartAdsDum.filter((item) => {
-        //         item.title.toLowerCase().includes(text.toLowerCase())
-        //     });
-        //     setsparepartAds(newData);
-        //     setSearch(text);
-        // } else {
-        //     setsparepartAds(sparepartAdsDum);
-        //     setSearch(text);
-        // }
+    const searchFilter = () => {
+        if (searchQuery || searchQuery !== '') {
+            console.log(sparepartAds[0].title.toLowerCase().includes(searchQuery.toLowerCase()))
+            setSparepartAdsDum(sparepartAds.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase())));
+        }
     }
 
     return (
@@ -138,7 +145,7 @@ export default function allSparepartAds({ navigation }) {
                         onChangeText={setSearchQuery}
                         value={searchQuery}
                         icon="magnify"
-                        onIconPress={searchFilter(searchQuery)}
+                        onIconPress={searchFilter}
                     />
                     <Icon name="filter" onPress={showFilter} type='font-awesome' color="#076AE0" raised reverse />
                 </View>
@@ -148,7 +155,7 @@ export default function allSparepartAds({ navigation }) {
                     <Text style={{ marginBottom: 35, color: "#fff", fontWeight: "bold" }}>Spare Parts</Text>
                 </Appbar.Header>
                 {sparepartAds.length > 0 ? <FlatList
-                    data={sparepartAdsDum.length > 0 ? sparepartAdsDum : sparepartAds}
+                    data={sparepartAds}
                     style={globalStyles.card}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => (
