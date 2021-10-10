@@ -10,6 +10,8 @@ import postSparepartsAdForm from '../screens/postSparepartsAdForm';
 import AllAdsStack from './AllAdsStack';
 import updateSparepartsAd from '../screens/updateSparepartsAd';
 import updateVehicleAd from '../screens/updateVehicleAd';
+import vehicleDetail from '../screens/vehicleDetail';
+import sparepartDetail from '../screens/sparepartDetail';
 
 const Stack = createStackNavigator();
 
@@ -66,6 +68,8 @@ export default function HomeStack() {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
                 }
             }} name='allads' component={AllAdsStack} />
+            <Stack.Screen name='vehicleDetail' component={vehicleDetail} />
+            <Stack.Screen name='sparepartDetail' component={sparepartDetail} />
              {/* <Stack.Screen options={({ navigation }) => {
                 return {
                     headerTitle: () => <Header navigation={navigation} title={'Riyapola'} />
